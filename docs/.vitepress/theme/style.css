@@ -1,0 +1,92 @@
+ @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+ @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+ :root {
+  --vp-c-bg: #f9fafb;
+  --vp-c-bg-alt: #f3f3f3;
+  --vp-c-white: #f9fafb;
+  --vp-c-black: #1f2937;
+  --vp-c-brand-1: #a78bfa;
+  --vp-c-brand-2: #8d72dc;
+  --vp-c-alt: #92d3e9;
+  --vp-c-neutral: var(--vp-c-black);
+  --vp-c-neutral-inverse: var(--vp-c-white);
+  --vp-c-text-1: rgba(60, 60, 67);
+  --vp-c-text-2: rgba(60, 60, 67, 0.78);
+  --vp-c-text-3: rgba(60, 60, 67, 0.56);
+  --vp-font-family-base: "Inter", "Spoqa Han Sans Neo", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.dark {
+  --vp-c-bg: #444447;
+  --vp-c-bg-alt: #3a3a3c;
+  --vp-c-black: #1f2a38;
+  --vp-c-neutral: var(--vp-c-white);
+  --vp-c-neutral-inverse: var(--vp-c-black);
+
+  --vp-c-text-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+}
+
+/* 수식 작성할 때 2번 표기되는 것 방지 */
+span.katex-html {
+  display: none;
+}
+ 
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    #a78bfa 30%,
+    #92d3e9
+  );
+
+ 
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
+
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(68px);
+  }
+  
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+}
+:root {
+  --vp-button-brand-bg: var(--vp-c-brand-1);
+}
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+  --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+span.clip {
+  font-size : 55px;
+}
+
+p.text {
+  font-size : 35px !important;
+}
+
