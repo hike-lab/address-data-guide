@@ -82,11 +82,11 @@ span.katex-html {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
 
-span.clip {
+div.VPContent.is-home span.clip {
   font-size : 55px;
 }
 
-p.text {
+div.VPContent.is-home div.main p.text {
   font-size : 35px !important;
 }
 
