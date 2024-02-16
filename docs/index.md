@@ -6,8 +6,7 @@ hero:
   name: "Address Data Guide"
   text: ": 주소데이터 활용의 AtoZ"
   tagline: By HIKE Lab.
-  image:
-    src: /static/icon/hikeLogo.svg
+  
 
   actions:
     - theme: brand
