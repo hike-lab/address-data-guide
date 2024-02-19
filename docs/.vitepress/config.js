@@ -95,10 +95,10 @@ function sidebarMain() {
       ]
     },
     {
-      text: "5. sql을 활용한 batch 데이터 쿼리",
+      text: "5. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
       collapsed: true,
       items: [
-        { text: "1. 주소란 무엇인가?", link: "/contents/chapter-5/chapter-5-1.html" },
+        { text: "1. 프로젝트 소개", link: "/contents/chapter-5/chapter-5-1.html" },
       ]
     },
     {
