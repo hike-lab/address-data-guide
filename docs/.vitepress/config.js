@@ -104,8 +104,16 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "1. 주소란 무엇인가?",
+          text: "1. 프로젝트 소개",
           link: "/contents/chapter-3/chapter-3-1.html",
+        },
+        {
+          text: "2. 도로명주소 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-2.html",
+        },
+        {
+          text: "2. 도로명 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-3.html",
         },
       ],
     },
