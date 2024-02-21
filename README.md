@@ -16,7 +16,14 @@ npm run docs:build # deploy
 
 ### 이미지 폴더 생성하기
 
-개별 장별 이미지는 `contents/chapter-1/img`와 같이 폴더 경로를 생성한 후에 `img` 폴더에 이미지를 저장합니다.
+사용하는 이미지는 `contents/img` 폴더에 이미지를 저장합니다.   
+사용 예시는 아래와 같습니다.
+
+```
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/example.png" title="juso.go.kr guide">
+</figure>
+```
 
 ### 목차 생성하기
 
