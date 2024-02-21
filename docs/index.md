@@ -17,10 +17,10 @@ hero:
       link: http://hike.cau.ac.kr/
 features:
   - title: Chapter 1. 주소란 무엇인가?
-    details: 주소데이터를 잘 활용하기 위한 선행 지식 알아가기
+    details: 한국의 주소체계 이해하기
     link: /contents/chapter-1/chapter-1-1
-  - title: Chapter 2. 주소데이터 활용을 위한 환경 구축
-    details: 주소 데이터를 활용할 수 있는 환경을 구축하기
+  - title: Chapter 2. 주소 데이터
+    details: 주소 데이터 이해와 분석 환경 구축하기
     link: /contents/chapter-2/chapter-2-1
   - title: Chapter 3. 주소데이터 EDA
     details: 현재 주소데이터의 현황을 EDA로 톺아보기
