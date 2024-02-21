@@ -9,7 +9,7 @@ export default {
   lastUpdated: true,
   ignoreDeadLinks: true,
 
-  head: [['link', { rel: 'icon', href: '../static/icon/hikeLogo.svg' }]],
+  head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
 
   // markdown-it-footnote
   markdown: {
@@ -24,7 +24,7 @@ export default {
   themeConfig: {
     nav: nav(),
     logo: "/static/icon/hikeLogo.svg",
-    
+
     sidebar: {
       "/": sidebarMain(),
     },
@@ -62,12 +62,14 @@ function nav() {
 
 function sidebarMain() {
   return [
-
     {
       text: "1. 주소의 개념",
       collapsed: true,
       items: [
-        { text: "1. 주소란 무엇인가?", link: "/contents/chapter-1/chapter-1-1.html" },
+        {
+          text: "1. 주소란 무엇인가?",
+          link: "/contents/chapter-1/chapter-1-1.html",
+        },
       ],
     },
 
@@ -76,7 +78,8 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "0. 학습 자료 안내", link: "/contents/chapter-2/chapter-2-1.html",
+          text: "0. 학습 자료 안내",
+          link: "/contents/chapter-2/chapter-2-1.html",
         },
       ],
     },
@@ -84,29 +87,49 @@ function sidebarMain() {
       text: "3. 주소 데이터 EDA",
       collapsed: true,
       items: [
-        { text: "1. 주소란 무엇인가?", link: "/contents/chapter-3/chapter-3-1.html" },
+        {
+          text: "1. 프로젝트 소개",
+          link: "/contents/chapter-3/chapter-3-1.html",
+        },
+        {
+          text: "2. 도로명주소 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-2.html",
+        },
+        {
+          text: "2. 도로명 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-3.html",
+        },
       ],
     },
     {
       text: "4. 주소 데이터 API 활용한 검색 기능 구현",
       collapsed: true,
       items: [
-        { text: "1. 주소란 무엇인가?", link: "/contents/chapter-4/chapter-4-1.html" },
-      ]
+        {
+          text: "1. 주소란 무엇인가?",
+          link: "/contents/chapter-4/chapter-4-1.html",
+        },
+      ],
     },
     {
       text: "5. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
       collapsed: true,
       items: [
-        { text: "1. 프로젝트 소개", link: "/contents/chapter-5/chapter-5-1.html" },
-      ]
+        {
+          text: "1. 프로젝트 소개",
+          link: "/contents/chapter-5/chapter-5-1.html",
+        },
+      ],
     },
     {
       text: "6. 도로명 주소의 구성과 품질",
       collapsed: true,
       items: [
-        { text: "1. 주소란 무엇인가?", link: "/contents/chapter-6/chapter-6-1.html" },
-      ]
+        {
+          text: "1. 주소란 무엇인가?",
+          link: "/contents/chapter-6/chapter-6-1.html",
+        },
+      ],
     },
   ];
 }
