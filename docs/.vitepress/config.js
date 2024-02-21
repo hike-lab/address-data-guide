@@ -74,12 +74,28 @@ function sidebarMain() {
     },
 
     {
-      text: "2. 분석 환경 구축",
+      text: "2. 주소 데이터",
       collapsed: true,
       items: [
         {
-          text: "0. 학습 자료 안내",
+          text: "1. 개요",
           link: "/contents/chapter-2/chapter-2-1.html",
+        },
+        {
+          text: "2. 주소정보 누리집",
+          link: "/contents/chapter-2/chapter-2-2.html",
+        },
+        {
+          text: "3. 공개하는 주소",
+          link: "/contents/chapter-2/chapter-2-3.html",
+        },
+        {
+          text: "4. 제공하는 주소",
+          link: "/contents/chapter-2/chapter-2-4.html",
+        },
+        {
+          text: "5. 주소 관련 코드체계",
+          link: "/contents/chapter-2/chapter-2-5.html",
         },
       ],
     },
