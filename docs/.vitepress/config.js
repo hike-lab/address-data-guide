@@ -150,11 +150,11 @@ function sidebarMain() {
           link: "/contents/chapter-6/chapter-6-2.html",
         },
         {
-          text: "3. 데이터베이스와 테이블 생성하기",
+          text: "3. 데이터베이스 생성하기",
           link: "/contents/chapter-6/chapter-6-3.html",
         },
         {
-          text: "4. 테이블 스키마 생성하기",
+          text: "4. 테이블 생성하기",
           link: "/contents/chapter-6/chapter-6-4.html",
         },
         {

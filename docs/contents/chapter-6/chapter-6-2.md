@@ -106,18 +106,25 @@ pymysql 다운로드
 ```py
 import pymysql
 
-conn = pymysql.connect(
-    host="localhost",
-    port=3306,
-    user="root",
-    password="root",
-    cursorclass=pymysql.cursors.DictCursor,
-    charset="utf8",
-)
+def init_connection():
+    connection = pymysql.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password="root",
+        cursorclass=pymysql.cursors.DictCursor,
+        charset="utf8",
+    )
+    return connection
 
 sql = "SHOW DATABASES;"
-cursor = conn.cursor()
-cursor.execute(sql)
+conn = init_connection()
+
+with conn:
+    with conn.cursor() as cur:
+        cur.execute(sql)
+        for data in cur:
+            print(data)
 ```
 
 열린거 닫아주기
@@ -134,11 +141,12 @@ conn.close()
 
 데이터 설명
 
-- rnaddrkor: 건물군까지 도로명주소 데이터 제공
-  - 경로: code/data/rnaddrkor
-- jibun_rnaddrkor: 건물군까지 관련 지번 제공
-  - 경로: code/data/jibun_rnaddrkor
+- rnaddrkor로 시작하는 파일: 건물군까지 도로명주소 데이터 제공
+- jibun_rnaddrkor로 시작하는 파일: 건물군까지 관련 지번 제공
+
+경로 설정에 대한건 안적어줘도 될 듯!
 
 ## 참고문헌
 
 - https://poiemaweb.com/docker-mysql
+- https://codechacha.com/ko/python-mysql-database/
