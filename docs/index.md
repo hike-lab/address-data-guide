@@ -6,14 +6,13 @@ hero:
   name: "Address Data Guide"
   text: ": 주소데이터 활용의 AtoZ"
   tagline: By HIKE Lab.
-  
 
   actions:
     - theme: brand
       text: 파이썬 코드 원본 Github
       link: https://github.com/hike-lab/address-using-guide
     - theme: alt
-      text: About HIKE Lab. 
+      text: About HIKE Lab.
       link: http://hike.cau.ac.kr/
 features:
   - title: Chapter 1. 주소란 무엇인가?
@@ -25,15 +24,13 @@ features:
   - title: Chapter 3. 주소데이터 EDA
     details: 현재 주소데이터의 현황을 EDA로 톺아보기
     link: /contents/chapter-3/chapter-3-1
-
-  - title: Chapter 4. API 활용한 검색기능 구현
-    details: 주소 데이터 API를 활용하여 검색 기능을 구현하기
-    link: /contents/chapter-4/chapter-4-1
-  - title: Chapter 5. SQL로 batch 데이터 쿼리
-    details: MySQL로 batch 데이터를 쿼리하기
-    link: /contents/chapter-5/chapter-5-1
-  - title: Chapter 6. 도로명주소의 구성과 품질
+  - title: Chapter 4. 도로명주소의 구성과 품질
     details: 도로명 주소 데이터 품질 평가 및 정제
+    link: /contents/chapter-4/chapter-4-1
+  - title: Chapter 5. API 활용한 검색기능 구현
+    details: 주소 데이터 API를 활용하여 검색 기능을 구현하기
+    link: /contents/chapter-5/chapter-5-1
+  - title: Chapter 6. SQL로 batch 데이터 쿼리
+    details: 파이썬과 MySQL로 구축하는 주소 데이터베이스
     link: /contents/chapter-6/chapter-6-1
 ---
-
