@@ -30,7 +30,7 @@ features:
   - title: Chapter 5. API 활용한 검색기능 구현
     details: 주소 데이터 API를 활용하여 검색 기능을 구현하기
     link: /contents/chapter-5/chapter-5-1
-  - title: Chapter 6. SQL로 batch 데이터 쿼리
-    details: 파이썬과 MySQL로 구축하는 주소 데이터베이스
+  - title: Chapter 6. 파이썬과 MySQL로 구축하는 주소 데이터베이스
+    details: 주소기반산업지원서비스에서 제공하는 도로명주소 한글 데이터를 데이터베이스에 저장하고, SQL을 이용해 질의해보기
     link: /contents/chapter-6/chapter-6-1
 ---
