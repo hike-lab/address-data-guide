@@ -76,8 +76,6 @@ function sidebarMain() {
     3. 웹 게시 후, 주소 창의 주소 복사 (웹 게시 팝업에 나오는 주소 X)
     4.  `docs > .vitepress > theme > components` 폴더의 `timeLine.vue` 파일에서 스프레드 시트 링크 부분 수정
     5. 커널 종료했다가 재실행
-
 ### 댓글 기능 추가
 
 Public 상태라면, [giscus](https://plugin-comment2.vuejs.press/config/giscus.html) 추가 가능
-
