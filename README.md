@@ -16,7 +16,7 @@ npm run docs:build # deploy
 
 ### 이미지 폴더 생성하기
 
-사용하는 이미지는 `contents/img` 폴더에 이미지를 저장합니다.   
+사용하는 이미지는 `contents/img` 폴더에 이미지를 저장합니다.  
 사용 예시는 아래와 같습니다.
 
 ```
@@ -76,3 +76,6 @@ function sidebarMain() {
     3. 웹 게시 후, 주소 창의 주소 복사 (웹 게시 팝업에 나오는 주소 X)
     4.  `docs > .vitepress > theme > components` 폴더의 `timeLine.vue` 파일에서 스프레드 시트 링크 부분 수정
     5. 커널 종료했다가 재실행
+### 댓글 기능 추가
+
+Public 상태라면, [giscus](https://plugin-comment2.vuejs.press/config/giscus.html) 추가 가능
