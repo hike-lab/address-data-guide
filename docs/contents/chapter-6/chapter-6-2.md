@@ -40,8 +40,10 @@ mysql                           latest            e68e2614955c   4 weeks ago    
 
 ### Docker MySQL 실행하기
 
+loose-local-infile=1 -> 서버 상에서 local infile 허용해주기
+
 ```bash
-$ docker run --name mysql -e MYSQL_ROOT_PASSWORD=<password> -d -p 3306:3306 mysql:latest
+$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --loose-local-infile=1
 ```
 
 ```bash

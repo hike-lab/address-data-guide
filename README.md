@@ -16,7 +16,7 @@ npm run docs:build # deploy
 
 ### 이미지 폴더 생성하기
 
-사용하는 이미지는 `contents/img` 폴더에 이미지를 저장합니다.   
+사용하는 이미지는 `contents/img` 폴더에 이미지를 저장합니다.  
 사용 예시는 아래와 같습니다.
 
 ```
@@ -58,3 +58,7 @@ function sidebarMain() {
   ];
 }
 ```
+
+### 댓글 기능 추가
+
+Public 상태라면, [giscus](https://plugin-comment2.vuejs.press/config/giscus.html) 추가 가능
