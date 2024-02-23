@@ -21,7 +21,7 @@ address란 데이터베이스 생성.
 
 ```py
 conn = init_connection()
-sql = "CREATE DATABASE address;"
+sql = "CREATE DATABASE address DEFAULT CHARACTER SET utf8;"
 
 with conn:
     with conn.cursor() as cur:
