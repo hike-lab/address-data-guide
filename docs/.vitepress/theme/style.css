@@ -1,5 +1,6 @@
  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
  @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+ @import url(https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css);
  :root {
   --vp-c-bg: #f9fafb;
   --vp-c-bg-alt: #f3f3f3;
@@ -90,3 +91,6 @@ div.VPContent.is-home div.main p.text {
   font-size : 35px !important;
 }
 
+.tl-full-color-background .tl-text p { 
+  color : #3a3a3c !important;
+}

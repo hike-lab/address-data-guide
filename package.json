@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "less": "^4.2.0",
     "vitepress": "^1.0.0-rc.42"
   },
   "scripts": {
@@ -8,6 +9,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
+    "@knight-lab/timelinejs": "^3.9.3",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-katex": "^2.0.3",
     "markdown-it-mathjax3": "^4.3.2",
