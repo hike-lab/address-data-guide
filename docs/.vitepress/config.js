@@ -1,5 +1,7 @@
 // https://vitepress.vuejs.org/config/#markdown-options
 
+import { onMounted } from "vue";
+
 export default {
   lang: "ko-KR",
   title: "Address Data Guide",
@@ -52,6 +54,8 @@ export default {
     // }
   },
 };
+
+
 
 function nav() {
   return [
@@ -169,3 +173,4 @@ function sidebarMain() {
     },
   ];
 }
+
