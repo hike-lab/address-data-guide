@@ -96,13 +96,63 @@ Open Folder를 클릭하여 이후 작업을 진행할 폴더를 선택해줍니
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-ipynb 파일이 생성된 것을 확인할 수 있습니다. 이제 여기서 코드 작업을 진행하면 됩니다.
+ipynb 파일이 생성된 것을 확인할 수 있습니다. 이제 여기서 코드 작업을 진행하면 됩니다. 
+
+예시로 hello world를 print 해보겠습니다. 코드를 작성하고 실행`Ctrl+Enter`합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vscinterpreter1.png" title="vsc interpreter1">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+Python 환경을 선택하는 창이 위에 표시됩니다. Python 환경을 클릭해줍니다.
+
+<br>
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vscinterpreter2.png" title="vsc interpreter2">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+우리가 설치했던 anaconda3가 표시됩니다. anaconda3를 선택해줍니다.
+
+<br>
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vschelloworld.png" title="vsc hello world">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+코드가 실행되어 hello world가 print된 것을 확인할 수 있습니다.
 
 ### 4. Visual Studio Code 확장 기능 이용하기
 
-`Visual Studio Code`에서는 편리한 확장 기능이 다양하게 제공되고 있습니다. 적절한 확장 기능을 install 하여 사용하면 편리하게 코드 작성을 할 수 있습니다. 몇 가지 확장 기능을 소개하겠습니다.
+`Visual Studio Code`에서는 편리한 확장 기능이 다양하게 제공되고 있습니다. 적절한 확장 기능을 설치하여 사용하면 편리하게 코드 작성을 할 수 있습니다. 
+좌측 사이드바의 extension 아이콘을 클릭하면 제공되는 확장 기능을 검색하여 설치할 수 있습니다.
 
-1. Korean
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vscextension1.png" title="vscode extension">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
 
+실습을 더 수월하기 진행하기 위해 몇 가지 편리한 확장 기능을 소개하겠습니다.
+
+1. Korean Language Pack for Visual Studio Code
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vscextension2.png" title="vscode korean extension">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+Visual Studio Code의 한국어 UI를 지원하는 확장 기능입니다. 적용하면 Visual Studio Code의 UI가 모두 한국어로 표시되는 것을 확인할 수 있습니다.
+
+2. Python
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-vscextension3.png" title="vscode python extension">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+Python 프로그램 작성을 지원해주는 확장 기능입니다. Python 문법 오류 체크, 자동 완성 제안 등 편리한 기능을 제공합니다.
 
 
