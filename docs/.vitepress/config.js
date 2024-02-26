@@ -138,12 +138,20 @@ function sidebarMain() {
       ],
     },
     {
-      text: "5. 주소 데이터 API 활용한 검색 기능 구현",
+      text: "5. 주소 데이터 API를 활용한 주소 검색 웹 서버 구축",
       collapsed: true,
       items: [
         {
           text: "1. 프로젝트 소개",
           link: "/contents/chapter-5/chapter-5-1.html",
+        },
+        {
+          text: "2. API로 데이터 가져오기",
+          link: "/contents/chapter-5/chapter-5-2.html",
+        },
+        {
+          text: "3. Flask로 웹 서버 구축하기",
+          link: "/contents/chapter-5/chapter-5-3.html",
         },
       ],
     },
