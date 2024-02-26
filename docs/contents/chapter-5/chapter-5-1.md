@@ -14,7 +14,7 @@ Visual Studio code는 마이크로소프트사에서 개발한 무료 코드 편
 
 ### 1. Python 설치하기
 Visual Studio Code를 설치하기에 앞서 Python 프로그램을 설치하도록 하겠습니다. 
-Visual Studio Code는 코드 "편집기"이기 때문에 Python 프로그래밍을 하기 위해서는 Python 프로그램을 따로 설치해야합니다. 이미 Python이 설치되어있다면 이 과정은 생략해도 괜찮습니다.
+Visual Studio Code는 코드 "편집기"이기 때문에 Python 프로그래밍을 하기 위해서는 Python 프로그램을 따로 설치해야합니다. 이미 Python이 설치되어있다면 이후 진행할 아나콘다 설치 과정은 생략하거나 설치되어있는 Python을 지우고 진행해야합니다. 기존의 Python과 충돌할 수 있습니다.
 
 Python 프로그램을 공식사이트에서 직접 다운로드해도 괜찮지만, 저희는 Anaconda(아나콘다)라는 프로그램 설치를 통해 Python을 설치해보겠습니다. 아나콘다는 Python 프로그래밍을 위한 여러 도구를 모아둔 패키지와 같은 프로그램으로 이해할 수 있습니다.
 
@@ -31,8 +31,18 @@ Python 프로그램을 공식사이트에서 직접 다운로드해도 괜찮지
 
 다운로드가 완료되면 파일을 실행하여 설치를 진행합니다. 
 
-Next > I Agree > Just Me 
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-anacondasetup.png" title="anaconda website">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
 
+다음과 같은 순서로 option을 선택하여 install하면 됩니다. <br>
+3번에서 설치 경로를 지정할 때 경로에 한글이 들어가지 않도록 주의합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-anacondainstall.png" title="anaconda website">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
 
 
 
