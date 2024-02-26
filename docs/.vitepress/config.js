@@ -114,12 +114,16 @@ function sidebarMain() {
           link: "/contents/chapter-3/chapter-3-1.html",
         },
         {
-          text: "2. 도로명주소 데이터 살펴보기",
+          text: "2. 도로명주소 데이터 살펴보기(1)",
           link: "/contents/chapter-3/chapter-3-2.html",
         },
         {
-          text: "2. 도로명 데이터 살펴보기",
+          text: "3. 도로명주소 데이터 살펴보기(2)",
           link: "/contents/chapter-3/chapter-3-3.html",
+        },
+        {
+          text: "4. 도로명 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-4.html",
         },
       ],
     },
