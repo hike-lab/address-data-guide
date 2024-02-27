@@ -11,6 +11,7 @@
   "dependencies": {
     "@knight-lab/timelinejs": "^3.9.3",
     "markdown-it-footnote": "^4.0.0",
+    "markdown-it-html5-embed": "^1.0.0",
     "markdown-it-katex": "^2.0.3",
     "markdown-it-mathjax3": "^4.3.2",
     "vue": "^3.4.19"

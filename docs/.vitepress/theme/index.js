@@ -16,5 +16,4 @@ export default {
   enhanceApp({ app, router, siteData }) {
     app.component('timelineComponent', timelineComp)
   },
-  
 }

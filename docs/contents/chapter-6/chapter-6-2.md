@@ -42,8 +42,16 @@ mysql                           latest            e68e2614955c   4 weeks ago    
 
 loose-local-infile=1 -> 서버 상에서 local infile 허용해주기
 
+- 도커 볼륨 설정: mysql-volume
+
 ```bash
-$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:latest --loose-local-infile=1
+$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -v mysql-volume:/var/lib/mysql -d mysql:latest --loose-local-infile=1
+```
+
+```bash
+docker volume list
+# DRIVER    VOLUME NAME
+# local     mysql-volume
 ```
 
 ```bash
