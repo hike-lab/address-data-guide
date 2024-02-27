@@ -88,9 +88,25 @@
 
 **4. 도로명주소 안내도와 홍보 자료 제공**
 
-주소정보 누리집은 국민의 주소정보 이해와 활용을 돕기위해 도로명주소 안내도와 홍보 자료를 제공합니다. 메인화면의 도로명주소, 건물번호, 도로명, 상세주소 등 각 용어를 설명하는 안내화면이 존재하고, 별도의 자료는 네이게이션바의 `도로명주소 소개 > 도로명주소란?`에서 확인할 수 있습니다.
+주소정보 누리집은 국민의 주소정보 이해와 활용을 돕기위해 도로명주소 안내도와 홍보 자료를 제공합니다. 
+도로명주소 안내도(안내지도)는 `주소활용서비스 > 도로명주소 안내도 다운로드`에서 확인할 수 있습니다. 시/도, 시/군/구 단위로 안내지도를 PDF 형태로 제공합니다.
+<br>
 
-[도로명주소 소개 Guide book](https://www.juso.go.kr/CommonPageLink.do?link=/street/GuideBook)은 총 9개의 챕터를 구성하여 도로명주소를 이해하도록 설명하는 자료입니다.
+<figure class="flex flex-col items-center justify-center">
+    <figcaption style="text-align: center;"></figcaption>
+    <img src="../img/2-2-address-map-download.png" title="도로명주소 안내도 다운로드">
+</figure>
+<br>
+<br>
+
+<figure class="flex flex-col items-center justify-center">
+    <figcaption style="text-align: center;">서울특별시 강동구 둔춘2동 도로명주소 안내도 예시</figcaption>
+    <img src="../img/2-2-address-map-download-example.png" title="도로명주소 안내도 다운로드">
+</figure>
+<br>
+
+
+도로명주소 소개자료는 `도로명주소 소개 > 도로명주소란?`에서 확인할 수 있습니다. [도로명주소 소개 Guide book](https://www.juso.go.kr/CommonPageLink.do?link=/street/GuideBook)은 총 9개의 챕터를 구성하여 도로명주소를 이해하도록 설명하는 자료입니다.
 
 - Chapter 1: 도로명주소란?
 - Chapter 2: 주소표기방법
