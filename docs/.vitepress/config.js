@@ -34,7 +34,7 @@ export default {
     },
 
     editLink: {
-      pattern: "https://github.com/hike-lab/nlp-docs",
+      pattern: "https://github.com/hike-lab/address-data-guide",
       text: "Edit this page on GitHub",
     },
 

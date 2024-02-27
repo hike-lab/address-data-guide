@@ -10,10 +10,10 @@
 
 4장의 내용 구성은 다음과 같습니다.
 
-- 1. 데이터 품질이란? 
+- 1. 데이터 품질 알아보기
     **데이터 품질**의 정의를 알아보고, 데이터 품질 요소에 따라 직접 샘플 데이터의 품질을 평가합니다.
 
-- 2. 주소 데이터의 구성 요소
+- 2. 주소 데이터의 구성 요소 알아보기
     도로명주소의 구성 요소를 알아보고, 구성요소에 따른 주소 오류를 검사하는 방법과 Naver Geocode API를 활용해 실제 존재하는 주소인지 검사하는 방법을 안내합니다.
 
 - 3. 주소 데이터 정제하기
@@ -21,17 +21,13 @@
 
 이 과정들에 대한 코드를 직접 실행하기 위해선, 자신만의 Naver Geocode API를 발급받아야 합니다. 구글, 카카오에서도 Geocode API를 서비스하고 있으나, 네이버가 이들 중 가장 무료 요청 가능 건수가 많으므로 네이버를 선택하였습니다. 다른 API를 사용하셔도 되나, 이 경우 결과 값의 형식에 맞게 코드를 수정하시길 바랍니다.
 
-## 학습 목표
-
-<span style="color:red">컨텐츠 만들면서 내용이 확정되면 마지막으로 여기 작성하기 (구체적인 세부장별 학습 목표)</span>
-
 ## 네이버 Geocode API 활용 방법
 
 Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미합니다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 합니다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스합니다.
 
 ### STEP 1. 네이버 클라우드 접속
 
-API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 합니다. 네이버 지오코딩 API Key는 [네이버 클라우드](https://www.ncloud.com/)에서 발급받습니다. 
+API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 합니다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받습니다. 
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-n-cloud.png" title="naver cloud main page">
@@ -103,7 +99,130 @@ key 값은 메모장에 복사해두고 사용하시면 됩니다. 권장하는 
 
 .gitignore 파일도 동일한 방식으로 생성한 후, 메모장을 이용해 열어줍니다. .gitignore 파일에는 `*.env`를 기입하고 저장해주세요.
 
-이제 colab에 접속해 새 노트를 생성해 봅시다. 노트를 생성한 후, 좌측 내비게이션에서 폴더 아이콘을 클릭해주세요.
+이제 colab에 접속해 새 노트를 생성해 봅시다. 노트를 생성한 후, 좌측 내비게이션에서 폴더 아이콘을 클릭해주세요. 폴더 창에 방금 만든 .env 파일과 .gitignore 파일을 폴더 창에 드롭해주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-colab.png" title="click console">
+</figure>
+
+
+그럼 키 값을 불러와보도록 하겠습니다. `dotenv`라이브러리를 설치받아야 합니다.
+다운로드 코드는 아래와 같이 작성할 수 있습니다.
+
+```python
+!pip install python-dotenv
+```
+
+.env 파일에서 저장했던 API Key와 ID를 불러오는 코드는 다음과 같습니다.
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv(".env")
+
+API_ID = os.getenv("CLIENT_ID")
+API_SECRET = os.getenv("CLIENT_SECRET")
+```
+
+### STEP 4. API 사용해보기
+
+그럼 이제 API를 직접 사용해볼까요? API를 이용하기 위해서는 requests 라이브러리가 필요한데요, colab 환경에서는 이미 설치되어 있으니 ``import requests``로 간단하게 라이브러리를 불러오기만 하면 됩니다.
+
+API를 사용할 때에는, API를 제공하는 측에서 정해준 형식대로 요청 URL을 작성해야 하는데요, [네이버 geocode API 가이드](https://api.ncloud-docs.com/docs/ai-naver-mapsgeocoding-geocode)에 요청 URL과 파라미터, 헤더와 응답값에 대해 자세히 설명하고 있으니 참고하시길 바랍니다.
+
+아래의 코드를 따라하시면 간단하게 API를 테스트 해보실 수 있습니다.
+
+```python
+import requests as re
+import json
+
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 검색할 주소를 입력합니다. 
+params = {"query" : "서울특별시 동작구 흑석로 84", "output":"json"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
+```
+실행해보면 다음과 같은 결과를 얻을 수 있습니다. 역지오코딩의 경우, 요청 url와 파라미터 형식이 바뀌는데요, 아래 코드와 같이 입력하시면 됩니다.
+
+```python
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
+params = {"coords" : "126.9573779,37.5048875", "output":"json", "orders":"roadaddr,addr"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
+```
+
+데이터 타입이 string 인 것을 확인할 수 있는데요, 원하는 값을 쉽게 가져올 수 있도록 딕셔너리(json) 형태로 변환해줍시다. 여기에는 json 라이브러리가 사용됩니다.
+
+```python
+import json
+
+json_ob = json.load(data.text)
+```
+
+변환된 결과를 보면 결과값이 아래와 같은 형식으로 구성되어 있다는 것을 파악할 수 있습니다. 도로명주소 뿐만 아니라, 도로명주소에 대응되는 지번주소, 영문주소, 주소구성요소와 좌표계 정보도 제공합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-api-return.png" title="click console">
+</figure>
+
+여기서 좌표계 정보만 추출해볼까요? 좌표계에 대한 정보는 `addresses`키를 통해 접근할 수 있습니다. `addresses`에 대응하는 값은 리스트인데요, 리스트에 요소가 하나뿐이므로 `json_ob["addresses"][0]`로 주소정보들을 담고 있는 딕셔너리에 접근해봅시다. 
+
+좌표계에 대한 정보는 "x",  "y" 키 값으로 얻을 수 있습니다. x는 경도, y는 위도에 대응됩니다. 따라서 각 값은 `json_ob["addresses"][0]["x"]`와 `json_ob["addresses"][0]["y"]`로 추출할 수 있습니다.
+
+다음은 리턴된 결과로부터 좌표계를 추출하는 과정을 한 번에 나타낸 코드입니다.
+
+```python
+import json
+
+json_ob = json.load(data.text)
+
+lon = json_ob["addresses"][0]["x"] # 경도
+lat = json_ob["addresses"][0]["y"] # 위도
+
+```
+
+다음은 역지오코딩 후 도로명주소, 지번주소를 추출하는 과정입니다. 역지오코딩의 경우, 리턴된 주소값을 조합해야 합니다. 우선 리턴 값은 아래 사진과 같은 형식으로 구성되어 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-return-vals.png" title="click console">
+</figure>
+
+지오코딩에서 좌표계 데이터를 추출했던 것과 같은 방식으로 도로명주소, 지번주소 구성요소 딕셔너리에 접근할 수 있습니다.
+
+```python
+# 도로명주소 구성요소 딕셔너리
+roadaddr = json_ob["results"][0]
+
+# 지번주소 구성요소 딕셔너리
+addr = json_ob["results"][1]
+
+```
+
+역지오코딩을 통해 얻은 값을 조합하는 방법은 뒷장에서 자세히 다루도록 하겠습니다. 응답값의 키들이 각각 무엇을 의미하는지 궁금하신 분들은 [API 활용 문서](https://api.ncloud-docs.com/docs/ai-naver-mapsreversegeocoding-gc)를 참고해주세요. 앞서 작성한 코드는 [깃허브]()에 저장되어 있으며, [코랩]()에서 실행시켜보실 수 있습니다.
+
+
+
+
+
+
 
 
 
