@@ -121,9 +121,12 @@ def sido_sigungu_df(total_df, sido_name):
     df = pd.DataFrame(df.groupby("시군구명")["도로명관리번호"].count()).sort_values("도로명관리번호", ascending=False)
     return df
 
-# 시각화
-for sido in sido_list[1:]:
+## 세종시는 시군구가 없으므로 제외함
+sido_list.remove('세종특별자치시')
+
+for sido in sido_list:
     each = sido_sigungu_df(df, sido)
+    print(len(each))
     graph_viz(each, f"{sido}의 도로명주소 개수")
 ```
 
@@ -149,7 +152,7 @@ emd = emd.drop(['시도명',"시군구명", "읍면동명", "전체 읍면동명
 emd_top20 = emd.sort_values("도로명관리번호", ascending=False).iloc[:20,:]
 
 # 시각화
-graph_viz(emd, "읍면동별 도로명주소 개수")
+graph_viz(emd_top20, "읍면동별 도로명주소 개수")
 ```
 
 <figure class="flex flex-col items-center justify-center">
