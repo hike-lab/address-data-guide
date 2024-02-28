@@ -1,7 +1,7 @@
- @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
- @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
- @import url(https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css);
- :root {
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import url(https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css);
+:root {
   --vp-c-bg: #f9fafb;
   --vp-c-bg-alt: #f3f3f3;
   --vp-c-white: #f9fafb;
@@ -34,7 +34,7 @@
 span.katex-html {
   display: none;
 }
- 
+
 :root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
@@ -43,7 +43,6 @@ span.katex-html {
     #92d3e9
   );
 
- 
   --vp-home-hero-image-filter: blur(44px);
 }
 
@@ -51,14 +50,12 @@ span.katex-html {
   :root {
     --vp-home-hero-image-filter: blur(56px);
   }
-
 }
 
 @media (min-width: 960px) {
   :root {
     --vp-home-hero-image-filter: blur(68px);
   }
-  
 }
 
 /**
@@ -84,13 +81,17 @@ span.katex-html {
 }
 
 div.VPContent.is-home span.clip {
-  font-size : 55px;
+  font-size: 55px;
 }
 
 div.VPContent.is-home div.main p.text {
-  font-size : 35px !important;
+  font-size: 35px !important;
 }
 
 .tl-full-color-background .tl-text p { 
   color : #3a3a3c !important;
+}
+
+button.tl-slidenav-content-container {
+  color : #3a3a3c;
 }

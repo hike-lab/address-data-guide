@@ -14,7 +14,7 @@ export default {
   ignoreDeadLinks: true,
 
   head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
-
+  
   // markdown-it-footnote
   markdown: {
     lineNumbers: true,
@@ -23,6 +23,9 @@ export default {
       md.use(require("markdown-it-katex"));
       md.use(require("markdown-it-footnote"));
     },
+    plugins: [
+      'markdown-it-html5-embed'
+    ]
   },
   build: { outDir: "/theme/" },
   themeConfig: {
@@ -34,7 +37,7 @@ export default {
     },
 
     editLink: {
-      pattern: "https://github.com/hike-lab/nlp-docs",
+      pattern: "https://github.com/hike-lab/address-data-guide",
       text: "Edit this page on GitHub",
     },
 

@@ -81,6 +81,9 @@ graph_viz(sido, "시도별 도로명주소 개수")
     <img src="../img/3-2-sido-count.png" title="sido count visualization">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
+
+ <!-- <iframe src="../img/3-2-sido-count.html" title="내용" width="100%" height="300px"></iframe> -->
+
 대한민국의 시도는 총 17개입니다. '경기도', '경상북도', '경상남도' 등의 순으로 도로명주소의 개수가 많으며 세종특별자치시의 도로명주소 개수가 가장 적은 것을 확인할 수 있습니다.
 
 ### (2) 시군구별
@@ -118,9 +121,12 @@ def sido_sigungu_df(total_df, sido_name):
     df = pd.DataFrame(df.groupby("시군구명")["도로명관리번호"].count()).sort_values("도로명관리번호", ascending=False)
     return df
 
-# 시각화
-for sido in sido_list[1:]:
+## 세종시는 시군구가 없으므로 제외함
+sido_list.remove('세종특별자치시')
+
+for sido in sido_list:
     each = sido_sigungu_df(df, sido)
+    print(len(each))
     graph_viz(each, f"{sido}의 도로명주소 개수")
 ```
 
@@ -131,7 +137,7 @@ for sido in sido_list[1:]:
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-세종특별자치도는 시군구에 해당하는 값이 없으므로 제외합니다. 시도 중 서울특별시만 예시로 살펴보면, '관악구', '성북구', '은평구' 등의 순으로 도로명주소의 개수가 많으며 '노원구'의 개수가 가장 적습니다.
+세종특별자치도는 시군구에 해당하는 값이 없으므로 제외합니다. 시도 중 서울특별시만 예시로 살펴보면, 총 개의 25개의 시군구가 있으며 '관악구', '성북구', '은평구' 등의 순으로 도로명주소의 개수가 많고 '노원구'의 개수가 가장 적습니다.
 
 ### (4) 읍면동별
 
@@ -146,7 +152,7 @@ emd = emd.drop(['시도명',"시군구명", "읍면동명", "전체 읍면동명
 emd_top20 = emd.sort_values("도로명관리번호", ascending=False).iloc[:20,:]
 
 # 시각화
-graph_viz(emd, "읍면동별 도로명주소 개수")
+graph_viz(emd_top20, "읍면동별 도로명주소 개수")
 ```
 
 <figure class="flex flex-col items-center justify-center">
@@ -154,4 +160,4 @@ graph_viz(emd, "읍면동별 도로명주소 개수")
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-###
+총 5017개의 읍면동이 있으며, 읍면동별 도로명주소의 개수는 '서울특별시 관악구 신림동', '대구광역시 남구 대명동', '제주특별자치도 제주시 애월읍' 등의 순으로 많은 것을 확인할 수 있습니다.
