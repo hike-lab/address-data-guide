@@ -99,6 +99,9 @@ query_get(sql)
 #   '시도명': '서울특별시'},
 ```
 
+### 시도별 도로명주소의 개수 분석하기
+
+시도별 도로명주소의 개수
 코드는 시도명을 기준으로 도로명주소의 개수를 출력함. 도로명주소2나 도로명주소1로 개수를 세도 되지만, 도로명주소관리번호가 개별 id 값이고, 숫자라서 실행시간이 더 적게 걸림.
 
 ```py
@@ -153,8 +156,105 @@ fig.show()
 
 <embed src="/docs/address-count-per-sido.html" width="100%" height="450px"></embed>
 
-### 시도별 도로명주소의 개수 분석하기
+## 분석2. 관련지번이 많은 도로명주소 분석하기
 
-시도별 도로명주소의 개수
+(1) 개별 도로명주소를 생성한 테이블에 관련지번 테이블을 연계하고, (2) 하나의 도로명주소에 붙은 관련지번 개수 세기, (3) 상위 10개부터 출력
 
-## 분석2. 관련지번
+### 관련지번 테이블에서 PNU 생성하기
+
+관련지번을 식별할 수 있는 고유한 식별자는 PNU (19자리; 법정동코드(10) + 산여부(1) + 번지(4) + 호(4))
+jibun_rnaddrkor라는 테이블에 pnu 컬럼 추가, 다음 함수는 여러 줄의 sql을 실행하는 함수
+
+```py
+def multi_query_update(sql):
+    connection = init_db_connection()
+    with connection:
+        with connection.cursor() as cursor:
+            sql_list = [query.strip() for query in sql.strip().split('\n')]
+            for query in sql_list:
+                cursor.execute(query)
+                print(f"Query executed: {query}")
+            connection.commit()
+            return True
+```
+
+PNU라는 컬럼을 만들고, 값을 조합해서 PNU 생성함
+
+```py
+sql = '''
+ALTER TABLE jibun_rnaddrkor ADD PNU VARCHAR(19);
+UPDATE jibun_rnaddrkor SET PNU = CONCAT(`법정동코드`, `산여부`, LPAD(`지번본번(번지)`, 4, '0'), LPAD(`지번부번(호)`, 4, '0'));
+'''
+multi_query_update(sql)
+```
+
+결과는 다음과 같음
+
+```py
+sql = "SELECT PNU FROM jibun_rnaddrkor LIMIT 5;"
+query_get(sql)
+# [{'PNU': '1111010100001300003'},
+#  {'PNU': '1111010100001290002'},
+#  {'PNU': '1111010100001290003'},
+#  {'PNU': '1111010100001310001'},
+#  {'PNU': '1111010100001290001'}]
+```
+
+### 도로명주소 테이블과 관련지번 테이블 연결하기
+
+아래와 같이 테이블 연결할 수 있음. 근데 도로명주소에 PNU가 없는 경우는 개별 도로명주소에 관련지번이 없다는 의미.
+
+```py
+sql = '''
+SELECT A.`도로명주소관리번호`, A.`도로명주소1`, A.`도로명주소2`, B.PNU
+FROM full_rna_addr A
+LEFT JOIN jibun_rnaddrkor B
+ON A.`도로명주소관리번호` = B.`도로명주소관리번호`
+LIMIT 10;
+'''
+query_get(sql)
+# [{'도로명주소관리번호': '11110101310001200009400000',
+#   '도로명주소1': '서울특별시 종로구 자하문로 94 (청운동)',
+#   '도로명주소2': '서울특별시 종로구 자하문로 94',
+#   'PNU': None},
+# ...
+```
+
+도로명주소관리번호를 기준으로 관련지번의 개수를 세보자. 하나의 도로명주소에 관련지번이 많은 순으로 10개 출력.
+여기서 도로명주소1, 도로명주소2를 뽑고싶지만, 쿼리 시간이 넘나 오래걸림.
+
+```py
+sql = '''
+SELECT A.`도로명주소관리번호`, COUNT(DISTINCT B.PNU) AS PNU_COUNT
+FROM full_rna_addr A
+LEFT JOIN jibun_rnaddrkor B ON A.`도로명주소관리번호` = B.`도로명주소관리번호`
+GROUP BY A.`도로명주소관리번호`
+ORDER BY PNU_COUNT DESC
+LIMIT 10;
+'''
+
+conn = init_db_connection()
+df1 = pd.read_sql(sql, con=conn)
+df1
+```
+
+가장 많이 관련지번에 연결된 도로명주소관리번호 10개 가져와서 그 주소가 뭔지 파악해보기
+
+```py
+rna_addr_list = df1['도로명주소관리번호'].tolist()
+
+sql = f'''
+SELECT * FROM full_rna_addr WHERE `도로명주소관리번호` IN {str(rna_addr_list).replace('[','(').replace(']',')')}
+'''
+
+conn = init_db_connection()
+df2 = pd.read_sql(sql, con=conn)
+df2
+```
+
+결과를 비교하면, 서대구센트럴자이와 서대구역화성파크드림 아파트가 관련지번을 많이 갖고있고, 다음은 서울의 평화시장! (가게 하나마다 부속지번 부여?)
+
+```py
+merged = df1.merge(df2, on='도로명주소관리번호').sort_values('PNU_COUNT', ascending=False)
+merged
+```
