@@ -88,6 +88,10 @@ div.VPContent.is-home div.main p.text {
   font-size: 35px !important;
 }
 
-.tl-full-color-background .tl-text p {
-  color: #3a3a3c !important;
+.tl-full-color-background .tl-text p { 
+  color : #3a3a3c !important;
+}
+
+button.tl-slidenav-content-container {
+  color : #3a3a3c;
 }
