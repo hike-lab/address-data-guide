@@ -83,7 +83,7 @@ for file in tqdm(file_list, desc='Processing files'):
         FIELDS TERMINATED BY "|";
     '''
     print(f"Processing file: {file_path}, Number of lines: {line_count}")
-    query_put(sql)
+    query_update(sql) # query_update로 수정
 
     # 임시파일 삭제
     os.remove(temp_file_path)
@@ -94,6 +94,8 @@ print(f"Total number of lines: {total_line_count}")
 ```
 
 ## 데이터 업로드 확인하기
+
+도로명주소 확인하기. 지번주소에 데이터 집어넣는 것은 코드 참고.
 
 ```py
 sql = "SELECT * FROM rnaddrkor LIMIT 5;"
