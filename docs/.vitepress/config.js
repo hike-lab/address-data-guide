@@ -83,7 +83,7 @@ function sidebarMain() {
     },
 
     {
-      text: "2. 주소 데이터",
+      text: "2. 주소 데이터 이해하기",
       collapsed: true,
       items: [
         {
