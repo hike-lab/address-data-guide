@@ -77,12 +77,7 @@ graph_viz(sido, "시도별 도로명주소 개수")
 
 '시도명' 컬럼을 기준으로 그룹화하여 '도로명관리번호'의 개수를 확인한 뒤, 간단한 시각화를 진행합니다.
 
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-2-sido-count.png" title="sido count visualization">
-    <figcaption style="text-align: center;"></figcaption>
-</figure>
-
- <!-- <iframe src="../img/3-2-sido-count.html" title="내용" width="100%" height="300px"></iframe> -->
+<embed src="/docs/3-2-sido-count.html" width="100%" height="450px"></embed>
 
 대한민국의 시도는 총 17개입니다. '경기도', '경상북도', '경상남도' 등의 순으로 도로명주소의 개수가 많으며 세종특별자치시의 도로명주소 개수가 가장 적은 것을 확인할 수 있습니다.
 
@@ -95,19 +90,16 @@ sigungu["전체 시군구명"] = sigungu["시도명"] + " " + sigungu["시군구
 sigungu.index = sigungu["전체 시군구명"]
 sigungu = sigungu.drop(['시도명',"시군구명", "전체 시군구명"], axis=1)
 
-# 상위 20개 시군구만 추출
-sigungu_top20 = sigungu.sort_values("도로명관리번호", ascending=False).iloc[:20,:]
+# 상위 10개 시군구만 추출
+sigungu_top20 = sigungu.sort_values("도로명관리번호", ascending=False).iloc[:10,:]
 
 # 시각화
 graph_viz(sigungu_top20, "시군구별 도로명주소 개수")
 ```
 
-'시도명' 컬럼과 '시군구명' 컬럼을 합쳐서 '전체 시군구명'이라는 새로운 컬럼을 만든 뒤 해당 컬럼을 기준으로 그룹화하여 간단한 시각화를 진행합니다. 전국의 시군구는 251개 이므로 상위 20개 지역의 개수만 확인하면 다음과 같습니다.
+'시도명' 컬럼과 '시군구명' 컬럼을 합쳐서 '전체 시군구명'이라는 새로운 컬럼을 만든 뒤 해당 컬럼을 기준으로 그룹화하여 간단한 시각화를 진행합니다. 전국의 시군구는 251개 이므로 상위 10개 지역의 개수만 확인하면 다음과 같습니다.
 
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-2-sigungu-count.png" title="sigungu count visualization">
-    <figcaption style="text-align: center;"></figcaption>
-</figure>
+<embed src="/docs/3-2-sigungu-count.html" width="100%" height="450px"></embed>
 
 시군구별 도로명주소는 제주특별자치도 '제주시', '경기도 화성시', '경상북도 경주시' 등의 순으로 많은 것을 확인할 수 있습니다.
 
@@ -132,10 +124,7 @@ for sido in sido_list:
 
 17개 시도 각각의 시군구별로 도로명주소의 개수를 확인하기 위한 방법입니다. 시도별로 임시 데이터프레임을 만든 뒤, 시군구명으로 다시 그룹화하여 간단한 시각화를 진행합니다.
 
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-2-sido-sigungu-seoul-count.png" title="seoul sigungu count visualization">
-    <figcaption style="text-align: center;"></figcaption>
-</figure>
+<embed src="/docs/3-2-seoul-sido-sigungu-count.html" width="100%" height="450px"></embed>
 
 세종특별자치도는 시군구에 해당하는 값이 없으므로 제외합니다. 시도 중 서울특별시만 예시로 살펴보면, 총 개의 25개의 시군구가 있으며 '관악구', '성북구', '은평구' 등의 순으로 도로명주소의 개수가 많고 '노원구'의 개수가 가장 적습니다.
 
@@ -148,16 +137,13 @@ emd["전체 읍면동명"] = emd["시도명"] + " " + emd["시군구명"] + " " 
 emd.index = emd["전체 읍면동명"]
 emd = emd.drop(['시도명',"시군구명", "읍면동명", "전체 읍면동명"], axis=1)
 
-# 상위 20개 읍면동만 추출
-emd_top20 = emd.sort_values("도로명관리번호", ascending=False).iloc[:20,:]
+# 상위 10개 읍면동만 추출
+emd_top20 = emd.sort_values("도로명관리번호", ascending=False).iloc[:10,:]
 
 # 시각화
 graph_viz(emd_top20, "읍면동별 도로명주소 개수")
 ```
 
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-2-emb-count.png" title="emb count visualization">
-    <figcaption style="text-align: center;"></figcaption>
-</figure>
+<embed src="/docs/3-2-emb-count.html" width="100%" height="450px"></embed>
 
 총 5017개의 읍면동이 있으며, 읍면동별 도로명주소의 개수는 '서울특별시 관악구 신림동', '대구광역시 남구 대명동', '제주특별자치도 제주시 애월읍' 등의 순으로 많은 것을 확인할 수 있습니다.

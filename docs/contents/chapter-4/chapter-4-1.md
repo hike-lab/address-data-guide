@@ -174,7 +174,7 @@ data.text
 ```python
 import json
 
-json_ob = json.load(data.text)
+json_ob = json.loads(data.text)
 ```
 
 변환된 결과를 보면 결과값이 아래와 같은 형식으로 구성되어 있다는 것을 파악할 수 있습니다. 도로명주소 뿐만 아니라, 도로명주소에 대응되는 지번주소, 영문주소, 주소구성요소와 좌표계 정보도 제공합니다.
@@ -192,7 +192,7 @@ json_ob = json.load(data.text)
 ```python
 import json
 
-json_ob = json.load(data.text)
+json_ob = json.loads(data.text)
 
 lon = json_ob["addresses"][0]["x"] # 경도
 lat = json_ob["addresses"][0]["y"] # 위도
