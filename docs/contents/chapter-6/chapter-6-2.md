@@ -4,12 +4,21 @@
 
 #### 작성자: 박하람
 
-## Docker로 MySQL 설치하기
+이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습합니다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명합니다.
 
-- 윈도우/맥 버전별 docker 설치방법
-- 버전: Docker version 20.10.12
+## 도커로 MySQL 설치하기
+
+도커는 어플리케이션을 패키징하고 배포하는 툴로, 컨테이너라는 가상 공간을 사용해서 어플리케이션과 실행헤 필요한 모든 것을 담아놓습니다. 도커 형태로 어플리케이션을 패키징하게 되면, 개발 또는 운영 환경에 상관없이 안정적으로 어플리케이션을 운영할 수 있게 됩니다. 이번 장은 도커로 MySQL을 설치합니다. 학습자의 개발 환경이 서로 상이한 상황에 있기 때문에 도커를 사용하는 것이 수월하다고 판단했습니다.
+
+도커를 설치하는 방법은 윈도우와 맥, 리눅스 OS에 따라 다릅니다. 설치방법은 다음의 공식문서를 참고하세요. 이 프로젝트는 `Docker version 20.10.12`로 진행합니다.
+
+- 윈도우 설치방법: [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/)
+- 맥 설치방법: [Install Docker Desktop on Mac](https://docs.docker.com/desktop/install/mac-install/)
+- 리눅스 설치방법: [Install Docker Desktop on Linux](https://docs.docker.com/desktop/install/linux-install/)
 
 ### MySQL 이미지 가져오기
+
+도커가 정상적으로 설치되었다면, 터미널을 이용해 MySQL 설치를 시작해보겠습니다. 윈도우라면 명령 프롬프트나 PowerShell 등을 사용하면 되고, 맥이라면 터미널을 사용하면 됩니다. 터미널에서 다음의 코드를 실행해보세요. 이 코드는 Docker Hub에 업로드되어 있는 최신 버전의 MySQL 이미지(image)를 가져옵니다. 도커에서 이미지는 컨테이너를 생성하는 데 사용되는 템플릿입니다.
 
 ```bash
 $ docker pull mysql
@@ -30,7 +39,7 @@ Status: Downloaded newer image for mysql:latest
 docker.io/library/mysql:latest
 ```
 
-가져온 도커 이미지 확인
+정상적으로 이미지를 가져왔다면, 위의 주석처리된 코드와 같이 나타납니다. 다음의 코드는 다운로드 받은 도커 이미지의 목록을 보여줍니다. `mysql`이란 이름으로 가장 최신의 이미지를 가져왔습니다.
 
 ```bash
 $ docker images
@@ -40,29 +49,43 @@ mysql                           latest            e68e2614955c   4 weeks ago    
 
 ### Docker MySQL 실행하기
 
-loose-local-infile=1 -> 서버 상에서 local infile 허용해주기
+다음은 다운로드 받은 도커 이미지를 실행하는 방법입니다. `docker run`은 이미지를 실행하는 기본적인 명령어이고, 안정적으로 도커 컨테이너를 실행하기 위해 여러가지 조건을 부여합니다.
 
-- 도커 볼륨 설정: mysql-volume
+- `--name mysql`은 컨테이너 이름을 지정합니다. 이 컨테이너의 이름은 `mysql`이 됩니다.
+- `-p 3306:3306`은 컨테이너 내부 포트인 3306을 호스트 시스템 포트인 3306에 연결합니다. 즉, 제 컴퓨터에서 `localhost:3306`에 접속하면 컨테이너 내부의 MySQL 서버에 연결됩니다. 만약 로컬에서 이미 3306 포트가 사용된다면 `-p 3306:3307`과 같이 포트 번호를 변경할 수 있습니다.
+- `-e MYSQL_ROOT_PASSWORD=root`는 MySQL root 사용자의 비밀번호를 root로 지정합니다. 비밀번호는 반드시 다른 것으로 변경하여 사용하세요.
+- `-v mysql-volume:/var/lib/mysql`는 `mysql-volume`이라는 이름의 볼륨을 컨테이너 내부 `/var/lib/mysql` 디렉토리와 연결합니다. 개별적으로 볼륨을 생성하게 되면, 해당 컨테이너가 삭제되어도 볼륨은 삭제되지 않으니 데이터를 보존할 수 있습니다.
+- `-d`는 컨테이너를 백그라운드에서 실행합니다.
+- `mysql:latest`는 `docker run`할 이미지의 이름과 태그를 작성합니다.
+- `--loose-local-infile=1`은 MySQL에서 `local infile` 기능을 사용하도록 설정합니다. `local infile`은 MySQL에 파일을 삽입할 수 있는 명령어로, 6.5장에서 자세하게 설명합니다.
 
 ```bash
-$ docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -v mysql-volume:/var/lib/mysql -d mysql:latest --loose-local-infile=1
+$ docker run --name mysql \\
+    -p 3306:3306 \\
+    -e MYSQL_ROOT_PASSWORD=root \\
+    -v mysql-volume:/var/lib/mysql \\
+    -d mysql:latest \\
+    --loose-local-infile=1
 ```
 
-```bash
-docker volume list
-# DRIVER    VOLUME NAME
-# local     mysql-volume
-```
+정상적으로 도커 컨테이너가 실행됐다면 다음의 코드로 현재 돌아가는 컨테이너를 확인할 수 있습니다. 내가 지정한 옵션으로 컨테이너가 잘 돌아가고 있는지 확인해보세요.
 
 ```bash
-$ docker ps -a
+$ docker ps
 CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                               NAMES
 5dedb08a6941   mysql:latest   "docker-entrypoint.s…"   22 seconds ago   Up 22 seconds   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
 ```
 
-### Docker 컨테이너 접속
+혹시 컨테이너가 잘 만들어지지 않았다면, 다음의 과정으로 컨테이너를 중지하고 삭제할 수 있습니다. 우선 mysql 컨테이너를 중단하고, 이후에 mysql 컨테이너를 삭제합니다.
 
-초기비번 root로 설정
+```bash
+$ docker stop mysql
+$ docker rm mysql
+```
+
+### 컨테이너 내부의 MySQL 접속
+
+컨테이너가 잘 돌아가고 있다면 컨테이너 내부에 있는 MySQL에 접속해봅시다. 터미널에서 다음과 같이 입력하고, `mysql -u root -p`를 작성합니다. `-u root`는 root 유저로 접속하는 것이므로 앞서 root 계정의 비밀번호로 설정한 값을 입력합니다. 정상적으로 수행했다면 `mysql>`이 나타나면서 컨테이너 내부에 있는 MySQL에 접속한 것입니다.
 
 ```bash
 $ docker exec -it mysql bash
@@ -78,9 +101,14 @@ Oracle is a registered trademark of Oracle Corporation and/or its
 affiliates. Other names may be trademarks of their respective
 owners.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.\
+mysql>
+```
 
-mysql> show databases;
+MySQL은 SQL이란 질의 언어를 사용합니다. `SHOW DATABASES;`는 현재 MySQL에 설치된 전체 데이터베이스를 보여줍니다. 아래 4가지가 기본적으로 설치되어 있는 데이터베이스입니다. SQL을 작성할 때 항상 마지막에 세미콜론(;)을 붙이는 것을 잊지마세요.
+
+```sql
+mysql> SHOW DATABASES;
 +--------------------+
 | Database           |
 +--------------------+
@@ -92,26 +120,15 @@ mysql> show databases;
 4 rows in set (0.02 sec)
 ```
 
-### Docker 컨테이너 시작, 중지, 재시작
-
-```bash
-# MySQL Docker 컨테이너 중지
-$ docker stop mysql
-
-# MySQL Docker 컨테이너 시작
-$ docker start mysql
-
-# MySQL Docker 컨테이너 재시작
-$ docker restart mysql
-```
-
 ## 파이썬 노트북으로 MySQL 연결하기
 
-pymysql 다운로드
+MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있습니다. 이를 위해서 `pymysql`이란 모듈이 필요합니다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택합니다. [5.1장에서 설명한 VSCode](/contents/chapter-5/chapter-5-1.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 됩니다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치합니다.
 
 ```py
 !pip3 install pymysql
 ```
+
+`pymysql`로 도커 컨테이너의 MySQL과 연결하는 방법은 다음과 같습니다. `init_connection()` 함수는 MySQL을 처음 연결할 때 사용하는 함수입니다. root 유저의 비밀번호를 변경했다면 `password="root"`에서 비밀번호를 수정해주세요. `sql` 변수는 앞서 컨테이너 내부에서 수행한 코드와 동일합니다. `cur.execute(sql)`에서 SQL 쿼리를 실행하고, 결과를 출력합니다.
 
 ```py
 import pymysql
@@ -135,9 +152,13 @@ with conn:
         cur.execute(sql)
         for data in cur:
             print(data)
+# {'Database': 'information_schema'}
+# {'Database': 'mysql'}
+# {'Database': 'performance_schema'}
+# {'Database': 'sys'}
 ```
 
-열린거 닫아주기
+위의 코드에서 주석처리 된 것처럼 나온다면 정상적으로 잘 연결되었습니다. 파이썬에서 MySQL과 연결하게 되면, 항상 접속한 상태이므로 `conn.close()`을 통해 연결을 닫아줘야 합니다.
 
 ```py
 conn.close()
@@ -145,16 +166,7 @@ conn.close()
 
 ## 데이터 다운로드
 
-[도로명주소 한글](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%20%ED%95%9C%EA%B8%80) (데이터에 대한 자세한 설명은 chapter 2 참고)
-2024년 1월 전체자료 다운로드
-건물군 단위까지 데이터 제공
-
-데이터 설명
-
-- rnaddrkor로 시작하는 파일: 건물군까지 도로명주소 데이터 제공
-- jibun_rnaddrkor로 시작하는 파일: 건물군까지 관련 지번 제공
-
-경로 설정에 대한건 안적어줘도 될 듯!
+이번 장에서 사용할 실습 데이터는 주소기반산업지원서비스의 도로명주소 한글을 사용합니다. 해당 데이터는 [2.3장](/contents/chapter-2/chapter-2-3.md)에서 자세하게 설명하고 있으니 참고하세요. 데이터는 2024년 1월 전체자료분을 사용하고, 도로명주소 테이블 `rnaddrkor`과 관련지번 테이블 `jibun_rnaddrkor`을 모두 사용합니다. <span style="color:red">실습에 사용한 데이터는 간단히 여기에서 다운로드 받을 수 있습니다.</span>
 
 ## 참고문헌
 
