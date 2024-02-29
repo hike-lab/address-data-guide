@@ -154,7 +154,7 @@ fig = go.Figure(data=bar, layout=layout)
 fig.show()
 ```
 
-<embed src="/docs/address-count-per-sido.html" width="100%" height="450px"></embed>
+<embed src="/docs/6-6-address-count-per-sido.html" width="100%" height="450px"></embed>
 
 ## 분석2. 관련지번이 많은 도로명주소 분석하기
 
