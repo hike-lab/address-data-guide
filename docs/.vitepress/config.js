@@ -138,6 +138,10 @@ function sidebarMain() {
           text: "1. 프로젝트 소개",
           link: "/contents/chapter-4/chapter-4-1.html",
         },
+        {
+          text: "2. 데이터 품질 평가하기",
+          link: "/contents/chapter-4/chapter-4-2.html",
+        },
       ],
     },
     {
