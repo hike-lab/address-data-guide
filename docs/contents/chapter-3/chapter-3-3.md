@@ -146,3 +146,9 @@ gdf_sido = gdf_sido.to_crs(epsg=4326)
 ```
 
 ## 지도 시각화
+
+```python
+token = "본인의 token"
+```
+
+처음에 받아 둔 mapbox의 token은 이 부분에서 사용합니다.
