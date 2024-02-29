@@ -145,7 +145,7 @@ function sidebarMain() {
       ],
     },
     {
-      text: "5. 주소 데이터 API를 활용한 주소 검색 웹 서버 구축",
+      text: "5. 외부데이터를 연계한 주소 검색 API 만들기",
       collapsed: true,
       items: [
         {
@@ -157,7 +157,7 @@ function sidebarMain() {
           link: "/contents/chapter-5/chapter-5-2.html",
         },
         {
-          text: "3. Flask로 웹 서버 구축하기",
+          text: "3. 외부데이터를 연계한 주소 검색 API 만들기",
           link: "/contents/chapter-5/chapter-5-3.html",
         },
       ],
