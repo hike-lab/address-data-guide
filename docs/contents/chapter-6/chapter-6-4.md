@@ -4,44 +4,55 @@
 
 #### 작성자: 박하람
 
+이번 장은 도로명주소 한글 데이터에 맞는 테이블 스키마를 설게하고, 테이블을 생성합니다. 테이블 스키마가 간단히 무엇인지 알아보고, `rnaddrkor`과 `jibun_rnaddrkor` 테이블의 스키마를 작성하고 테이블을 생성합니다.
+
 ## 테이블 스키마란?
 
-- 테이블 스키마란?
-- 도로명주소 한글 활용을 클릭하면, 전체분과 관련지번에 대한 테이블 스키마 제공
+테이블 스키마는 테이블의 구조를 정의하는 규칙입니다. 테이블에 어떤 데이터가 어떤 방식으로 저장될지를 명시합니다. 예를 들어, 어떤 컬럼명이 들어갈 것인지, 컬럼명에 들어갈 값의 형식은 무엇인지 등이 설정됩니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-1-public-juso-data.png" title="juso.go.kr guide">
+</figure>
+
+위의 그림과 같이 주소기반산업지원서비스는 개별 데이터에 대한 스키마 정보를 제공하고 있습니다. '도로명주소 한글 활용'이란 버튼을 클릭하면 팝업창에서 전체분(`rnaddrkor`)과 관련지번(`jibun_rnaddrkor`)의 테이블 정보를 확인할 수 있습니다. 테이블 스키마는 팝업창에 나타난 정보를 그대로 활용합니다. 참고로 `활용가이드다운로드`를 클릭하면 도로명주소 한글과 관련된 상세한 정보와 Oracle로 작성된 SQL 코드를 확인할 수 있습니다.
+
+도로명주소 한글의 레이아웃은 크게 4가지 정보를 제공합니다. 컬럼명과 개별 컬럼명의 값의 크기와 형식, PK가 제공됩니다. 값의 크기는 해당 컬럼명의 자릿수를 의미하고, 형식은 문자 또는 숫자와 같은 값의 유형을 표현합니다. PK는 Primary Key의 약자로, 테이블의 각 행을 고유하게 식별하는 컬럼입니다. 이 PK에 해당하는 컬럼은 `NULL` 값을 허용하지 않고, 중복된 값을 가질 수 없습니다. 개별 테이블마다 지정된 PK는 다음과 같습니다.
+
+- 전체분(rnaddrkor): 도로명주소관리번호(PK1), 도로명코드(PK2), 지하여부(PK3), 건물본번(PK4), 건물부번(PK5)
+- 관련지번(jibun_rnaddrkor): 도로명주소관리번호(PK1), 법정동코드(PK2), 산여부(PK3), 지번본번(번지)(PK4), 지번부번(호)(PK5)
 
 ## 도로명주소 한글의 테이블 스키마
 
-도로명주소 한글 활용은 PK가 있고, PK는 primary key다. (여기서 식별자 역할을 한다)
-이거에 맞춰서 schema를 생성하면 다음과 같다.
+주소기반산업지원서비스에 나와있는 그대로 테이블 스키마를 간단하게 작성해보면 다음과 같습니다. `CREATE TABLE`은 테이블을 생성하는 명령어이고, 괄호 안에 컬럼명과 형식, 크기를 설정합니다. 값의 형식이 문자인 것은 `VARCHAR`로, 숫자인 것은 `INT`로 표현했습니다. 테이블에서 PK가 여러 개이므로 가장 마지막에 `PRIMARY KEY`를 설정해주었습니다. ㅖㅏ로 설정한 컬럼의 값은 자동적으로 `NOT NULL`이 설정됩니다.
 
-### 도로명주소 테이블
+### 전체분 테이블
 
 ```sql
-CREATE TABLE `rnaddrkor` (
-    `도로명주소관리번호` varchar(26) NOT NULL,
-    `법정동코드` varchar(10),
-    `시도명` varchar(40),
-    `시군구명` varchar(40),
-    `읍면동명` varchar(40),
-    `리명` varchar(40),
-    `산여부` varchar(1),
-    `번지` varchar(4),
-    `호` varchar(4),
-    `도로명코드` varchar(12) NOT NULL,
-    `도로명` varchar(80),
-    `지하여부` varchar(1) NOT NULL,
-    `건물본번` int(5) NOT NULL,
-    `건물부번` int(5) NOT NULL,
-    `행정동코드` varchar(60),
-    `행정동명` varchar(60),
-    `기초구역번호(우편번호)` varchar(5),
-    `이전도로명주소` varchar(400),
-    `효력발생일` varchar(8),
-    `공동주택구분` varchar(1),
-    `이동사유코드` varchar(2),
-    `건축물대장건물명` varchar(400),
-    `시군구용건물명` varchar(400),
-    `비고` varchar(200),
+CREATE TABLE rnaddrkor (
+    `도로명주소관리번호` VARCHAR(26),
+    `법정동코드` VARCHAR(10),
+    `시도명` VARCHAR(40),
+    `시군구명` VARCHAR(40),
+    `읍면동명` VARCHAR(40),
+    `리명` VARCHAR(40),
+    `산여부` VARCHAR(1),
+    `번지` VARCHAR(4),
+    `호` VARCHAR(4),
+    `도로명코드` VARCHAR(12),
+    `도로명` VARCHAR(80),
+    `지하여부` VARCHAR(1),
+    `건물본번` INT(5),
+    `건물부번` INT(5),
+    `행정동코드` VARCHAR(60),
+    `행정동명` VARCHAR(60),
+    `기초구역번호(우편번호)` VARCHAR(5),
+    `이전도로명주소` VARCHAR(400),
+    `효력발생일` VARCHAR(8),
+    `공동주택구분` VARCHAR(1),
+    `이동사유코드` VARCHAR(2),
+    `건축물대장건물명` VARCHAR(400),
+    `시군구용건물명` VARCHAR(400),
+    `비고` VARCHAR(200),
     PRIMARY KEY (`도로명주소관리번호`, `도로명코드`, `지하여부`, `건물본번`, `건물부번`)
 );
 ```
@@ -49,21 +60,21 @@ CREATE TABLE `rnaddrkor` (
 ### 관련지번 테이블
 
 ```sql
-CREATE TABLE `rnaddrkor_jibun` (
-    `도로명주소관리번호` varchar(26) NOT NULL,
-    `법정동코드` varchar(10) NOT NULL,
-    `시도명` varchar(40),
-    `시군구명` varchar(40),
-    `법정읍면동명` varchar(40),
-    `법정리명` varchar(40),
-    `산여부` varchar(1) NOT NULL,
-    `지번본번(번지)` int(4) NOT NULL,
-    `지번부번(호)` int(4) NOT NULL,
-    `도로명코드` varchar(12),
-    `지하여부` varchar(1),
-    `건물본번` int(5),
-    `건물부번` int(5),
-    `이동사유코드` varchar(2),
+CREATE TABLE rnaddrkor_jibun (
+    `도로명주소관리번호` VARCHAR(26),
+    `법정동코드` VARCHAR(10),
+    `시도명` VARCHAR(40),
+    `시군구명` VARCHAR(40),
+    `법정읍면동명` VARCHAR(40),
+    `법정리명` VARCHAR(40),
+    `산여부` VARCHAR(1),
+    `지번본번(번지)` INT(4),
+    `지번부번(호)` INT(4),
+    `도로명코드` VARCHAR(12),
+    `지하여부` VARCHAR(1),
+    `건물본번` INT(5),
+    `건물부번` INT(5),
+    `이동사유코드` VARCHAR(2),
     PRIMARY KEY (`도로명주소관리번호`, `법정동코드`, `산여부`, `지번본번(번지)`, `지번부번(호)`)
 );
 ```
