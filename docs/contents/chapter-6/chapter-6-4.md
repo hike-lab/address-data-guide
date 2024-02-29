@@ -21,9 +21,9 @@
 - 전체분(rnaddrkor): 도로명주소관리번호(PK1), 도로명코드(PK2), 지하여부(PK3), 건물본번(PK4), 건물부번(PK5)
 - 관련지번(jibun_rnaddrkor): 도로명주소관리번호(PK1), 법정동코드(PK2), 산여부(PK3), 지번본번(번지)(PK4), 지번부번(호)(PK5)
 
-## 도로명주소 한글의 테이블 스키마
+## 도로명주소 한글의 테이블 스키마 {#table-schema}
 
-주소기반산업지원서비스에 나와있는 그대로 테이블 스키마를 간단하게 작성해보면 다음과 같습니다. `CREATE TABLE`은 테이블을 생성하는 명령어이고, 괄호 안에 컬럼명과 형식, 크기를 설정합니다. 값의 형식이 문자인 것은 `VARCHAR`로, 숫자인 것은 `INT`로 표현했습니다. 테이블에서 PK가 여러 개이므로 가장 마지막에 `PRIMARY KEY`를 설정해주었습니다. ㅖㅏ로 설정한 컬럼의 값은 자동적으로 `NOT NULL`이 설정됩니다.
+주소기반산업지원서비스에 나와있는 그대로 테이블 스키마를 간단하게 작성해보면 다음과 같습니다. `CREATE TABLE`은 테이블을 생성하는 명령어이고, 괄호 안에 컬럼명과 형식, 크기를 설정합니다. 값의 형식이 문자인 것은 `VARCHAR`로, 숫자인 것은 `INT`로 표현했습니다. 테이블에서 PK가 여러 개이므로 가장 마지막에 `PRIMARY KEY`를 설정해주었습니다. PK로 설정한 컬럼의 값은 자동적으로 `NOT NULL`이 설정됩니다.
 
 ### 전체분 테이블
 
@@ -81,10 +81,11 @@ CREATE TABLE rnaddrkor_jibun (
 
 ## 테이블 생성하기
 
-- 아래 함수 3종세트 설명
-  - init_db_connection 함수는 데이터베이스 추가
-  - query_get: 질의한 결과를 모두 가져오는 함수 (fetchall)
-  - query_update: commit하는 거를 가져오는 함수
+앞서 작성한 테이블 스키마를 활용해 테이블을 생성해봅시다. 그 전에 다음의 3가지 함수를 정의해서 더 효율적으로 MySQL 접속과 SQL 쿼리를 수행해봅시다.
+
+- `init_db_connection()` 함수는 [6.2장의 파이썬 노트북으로 MySQL 연결하기](/contents/chapter-6/chapter-6-2.html#파이썬-노트북으로-mysql-연결하기)에서 사용한 `init_connection()` 함수에 디폴트로 접속할 데이터베이스를 `address`로 설정한 것입니다.
+- `query_get()` 함수는 MySQL에 접속한 다음 `sql`에 담긴 쿼리를 실행하고 그 결과를 가져옵니다. 쿼리에 담긴 질의가 `SELECT`와 같이 결과를 가져올 때 사용합니다.
+- `query_update()` 함수는 MySQL에 접속한 다음 `sql`에 담긴 쿼리를 실행하고 잘 실행되었다면 `True`를 반환합니다. 쿼리에 담긴 질의가 `CREATE`와 같이 데이터를 업로드하거나 조작할 때 사용합니다.
 
 ```py
 def init_db_connection():
@@ -115,7 +116,7 @@ def query_update(sql):
             return True
 ```
 
-sql 쿼리문안을 앞의 테이블에 있는 내용으로 바꾸면서 2번 하기
+`query_update()` 함수를 사용해 전체분(`rnaddrkor`)과 관련지번(`jibun_rnaddrkor`) 테이블을 생성해봅시다. [도로명주소 한글의 테이블 스키마](#table-schema)에서 생성한 구문은 `sql` 변수에 넣고, `query_update(sql)`를 실행합니다. 다음의 코드는 전체분과 관련지번에 맞춰 2번 수행해야겠죠. `True`가 리턴된다면 테이블이 무사히 생성된 것입니다.
 
 ```py
 sql = '''
@@ -127,18 +128,26 @@ sql = '''
 '''
 
 query_update(sql)
+# True
 ```
 
 ## 생성한 테이블 확인하기
 
-`rnaddrkor`와 `jibun_rnaddrkor`가 출력된다면 성공적으로 테이블 생성한 것
+테이블이 잘 만들어졌는지 확인해봅시다. 다음의 코드는 `query_get()` 함수를 사용해 해당 데이터베이스에 있는 모든 테이블을 출력합니다. 주석으로 처리된 결과와 같이 `rnaddrkor`과 `jibun_rnaddrkor` 테이블이 잘 생성되었습니다.
 
 ```py
 query_get("SHOW TABLES;")
+# [{'Tables_in_address': 'jibun_rnaddrkor'}, {'Tables_in_address': 'rnaddrkor'}]
 ```
 
-아래와 같이 테이블의 스키마도 확인할 수 있음
+개별 테이블의 스키마도 확인할 수 있습니다. `DESC rnaddrkor;`은 해당 테이블의 스키마를 보여주는 질의문입니다. 주석으로 처리된 결과는 테이블 스키마의 일부인데, 테이블의 스키마로 작성한 정보를 제공합니다.
 
 ```py
 query_get("DESC rnaddrkor;")
+# [{'Field': '도로명주소관리번호',
+#   'Type': 'varchar(26)',
+#   'Null': 'NO',
+#   'Key': 'PRI',
+#   'Default': None,
+#   'Extra': ''},
 ```
