@@ -841,7 +841,7 @@ vis_portion(consist, "일관")
 
 정확성은 이 세 수치의 평균으로 구할 수 있습니다. 정확성은 80.35%입니다. 이 수치들을 방사형 그래프(rader chart)로 나타내어 봅시다. 
 
-여기서는 matplotlib을 사용하는 방법은 너무 복잡하므로 여기서는 plotly 라이브러리로 시각화하도록 하겠습니다.
+matplotlib을 사용하는 방법은 너무 복잡하므로 여기서는 plotly 라이브러리로 간단하게 시각화 하겠습니다.
 
 ```python
 import plotly.express as px
@@ -860,8 +860,8 @@ fig.show()
     <img src="../img/4-2-result7.png" title="naver cloud main page">
 </figure>
 
+이처럼 레이더 차트를 활용해 해당 데이터셋의 정확성 요소들의 수치들을 한 눈에 비교하고 보완이 필요한 부분을 구체적으로 파악할 수 있습니다.
 
----
 
 ## 전체 데이터 품질
 
