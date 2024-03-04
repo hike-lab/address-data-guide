@@ -25,7 +25,7 @@ features:
     details: 현재 주소데이터의 현황을 EDA로 톺아보기
     link: /contents/chapter-3/chapter-3-1
   - title: Chapter 4. 도로명주소의 구성과 품질
-    details: 도로명 주소 데이터 품질 평가 및 정제
+    details: 데이터 품질의 정의를 이해하고 도로명주소의 구성요소와 주소데이터 품질 평가 및 정제방법 알아보기
     link: /contents/chapter-4/chapter-4-1
   - title: Chapter 5. 외부데이터를 연계한 주소 검색 API 만들기
     details: 주소기반산업지원서비스의 주소 검색 API와 파이썬 Flask를 활용하여 외부 데이터를 연계한 주소 검색 API 만들기
