@@ -139,8 +139,24 @@ function sidebarMain() {
           link: "/contents/chapter-4/chapter-4-1.html",
         },
         {
-          text: "2. 데이터 품질 평가하기",
+          text: "2. 데이터 품질 알아보기",
           link: "/contents/chapter-4/chapter-4-2.html",
+        },
+        {
+          text: "3. 샘플 데이터 품질 평가하기",
+          link: "/contents/chapter-4/chapter-4-3.html",
+        },
+        {
+          text: "4. 도로명주소 구성요소 알아보기",
+          link: "/contents/chapter-4/chapter-4-4.html",
+        },
+        {
+          text: "5. 도로명주소 오류유형 알아보기",
+          link: "/contents/chapter-4/chapter-4-5.html",
+        },
+        {
+          text: "6. 도로명주소 유효성 평가 & 정제",
+          link: "/contents/chapter-4/chapter-4-6.html",
         },
       ],
     },
