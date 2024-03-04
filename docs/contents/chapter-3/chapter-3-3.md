@@ -149,6 +149,82 @@ gdf_sido = gdf_sido.to_crs(epsg=4326)
 
 ```python
 token = "본인의 token"
+
+gdf_sido = pd.read_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-viz.csv', encoding='utf-8')
+gdf_sigungu = pd.read_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sigungu-viz.csv', encoding='utf-8')
+geo_data_sido = '/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-geoj.geojson'
+geo_data_sigungu = '/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sigungu-geoj.geojson'
+
+with open(geo_data_sido, 'rt', encoding='utf-8') as f_sido:
+    gj_sido = geojson.load(f_sido)
+
+with open(geo_data_sigungu, 'rt', encoding='utf-8') as f_sigungu:
+    gj_sigungu = geojson.load(f_sigungu)
 ```
 
-처음에 받아 둔 mapbox의 token은 이 부분에서 사용합니다.
+처음에 받아 둔 mapbox의 token은 이 부분에서 사용합니다. 위에서 저장한 csv와 geojson 파일을 불러오는 작업을 진행합니다.
+
+```python
+viz = ChoroplethViz(data=gj_sido,
+                    color_property='인구 대비 도로명주소 개수',
+                    access_token=token,
+                    color_stops=create_color_stops([0, 0.05, 0.1, 0.15, 0.2, 0.4], colors='BuPu'),
+                    color_function_type='interpolate',
+                    line_stroke='--',
+                    line_color='rgb(128,0,38)',
+                    line_width=1,
+                    line_opacity=0.9,
+                    opacity=0.8,
+                    center = (128, 36),
+                    zoom=6,
+                    below_layer='waterway-label',
+                    legend_layout='horizontal',
+                    legend_key_shape='bar',
+                    legend_key_borders_on=False)
+viz.show()
+```
+
+저희는 지도 시각화 중 Choropleth 라는 면적에 지정한 값에 따라 다양한 색상과 스타일로 시각화하여 지도 위에 나타내며, 데이터의 패턴이나 특징을 빠르게 이해할 수 있도록 하는 시각화를 진행할 예정입니다. 위 코드에서 중요 파라미터를 하나씩 살펴보겠습니다.
+위 코드는 Python 언어를 사용하여 지리적 데이터를 시각화하는 데에 사용되는 ChoroplethViz라는 객체를 생성하고, 이를 통해 지도 위에 색상으로 표현된 지리적 정보를 나타내는 코드입니다. 코드는 Mapbox의 ChoroplethViz를 사용하며, 아래는 코드의 각 부분에 대한 설명입니다.
+
+- `data`: 시각화하고자 하는 지리적 데이터가 저장된 변수를 지정합니다.
+- `color_property`: 시각화에서 사용할 색상의 기준이 되는 데이터 속성을 설정합니다.
+- `access_token=token`: Mapbox에서 제공하는 API 토큰을 지정하여 지도를 불러올 때 인증에 사용합니다.
+- `color_stops`: 시각화에 사용할 색상의 범위를 정의합니다. 'BuPu'는 파란색에서 보라색으로 그라데이션된 색상을 나타냅니다.
+- `line_stroke='--', line_color='rgb(128,0,38)', line_width=1, line_opacity=0.9`: 지도의 경계를 나타내는 선의 스타일과 속성을 설정합니다.
+- `opacity`: 전체 시각화의 투명도를 설정합니다.
+- `center = (128, 36), zoom=5.5`: 지도의 초기 중심 위치와 확대 수준을 설정합니다. 대한민국의 중심 좌표를 지정해줬습니다.
+- `below_layer='waterway-label'`: 시각화가 지도의 어떤 레이어 아래에 표시될지를 설정합니다. 여기서는 'waterway-label' 레이어 아래에 표시됩니다.
+- `legend_layout='horizontal', legend_key_shape='bar', legend_key_borders_on=False`:
+- 범례의 레이아웃 및 모양을 설정합니다.
+
+<embed src="/docs/3-3-person-per-address.html" width="100%" height="450px"></embed>
+
+인구 대비 도로명주소의 개수를 살펴보면 서울, 경기, 부산, 대구, 세종, 광주 등 특별시, 광역시, 특별자치시와 같이 비교적 인구가 많은 지역은 연한색으로 나타나서 인구 대비 도로명주소의 개수가 적은 것을 알 수 있습니다. 앞서 3-2에서 시도별 도로명주소 개수를 확인했을 때, 세종특별자치시, 울산, 대전은 도로명주소의 개수가 가장 적은 하위 3개 시도인 것을 감안헀을 때, 이들은 인구수는 많지만 도로명주소의 개수는 적어 인구 대비 도로명주소의 개수가 적다는 것을 확인할 수 있습니다.
+
+```python
+# 맵을 -15도 만큼 좌우 회전하고, 45도 만큼 상하 회전합니다.
+viz.bearing = -15
+viz.pitch = 45
+
+# 각 데이터에 '인구 대비 도로명주소 개수'를 기준으로 height 값을 줍니다.
+viz.height_property = '인구 대비 도로명주소 개수'
+
+## 높이의 값
+numeric_stops = create_numeric_stops([0, 0.05, 0.1, 0.15, 0.2, 0.4], 0, 10000)
+
+viz.height_stops = numeric_stops
+viz.height_function_type = 'interpolate'
+
+html = open('person_per_address_3d.html', "w", encoding="UTF-8")
+html.write(viz.create_html())
+html.close()
+
+viz.show()
+```
+
+<embed src="/docs/3-3-person-per-address-3d.html" width="100%" height="450px"></embed>
+동일한 시각화에서 위와 같은 파라미터를 추가하면, 각 면적의 height를 지정하여 입체적인 지도 시각화를 진행할 수 있습니다.
+
+<embed src="/docs/3-3-sigungu-area-per-address.html" width="100%" height="450px"></embed>
+시군구별 데이터를 통해 면적 대비 도로명주소의 개수를 확인해보았습니다. 파란색으로 표시된 지역일수록 면적 대비 도로명주소의 개수가 많으며, 특히 서울, 부산, 대전, 광주 등 광역시 지역에서 해당 비율이 높은 것으로 나타났습니다.
