@@ -1,123 +1,158 @@
-# 5. 주소 관련 코드체계
+# 4. 제공하는 주소
 
 <br>
 
 #### 작성자: 송채은
 
-주소 데이터에 사용되는 코드체계를 정리합니다.
+## 제공하는 주소 신청방법
 
-## 법정동코드와 행정동코드
-
-행정안전부는 행정기관(행정동)과 관할구역(법정동)을 관리하기 위해 행정동코드와 법정동코드를 사용합니다. 행정동과 법정동의 용어 정의는 다음과 같습니다.
-
-- 행정동: 법정동을 행정상으로 관할하는 행정기관(읍면동)명칭과 동일함  
-  ※ 「행정동코드」와「주민등록 행정기관코드(이하, 행정기관코드)」는 동일한 용어임
-- 법정동: 공부상의 법정주소로서 문서에 표기되거나 주소에 사용함
-
-공개하는 주소와 제공하는 주소는 법정동코드, 행정동코드, 행정구역코드를 사용합니다.
-
-| 컬럼명       | 데이터명                                                                                  |
-| ------------ | ----------------------------------------------------------------------------------------- |
-| 행정동코드   | 도로명주소 한글                                                                           |
-| 법정동코드   | 도로명주소 한글, 도로명주소 영문, 상세주소 표시, 상세주소 동 표시, 도로명주소 출입구 정보 |
-| 행정구역코드 | 사물 주소, 육교 출입구                                                                    |
-
-행정동코드와 법정동 코드는 별개의 코드체계와 의미를 가집니다. 반면, 행정구역코드는 법정동코드와 같은 것으로 주소 데이터를 해석할 때 유의하여야 합니다. 참고: [주소정보누리집 - 행정구역코드 문의글](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=1&keyword=%ED%96%89%EC%A0%95%EA%B5%AC%EC%97%AD%EC%BD%94%EB%93%9C&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=59852&bulletinRefSn=59852&page=)
-
-법정동코드와 행정동코드는 10자리로 구성되고, 각 자리의 의미는 다음과 같습니다.
+1. 제공하는 주소의 첫화면에 신청을 위한 양식이 있습니다. 기본정보, 신청인 정보, 신청사유, 추가신청 정보를 입력합니다. 개인이 신청할 경우, 시스템명은 없음으로 입력하셔도 됩니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-korea-admin-code-ex.png" title="법정동코드-행정동코드">
-    <figcaption style="text-align: center;">법정동코드와 행정동코드의 비교 (출처: <a href="https://blog.harampark.com/blog/korea-admin-codes" target="_blank">blog</a>)</figcaption>
-</figure>
-
-법정동코드는 시도((2자리), 시군구(3자리), 읍면동(3자리), 리(2자리)를 기준으로 코드를 구성합니다. 행정동코드는 법정동코드와 연계하거나, 추가적인 주소정보를 제공하기 위해 사용됩니다.
-
-주소 데이터에서 가장 많이 쓰이는 컬럼 중 하나는 '시군구코드'입니다. 시군구코드는 법정동코드의 5번째 자리까지를 의미합니다. 예를 들어, 부산특별시 기장군의 법정동코드는 '26710'입니다. 데이터의 구성에 따라 읍면동코드, 리코드, 행정구역코드 등 다양하게 변형될 수 있으므로 자릿수를 확인하여 사용해야 합니다.
-
-법정동코드와 행정동코드는 행정안전부 공식 홈페이지의 [주민등록,인감 게시판](https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardList.do?bbsId=BBSMSTR_000000000052)에서 변경사항을 확인할 수 있습니다.
-
-## 필지코드(PNU)
-
-지번을 표현하는 코드로, 토지의 위치를 식별하기 위해 사용됩니다. [공간정보의 구축 및 관리 등에 관한 법률 시행규칙](<https://www.law.go.kr/법령/공간정보의구축및관리등에관한법률시행규칙/(20240206,01305,20240206)/제68조>) 제 68조에 따르면, '토지의 고유번호'를 관리하고 있으며, 이를 필지코드(PNU)라고 합니다. 필지코드는 19자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
-
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-pnu.png" title="PNU">
-    <figcaption style="text-align: center;">필지코드(PNU)</figcaption>
-</figure>
-
-- 행정구역코드 10자리 + 산여부 1자리 + 지번본번 4자리 + 지번부번 4자리
-
-행정구역코드는 법정동코드 10자리와 동일하고, 산여부는 주소데이터 상 지번에 산이 포함되어 있을 때 사용됩니다. 산이 있는 경우, 임야대장에서 관리하므로 1은 토지대장, 2는 임야대장을 의미합니다. 지번본번과 지번부번은 자릿수에 따라 앞자리에 0이 들어갈 수 있습니다. 예를 들어, 0100-0001은 주소에서 100-1로 표기됩니다.
-
-주소 데이터의 컬럼에서 명시적으로 등장하지 않지만, 외부 데이터(예: 건축물대장)와 연계 시 사용됩니다. 또한, 지번과 도로명주소를 연계하여 사용할 때 활용할 수 있습니다.
-
-## 도로명코드
-
-도로명이 부여된 도로를 관리하기 위한 코드입니다. 도로명주소가 도입되면서 도로명을 체계적으로 관리하기 위해 도로명마다 고유번호를 부여하고 있습니다. 도로명코드는 12자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
-
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-road.png" title="도로명코드">
+    <img src="../img/2-4-form-input.png" title="신청방법">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-- 시군구코드 5자리 + 도로명번호 7자리
-
-도로명은 도로가 지나는 관할구역(지자체)에서 관리하므로, 지자체 기준으로 도로명번호가 부여됩니다. 즉, 지자체별로 도로명번호가 중복될 수 있습니다. 특정 도로구간을 고유하게 식별하려면 시군구코드와 도로명번호를 함께 사용한 **도로명코드 12자리**를 사용해야합니다.
-
-중복되는 도로명번호의 예시로, '3265076'은 충청남도 당진시, 서산시와 충청북도 제천시에 모두 존재하는 도로명번호입니다. 하지만, 도로명은 각기 다르므로 시군구코드와 함께 사용해야 고유하게 식별할 수 있습니다.
-
-- 도로명 데이터의 일부 예시
-
-| 시군구코드 | 도로명번호 | 도로명          | 영문도로명        | 시도명   | 시군구명 |
-| ---------- | ---------- | --------------- | ----------------- | -------- | -------- |
-| 44270      | 3265076    | 옥수로          | Oksu-ro           | 충청남도 | 당진시   |
-| 44210      | 3265076    | 정자동1로       | Jeongjadong 1-ro  | 충청남도 | 서산시   |
-| 43150      | 3265076    | 제2바이오밸리로 | Je2 bio valley-ro | 충청북도 | 제천시   |
-
-## 도로명주소 관리번호
-
-도로명주소 관리번호는 주소정보 누리집에서 관리하는 도로명주소의 고유키입니다. 주소 데이터를 연계하기 위해 사용됩니다.
-
-:::info 도로명주소 관리번호가 포함된 데이터
-
-- 공개하는 주소: 도로명주소 한글, 도로명주소 영문, 상세주소 표시, 상세주소 동 표시
-- 제공하는 주소: 도로명주소 출입구 정보, 도로명주소 건물 도형
-  :::
-
-도로명주소관리번호는 26자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
-
+2. 입력이 완료되면 '개인정보 수집 및 이용 동의'버튼을 클릭한 뒤, 원하는 데이터를 선택합니다.  
+아래 예시는 도로명주소 출입구와 도로명주소 건물 도형의 전체분과 변동분을 선택한 결과입니다.
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-address-code.png" title="도로명주소관리번호">
-    <figcaption style="text-align: center;">도로명주소관리번호</figcaption>
+    <img src="../img/2-4-form-select.png" title="신청방법">
+    <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-- 시군구코드 5자리 + 읍면동코드 3자리 + 도로명번호 7자리 + 지하여부 1자리 + 건물본번 5자리 + 건물부번 5자리
-
-한편, 주소정보 누리집의 도로명주소 관리번호는 건물군 또는 건물단위로 부여되므로, 건물번호보다 더 세분화된 **'상세주소' 수준까지 식별할 수 있는 코드체계는 제공하지 않습니다.**
-
-## 건물관리번호
-
-건물관리번호는 공개하는 주소의 **상세주소 표시**와 **상세주소 동 표시** 데이터 사이의 연계를 위해 사용되는 코드입니다. 건물군에 포함된 개별 건물을 식별하기 위해 사용됩니다.
-
-건물관리번호는 26자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
+3. 화면의 하단에 있는 '신청하기'버튼을 클릭하면, 본인인증을 위한 화면이 팝업됩니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-building-code.png" title="건물관리번호">
-    <figcaption style="text-align: center;">건물관리번호</figcaption>
+    <img src="../img/2-4-form-security.png" title="신청방법">
+    <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-- 법정동코드 10자리 + 산여부 1자리 + 지번본번 4자리 + 지번부번 4자리 + 시스템번호 6자리
+4. 본인인증을 완료하면, 신청이 완료되었다는 메시지가 나타납니다. 신청한 데이터는 '신청내역'에서 확인할 수 있습니다.
 
-:::tip 건물관리번호의 연계 불가능
-건물관리번호는 주소정보시스템 내부의 시스템번호를 사용합니다. 시스템번호는 내부 데이터베이스에 존재하는 것으로, 외부에서 코드를 조합할 수 없기 때문에 외부데이터와 연계하여 사용할 수 없습니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-form-log.png" title="신청방법">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+이 때, 신청한 기관명(개인일 경우 이름)과 신청한 데이터의 목록이 나타납니다. 빨간색 박스로 표시된 구역을 클릭하면, 신청한 데이터의 처리현황을 확인할 수 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-form-log-detail.png" title="신청방법">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+5. 신청처리가 완료된 데이터는 상세내역에서 개별로 다운로드할 수 있습니다. 다운로드한 데이터는 압축파일로 제공되며, 지역별로 제공하는 경우 모든 데이터를 개별적으로 다운로드해야 합니다.
+
+## QGIS를 이용한 주소데이터 시각화
+
+주소데이터의 도형정보는 SHP파일로 제공되며, 시각화를 위해 QGIS 프로그램을 사용합니다.
+QGIS는 무료로 사용가능한 오픈소스 기반의 지리정보시스템(GIS)으로, 지리정보를 시각화하고 분석하는데 사용됩니다. QGIS 프로그램은 [QGIS 공식홈페이지](https://qgis.org/ko/site/)에서 다운로드할 수 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+이번 장은 QGIS를 이용해 도형데이터를 불러오고 시각화하는 방법을 설명합니다. 최소한의 기능만을 사용하여 데이터를 시각화하는 방법을 소개하며, QGIS의 모든 기능을 사용하는 방법은 [QGIS 사용자 지침서](https://docs.qgis.org/3.28/ko/docs/user_manual/index.html)에서 확인할 수 있습니다.
+
+---
+
+1. QGIS 프로그램을 실행한 뒤, 좌측 상단의 '프로젝트 > 새로 생성'버튼을 클릭하여 새로운 프로젝트를 생성합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-1.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+---
+2. 좌측 상단의 '레이어 > 레이어 추가 > 벡터 레이어 추가'을 클릭하여 불러올 파일을 선택합니다. 
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-2.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+<br>
+데이터 원본 관리자 화면에서 `'''`버튼을 클릭하여 파일을 선택합니다.
+도형데이터는 DBF(도형의 속성정보), SHP(도형 벡터파일), SHX(도형의 위치, 방향정도) 파일을 모두 선택해 불러옵니다. 예시는 '도로명주소 건물 도형' 전체분의 서울특별시 데이터입니다.
+<br>
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-3.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+<br>
+속성정보 중 한글이 포함된 경우 한글이 깨지는 현상이 발생할 수 있습니다. 이를 방지하기 위해 옵션의 'ENCODING'에 'CP949'를 입력합니다. 모든 설정을 완료한 뒤, '추가'버튼을 클릭합니다.
+
+<br>
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-4.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+---
+3. 데이터를 불러오면, 맵 화면에 도형데이터가 나타납니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-5.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+왼쪽 하단의 레이어 패널에서 원하는 기능을 선택하여 데이터를 시각화할 수 있습니다. 예를 들어, 첫번째 아이콘은 개체의 색깔을 변경할 수 있는 레이어 스타일링 패널입니다. 기존의 주황색에서 초록색으로 변경한 결과입니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-6.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+'레이어 속성' 창은 데이터에 대한 정보를 파악할 수 있게 도와줍니다. '필드 관리'탭을 클릭하면, 현재 데이터의 스키마를 확인할 수 있습니다. 속성정보는 제공하는 주소의 레이아웃과 동일하게 제공되므로, 영문으로 표시된 필드명을 확인하고 수정할 수 있습니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-7.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+---
+4. 시각화된 데이터 중 특정 개체를 식별하려면, 오른쪽 상단의 '객체 식별'버튼을 클릭한 뒤, 맵 화면에서 원하는 개체를 클릭합니다. 클릭한 개체의 정보가 나타납니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-8.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+전체 객체의 속성 정보를 파악하거나, 필터링하여 원하는 데이터만을 시각화할 수 있습니다. 오른쪽 상단의 '속성 테이블'버튼을 클릭하여 속성정보를 확인할 수 있습니다.
+
+:::info 속성 테이블의 범위 설정
+상세 버튼을 클릭하면 속성 테이블의 범위를 설정할 수 있습니다. 기본값은 모든 속성을 불러오기 때문에 파일 크기에 따라 과부하가 발생할 수 있습니다. 필요에 따라 속성 테이블과 피처표시를 필터링하여 사용하시기 바랍니다.
 :::
 
-## 참고자료
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-9.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
 
-- [행정동코드, 법정동코드, 행정구역코드 뽀개기](https://blog.harampark.com/blog/korea-admin-codes/)
-- [공간정보의 구축 및 관리 등에 관한 법률 시행규칙](<https://www.law.go.kr/법령/공간정보의구축및관리등에관한법률시행규칙/(20240206,01305,20240206)/제68조>)
-- [도로에 12자리 고유번호 붙인다](https://www.korea.kr/news/policyNewsView.do?newsId=148644220)
-- [법제처 “모든 도로에 도로명 부여해야 하는 것 아니다”](http://www.taxtimes.co.kr/news/article.html?no=188127)
-- [제공하는주소-건물관리번호 문의](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=2&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=110490&bulletinRefSn=110490&page=)
-- [도로명관리번호와 건물관리번호 차이](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=3&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=105400&bulletinRefSn=105400&page=)
+---
+5. 속성 정보에 대한 통계를 확인하려면, 오른쪽 상단의 '통계'버튼을 클릭합니다. 통계창에서는 선택한 필드의 통계정보를 확인할 수 있습니다.  
+
+왼쪽 하단의 패널에서 원하는 레이어와 속성 필드를 선택합니다. 아래 예시는 'SIG_CD' 필드를 선택한 결과입니다. 'SIG_CD' 필드는 시군구코드를 의미하므로, 시군구별 데이터 현황을 파악할 수 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-10.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+통계를 간략히 해석하면, 아래와 같습니다.
+
+- 개수: 서울특별시는 총 530,979개의 건물 도형이 존재함
+- 개수 (고윳값): 서울특별시는 25개의 시군구로 구성되어 있음
+- 최소값과 최대값: 시군구코드를 단순 비교한 것으로 해석이 불필요함
+- 가장 빈도가 낮은 값(Minority): 11350(노원구)의 건물 도형이 가장 적게 존재함
+- 다수 기준(Majority): 11620(관악구)의 건물 도형이 가장 많이 존재함
+
+---
+6. 데이터를 시각화하고 분석한 프로젝트는 '프로젝트 > 저장'버튼을 클릭하여 저장합니다. 프로젝트를 저장하면, 다음에 프로그램을 실행할 때 이전에 작업한 내용을 불러올 수 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/2-4-qgis-step-11.png" title="QGIS">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+---
+
+이번 장에서는 제공하는 주소와 QGIS 프로그램을 이용해 도형데이터를 시각화하는 방법을 설명했습니다. 도형데이터를 분석하는 방법은 QGIS 외에도 ArcGIS 프로그램, 파이썬 등 다양하게 존재합니다. 상세한 분석과 시각화는 목적에 맞게 적절한 프로그램을 선택하여 활용하시기 바랍니다.
