@@ -167,12 +167,16 @@ function sidebarMain() {
           link: "/contents/chapter-5/chapter-5-1.html",
         },
         {
-          text: "2. API로 데이터 가져오기",
+          text: "2. 프로젝트 환경 구축하기",
           link: "/contents/chapter-5/chapter-5-2.html",
         },
         {
-          text: "3. 외부데이터를 연계한 주소 검색 API 만들기",
+          text: "3. API로 데이터 가져오기",
           link: "/contents/chapter-5/chapter-5-3.html",
+        },
+        {
+          text: "4. 외부데이터를 연계한 주소 검색 API 만들기",
+          link: "/contents/chapter-5/chapter-5-4.html",
         },
       ],
     },
