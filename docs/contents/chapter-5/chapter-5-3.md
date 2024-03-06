@@ -15,7 +15,7 @@
 
 <br>
 
-```
+```py
 {'results': {'common': {'errorMessage': '정상',
    'countPerPage': '10',
    'totalCount': '8',
@@ -63,21 +63,35 @@ API 출력결과 예시
 ### 파이썬으로 API 호출하기
 
 이제 파이썬 코드를 이용해 검색 API를 호출해보겠습니다. 
-파이썬의 requests 라이브러리를 사용합니다.
+api 호출에는 파이썬의 requests 라이브러리를 사용합니다.
 
-우선 requests 라이브러리를 설치합니다.
+우선 requests 라이브러리를 설치하기 위해 터미널에 코드를 입력합니다.
 ```
-!pip3 install requests
+pip install requests
 ```
 
-요청 url과 파라미터를 다음과 같이 입력하고 실행합니다. 키워드는 '정부세종청사', 결과는 json으로 출력하게 했습니다.
+설치가 되었으면 요청 url과 파라미터를 다음과 같이 입력하고 실행합니다. 키워드는 '정부세종청사', 결과는 json으로 출력하게 했습니다.
+
+입력 파라미터<br>
+confmKey - 발급받은 API 승인 키<br>
+currentPage - 표시할 페이지<br>
+countPerPage - 한 페이지에 출력할 결과 개수<br>
+keyword - 검색할 키워드<br>
+resultType - 출력 형식<br>
 
 
 
-```
+```py
+#모듈 불러오기
 import requests
+
+#키워드
 keyword = '정부세종청사'
+
+#api url
 url = "https://business.juso.go.kr/addrlink/addrLinkApi.do"
+
+#입력 파라미터를 dictionay 형식으로 입력
 params = {
     "confmKey":"발급받은 API 승인KEY",
     "currentPage":"1",
@@ -85,13 +99,18 @@ params = {
     "keyword": keyword,
     "resultType":"json"
 }
+
+#requests 모듈을 사용해 api 호출
 result = requests.get(url, params=params)
+
+#api 호출 결과를 json 형식으로 출력
 result.json()
 ```
 
 코드 실행 시 다음과 같은 json출력 결과를 얻을 수 있습니다.
 '정부세종청사'를 검색어 키워드로 입력 시 8개의 검색 결과를 얻을 수 있었습니다. 
-```
+
+```py
 {'results': {'common': {'errorMessage': '정상',
    'countPerPage': '10',
    'totalCount': '8',
@@ -114,5 +133,7 @@ result.json()
     'bdMgtSn': '3611010700104940000000001',
     'buldSlno': '0'}]}}
 ```
+
+
 
 요청변수와 출력변수에 대한 자세한 설명은 [주소기반산업지원서비스 검색API](https://business.juso.go.kr/addrlink/openApi/searchApi.do)에서 확인할 수 있습니다.
