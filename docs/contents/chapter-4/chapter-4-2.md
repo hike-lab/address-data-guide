@@ -1,52 +1,200 @@
-# 2. 데이터 품질 알아보기
-<br>
+# 2. 프로젝트 환경 구축
 
-#### 작성자: 안지은
+**작성자 : 안지은**
 
-주소데이터의 품질을 알아보기 전에, 데이터 품질의 정의가 무엇인지, 그리고 어떻게 평가할 수 있는지 톺아보고 갑시다.
+> Chapter 4의 실습 코드는 파이썬노트북 환경에서 동작합니다. 따라서, 웹 환경에서도 실행이 용이한 Colab을 기준으로 코드를 설명하도록 하겠습니다.
 
-## 데이터 품질이란?
+Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미합니다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 합니다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스합니다.
 
-> 데이터 품질에 대해서는 다양한 정의와 해석이 존재합니다. 4챕터에서 언급되는 '데이터 품질'과 '품질 평가 요소'에 대한 전반적인 정의와 설명은 [공공데이터 관리지침(2017)]()을 따르며, 테이블 형식의 파일 데이터를 활용하는 관점에서 서술하고 있습니다.
+## STEP 1. 네이버 클라우드 접속
 
-데이터 품질은 데이터의 **최신성, 정확성, 상호연계성** 등을 확보하여 사용자에게 유용한 가치를 줄 수 있는 수준으로 정의할 수 있습니다. 데이터 품질은 최신성을 반영하여 지속적으로 업데이트 되어야 하고, 오류 데이터가 즉각적으로 수정되어야 합니다. 따라서, 품질 수준은 데이터 자체의 완전성과 정확성을 평가한 품질(Value) 뿐만 아니라 데이터 품질 관리 체계(Process) 수준도 함께 고려합니다.
+API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 합니다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받습니다. 
 
-품질관리 체계에 대한 논의는 데이터 전담 조직 자체의 체계에 대한 평가이므로, 이번 장에서는 논외로 하겠습니다. 품질관리 체계에 대한 자세한 정보는 [공공데이터 관리지침]()에 자세히 기술되어 있으니 참고하시길 바랍니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-n-cloud.png" title="naver cloud main page">
+</figure>
 
-## 데이터 품질의 평가 영역
-데이터의 품질 영역은 정확성과 완전성의 측면으로 평가되며, 정확성은 유효성, 일관성, 사실성의 측면에서 평가됩니다.
 
-> 공공데이터 관리지침에서는 정확성, 일관성, 완전성, 유효성으로 세분하고 있습니다. 하지만 일반적인 관점에서 정확성은 실질적으로 일관성, 유효성을 포함하는 광의의 개념으로 인식되며, 본 문서에서도 일반적인 관점에서 기술합니다. 추가적으로 사실관계에 대한 준수 여부를  의미하는 '사실성'을 정확성의 요소에 추가하였습니다.
+로그인 후, 화면 상단의 콘솔 버튼을 클릭해 주세요.
 
-### 정확성
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-console.png" title="click console">
+</figure>
 
-정확성은 데이터가 사실 관계와 표준에 부합하는 정도를 나타내는 지표입니다. 정확성은 유효성, 일관성, 사실성 지표의 총 평균으로 구합니다.
 
-- **유효성**
+버튼을 클릭하시면 다음과 같은 화면이 나타납니다. 좌측 내비게이션에서 `Services` 항목을 클릭해주세요.
 
-    유효성은 데이터가 얼마나 구문적 오류 없이 기술되어 있는지를 평가하는 항목입니다. 유효성은 표준 표기, 또는 통용되는 표기 방식을 준수하는지에 대한 여부로 평가가 이뤄집니다. 표기 규칙에 따른 정규표현식을 작성하여 빠르게 확인할 수 있습니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-console-main.png" title="click console">
+</figure>
 
-    공공데이터 개방표준 에서는 유효성의 진단 항목으로 **여부, 수량, 금액, 율, 날짜, 코드**를 제시합니다. 표준 규칙에서 제시하는 형식대로 기술하지 않거나, 데이터에 구문적인 오류가 있는 경우 유효성이 떨어진다고 평가합니다. 
+엄청나게 많은 카테고리가 나타나는데요, `AI·NAVER API` 항목만 클릭하시면 됩니다.
 
-- **일관성**
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-services.png" title="click console">
+</figure>
 
-    일관성은 데이터가 컬럼의 기술규칙을 일관적으로 따르고 있는 정도를 의미합니다. 일관성의 평가 지표로는 **컬럼논리관계, 시간순서**가 있습니다. 예를들어, 어떤 공공시설물의 소재지주소가 "서울특별시 동작구 흑석로 84"인데 소재지 시도명 컬럼에 "경기도"가 표기된 것과 같이, 컬럼간의 사실관계가 상충하는 경우 일관성이 떨어진다고 평가합니다. 일관성은 논리적으로 관계가 있는 두 컬럼의 값들을 비교하거나, 매핑테이블을 활용해 논리적 관계에 어긋나는 값들의 쌍을 찾아내는 방식으로 점검할 수 있습니다.
+## STEP 2. APP 등록
 
-- **사실성**
+해당 항목의 페이지로 이동하면 API 사용량에 대한 대시보드가 나타납니다. 여기에서 `Application 등록` 버튼을 클릭해주세요
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-api-page.png" title="click console">
+</figure>
 
-    사실성은 데이터가 실제 사실과 일치하는 정도를 의미합니다. 앞선 예시를 다시 들면, 공공시설물의 소재지주소가 "서울특별시 동작구 흑석로 84"인데, 실제 위치는 "서울특별시 동작구 흑석로 82-1"인 경우, 사실 관계와 어긋난다고 평가합니다. 사실성은 보통 외부의 데이터를 연계하여 점검합니다.
+등록 화면에서 Application 이름 작성하고 service를 선택하면 등록 버튼이 활성화됩니다. Application 이름은 설정해 주세요. API 키들을 구분할 용도로 앱 이름을 설정하는 것이니 자유롭게 작성하시면 됩니다. 이용할 Service로는 Maps의 Geocoding과 Revese Geocoding을 선택해주세요.
 
-### 완전성
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-app-enroll.png" title="click console">
+</figure>
 
-완전성은 데이터가 필수적으로 가져야 하는 값을 갖고 있는지, 또는 식별자 값에 공백이 없는지 등, 데이터를 활용함에 있어 필요한 정보가 얼마나 온전한지를 나타냅니다. 
-필수 작성 컬럼에 대한 정보를 알 수 없는 경우, 일반적으로 데이터셋의 전체 공백 비율로 완전성을 평가합니다.
+등록이 완료되면 첫 화면으로 돌아옵니다. 대시보드에 방금 전 등록한 앱이 있는 것을 확인하실 수 있습니다.
 
-## 권장하는 품질 평가 프로세스
+이제 API도 발급받았으니, 활용에 필요한 Key 정보를 확인해야 합니다. Key 정보를 보기 위해 앱 이름 하단에 있는 `인증 정보` 버튼을 클릭합니다.
 
-앞서 설명한 품질 요소를 통해, 데이터 분석 단계 전에 데이터의 품질을 평가하여 유용성을 평가 할 수 있습니다. 
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-key-button.png" title="click console">
+</figure>
 
-품질 평가는 **유효성 ➡️ 사실성 ➡️ 일관성** 순서로 진행하는 것이 효율적입니다. 유효성은 대체로 정규표현식으로 빠르게 점검이 가능하나 사실성은 외부 데이터를 통한 검증이 이뤄지고, 대체로 API를 활용하므로 시간이 오래 걸리기 때문입니다.
+인증 정보 버튼을 누르면 앱의 key에 대한 정보를 담은 팝업창이 나타납니다. 팝업창에는 앱 이름과 함께 Client ID, Client Secret 값이 나타납니다. 여기서 `Client Secret`은 외부에 노출되면 안되는 값입니다. 혹여나 값이 노출되었다면 재발급 버튼을 눌러서 키를 재발급 받으셔야 합니다.
 
-일관성을 가장 마지막으로 점검하는 이유는 유효성과 사실성으로 인한 오류를 제외한 후에 데이터에서 발생하는 일관성 오류만을 파악하는 것이 효과적이기 때문입니다. 따라서, 일관성 검증 시 유효성, 사실성 부분에서 문제가 있는 부분을 제한 후 파악하는 것을 추천합니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-key-popup.png" title="click console">
+</figure>
 
-해당 프로세스는 어디까지나 권장하는 사안이므로, 상황에 맞게 효율적으로 조정하시길 바랍니다.
+key 값은 메모장에 복사해두고 사용하시면 됩니다. 권장하는 방법은 .env 파일에 저장하여 사용하는 것입니다. 깃허브를 통해 코드를 외부적으로 공유할 경우, API 키 값들을 모두 env 파일에 저장하고 코드 파일에서는 API 명칭으로만 불러와서 사용할 수 있기 때문에  key값이 노출되지 않고 가독성이 좋아진다는 장점이 있습니다. 
+
+앞으로의 실습들 모두 .env 파일로 key를 불러와 사용하도록 하는 방식이므로, 어떻게 .env 파일을 만들고 사용하는지, 그리고 `.gitignore` 파일을 작성하여 `.env` 파일은 push 되지 않도록 하는 방법을 간단하게 알려드리겠습니다.
+
+## STEP 3. .env, .gitignore 파일을 활용해 안전하게 key 이용하기
+
+> colab 환경을 기준으로 설명하겠습니다. 
+
+시작에 앞서, 코드와 데이터, 로컬 환경에서 .env, .gitignore를 한 곳에 담을 폴더를 하나 만들어주세요. 그 다음 `새로 만들기` - `서식 있는 텍스트`를 클릭해주세요.
+
+새 파일이 하나 생성었는데요, 확장자(.rtf)명까지 모두 지운 후, 파일 명을 `.env`로 변경합니다. 그 다음, .env 파일을 메모장으로 열어주세요. 메모장을 열었을 때 `{\rtf1}`가 이미 입력되어 있을텐데요, 모두 지우고 몇 아래 사진과 같이 작성해주시면 됩니다. 
+`CLIENT_SECRET`에는 아까 발급 받은 Secret key를, `CLIENT_ID`에는 Client ID를 복사해서 그대로 붙여 넣어 주세요. 작성이 완료되면 저장하고 창을 닫습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-envfile.png" title="click console">
+</figure>
+
+.gitignore 파일도 동일한 방식으로 생성한 후, 메모장을 이용해 열어줍니다. .gitignore 파일에는 `*.env`를 기입하고 저장해주세요.
+
+이제 colab에 접속해 새 노트를 생성해 봅시다. 노트를 생성한 후, 좌측 내비게이션에서 폴더 아이콘을 클릭해주세요. 폴더 창에 방금 만든 .env 파일과 .gitignore 파일을 폴더 창에 드롭해주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-colab.png" title="click console">
+</figure>
+
+
+그럼 키 값을 불러와보도록 하겠습니다. `dotenv`라이브러리를 설치받아야 합니다.
+다운로드 코드는 아래와 같이 작성할 수 있습니다.
+
+```python
+!pip install python-dotenv
+```
+
+.env 파일에서 저장했던 API Key와 ID를 불러오는 코드는 다음과 같습니다.
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv(".env")
+
+API_ID = os.getenv("CLIENT_ID")
+API_SECRET = os.getenv("CLIENT_SECRET")
+```
+
+## STEP 4. API 사용해보기
+
+그럼 이제 API를 직접 사용해볼까요? API를 이용하기 위해서는 requests 라이브러리가 필요한데요, colab 환경에서는 이미 설치되어 있으니 ``import requests``로 간단하게 라이브러리를 불러오기만 하면 됩니다.
+
+API를 사용할 때에는, API를 제공하는 측에서 정해준 형식대로 요청 URL을 작성해야 하는데요, [네이버 geocode API 가이드](https://api.ncloud-docs.com/docs/ai-naver-mapsgeocoding-geocode)에 요청 URL과 파라미터, 헤더와 응답값에 대해 자세히 설명하고 있으니 참고하시길 바랍니다.
+
+아래의 코드를 따라하시면 간단하게 API를 테스트 해보실 수 있습니다.
+
+```python
+import requests as re
+import json
+
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 검색할 주소를 입력합니다. 
+params = {"query" : "서울특별시 동작구 흑석로 84", "output":"json"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
+```
+실행해보면 다음과 같은 결과를 얻을 수 있습니다. 역지오코딩의 경우, 요청 url와 파라미터 형식이 바뀌는데요, 아래 코드와 같이 입력하시면 됩니다.
+
+```python
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
+params = {"coords" : "126.9573779,37.5048875", "output":"json", "orders":"roadaddr,addr"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
+```
+
+데이터 타입이 string 인 것을 확인할 수 있는데요, 원하는 값을 쉽게 가져올 수 있도록 딕셔너리(json) 형태로 변환해줍시다. 여기에는 json 라이브러리가 사용됩니다.
+
+```python
+import json
+
+json_ob = json.loads(data.text)
+```
+
+변환된 결과를 보면 결과값이 아래와 같은 형식으로 구성되어 있다는 것을 파악할 수 있습니다. 도로명주소 뿐만 아니라, 도로명주소에 대응되는 지번주소, 영문주소, 주소구성요소와 좌표계 정보도 제공합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-api-return.png" title="click console">
+</figure>
+
+여기서 좌표계 정보만 추출해볼까요? 좌표계에 대한 정보는 `addresses`키를 통해 접근할 수 있습니다. `addresses`에 대응하는 값은 리스트인데요, 리스트에 요소가 하나뿐이므로 `json_ob["addresses"][0]`로 주소정보들을 담고 있는 딕셔너리에 접근해봅시다. 
+
+좌표계에 대한 정보는 "x",  "y" 키 값으로 얻을 수 있습니다. x는 경도, y는 위도에 대응됩니다. 따라서 각 값은 `json_ob["addresses"][0]["x"]`와 `json_ob["addresses"][0]["y"]`로 추출할 수 있습니다.
+
+다음은 리턴된 결과로부터 좌표계를 추출하는 과정을 한 번에 나타낸 코드입니다.
+
+```python
+import json
+
+json_ob = json.loads(data.text)
+
+lon = json_ob["addresses"][0]["x"] # 경도
+lat = json_ob["addresses"][0]["y"] # 위도
+
+```
+
+다음은 역지오코딩 후 도로명주소, 지번주소를 추출하는 과정입니다. 역지오코딩의 경우, 리턴된 주소값을 조합해야 합니다. 우선 리턴 값은 아래 사진과 같은 형식으로 구성되어 있습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-return-vals.png" title="click console">
+</figure>
+
+지오코딩에서 좌표계 데이터를 추출했던 것과 같은 방식으로 도로명주소, 지번주소 구성요소 딕셔너리에 접근할 수 있습니다.
+
+```python
+# 도로명주소 구성요소 딕셔너리
+roadaddr = json_ob["results"][0]
+
+# 지번주소 구성요소 딕셔너리
+addr = json_ob["results"][1]
+
+```
+
+역지오코딩을 통해 얻은 값을 조합하는 방법은 뒷장에서 자세히 다루도록 하겠습니다. 응답값의 키들이 각각 무엇을 의미하는지 궁금하신 분들은 [API 활용 문서](https://api.ncloud-docs.com/docs/ai-naver-mapsreversegeocoding-gc)를 참고해주세요. 앞서 작성한 코드는 [깃허브]()에 저장되어 있으며, [코랩]()에서 실행시켜보실 수 있습니다.
