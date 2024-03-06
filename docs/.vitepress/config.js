@@ -1,8 +1,6 @@
 // https://vitepress.vuejs.org/config/#markdown-options
 
-
 import { onMounted } from "vue";
-
 
 export default {
   lang: "ko-KR",
@@ -14,7 +12,7 @@ export default {
   ignoreDeadLinks: true,
 
   head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
-  
+
   // markdown-it-footnote
   markdown: {
     lineNumbers: true,
@@ -23,9 +21,7 @@ export default {
       md.use(require("markdown-it-katex"));
       md.use(require("markdown-it-footnote"));
     },
-    plugins: [
-      'markdown-it-html5-embed'
-    ]
+    plugins: ["markdown-it-html5-embed"],
   },
   build: { outDir: "/theme/" },
   themeConfig: {
@@ -59,8 +55,6 @@ export default {
     // }
   },
 };
-
-
 
 function nav() {
   return [
@@ -103,8 +97,12 @@ function sidebarMain() {
           link: "/contents/chapter-2/chapter-2-4.html",
         },
         {
-          text: "5. 주소 관련 코드체계",
+          text: "5. 제공하는 주소 신청방법과 QGIS 사용법",
           link: "/contents/chapter-2/chapter-2-5.html",
+        },
+        {
+          text: "6. 주소 관련 코드체계",
+          link: "/contents/chapter-2/chapter-2-6.html",
         },
       ],
     },
@@ -210,4 +208,3 @@ function sidebarMain() {
     },
   ];
 }
-

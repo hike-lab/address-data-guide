@@ -90,7 +90,7 @@
 
 **4. 도로명주소 안내도와 홍보 자료 제공**
 
-주소정보 누리집은 국민의 주소정보 이해와 활용을 돕기위해 도로명주소 안내도와 홍보 자료를 제공합니다. 
+주소정보 누리집은 국민의 주소정보 이해와 활용을 돕기위해 도로명주소 안내도와 홍보 자료를 제공합니다.
 도로명주소 안내도(안내지도)는 **주소활용서비스 > 도로명주소 안내도 다운로드**에서 확인할 수 있습니다. 시/도, 시/군/구 단위로 안내지도를 PDF 형태로 제공합니다.
 <br>
 
@@ -107,18 +107,7 @@
 </figure>
 <br>
 
-
 도로명주소 소개자료는 **도로명주소 소개 > 도로명주소란?** 에서 확인할 수 있습니다. [도로명주소 소개 Guide book](https://www.juso.go.kr/CommonPageLink.do?link=/street/GuideBook)은 총 9개의 챕터를 구성하여 도로명주소를 이해하도록 설명하는 자료입니다.
-
-- Chapter 1: 도로명주소란?
-- Chapter 2: 주소표기방법
-- Chapter 3: 주소부여방법
-- Chapter 4: 주소보는방법
-- Chapter 5: 영문표기방법
-- Chapter 6: 상세주소란?
-- Chapter 7: 입체주소란?
-- Chapter 8: 사물주소
-- Chapter 9: 국가지점번호
 
 <br>
 <figure class="flex flex-col items-center justify-center">
