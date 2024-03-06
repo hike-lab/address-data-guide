@@ -2,9 +2,9 @@
 
 <br>
 
-#### 작성자: 최은혜, 박예준
+#### 작성자: 최은혜
 
-이번 장에서는 프로젝트를 진행하기 위한 개발 환경 구축 방법을 안내합니다. 우리는 Visual Studio Code를 활용하여 Flask API 서버 만드는 실습을 진행할 것이기 때문에 Visual Studio Code의 사용법과 Flask 개발환경을 구축하는 방법을 차례대로 안내하도록 하겠습니다.
+이번 장에서는 프로젝트를 진행하기 위한 개발 환경 구축 방법을 안내합니다. 우리는 Visual Studio Code를 활용하여 Flask API 서버를 만드는 프로젝트를 진행할 것이기 때문에 Visual Studio Code의 사용법과 Flask 개발환경을 구축하는 방법을 차례대로 안내하도록 하겠습니다.
 
 ## Visual Studio Code(VS Code) 사용법
 
@@ -179,7 +179,7 @@ Flask로 서버를 개발하는 과정에서 보통 서버 구현에 필요한 �
 
 터미널에 다음과 같이 입력하고 `enter`를 눌러 명령어를 실행합니다. 가상환경을 생성하는 코드입니다.
 
-```
+```py
 python -m venv env
 ```
 이 명령어에서 `python -m venv`는 파이썬의 venv라는 가상환경 모듈을 사용하겠다는 의미입니다. env는 우리가 생성할 가상환경의 이름을 입력한 것으로, 꼭 env로 이름을 지을 필요는 없습니다. 
@@ -197,8 +197,8 @@ python -m venv env
 #### 가상환경 진입하기
 
 터미널에 다시 다음과 같이 명령어를 입력하고 `enter`를 누릅니다. 가상환경을 활성화하는 코드입니다.
-```
-env\Scripts\activate
+```py
+env/Scripts/activate
 ```
 <br>
 
@@ -214,10 +214,38 @@ env\Scripts\activate
 
 이제 Flask를 설치해보도록 하겠습니다. 가상환경에 진입했는지 확인하고 터미널에 다음 명령어를 실행하여 Flask를 설치해줍니다. 
 
-```
-pip install flask
+```py
+pip3 install flask
 ```
 
 ## JSON Viwer 크롬 확장 프로그램 사용하기
 
-우리가 만들 주소 검색 API의 출력 결과를 브라우저에서 확인할 때 JSON 데이터가 출력될 예정입니다. JSON 데이터를 크롬 브라우저에서 더 가독성 좋게 출력해주는 확장 프로그램을 미리 설치해서 출력 결과를 더 편하게 확인할 수 있는 환경을 미리 준비해보도록 하겠습니다.
+우리가 만들 주소 검색 API의 출력 결과를 브라우저에서 확인할 때 JSON 데이터가 출력될 예정입니다. JSON 데이터를 크롬 브라우저에서 더 가독성 좋게 출력해주는 확장 프로그램을 미리 설치해서 출력 결과를 더 편하게 확인할 수 있는 환경을 미리 준비해보도록 하겠습니다. 브라우저 확장프로그램 사용을 위해 크롬 브라우저를 사용합니다.
+
+### 1. 크롬 웹스토어 접속
+
+
+확장 프로그램 설치를 위해 크롬 웹스토어에 접속합니다.
+
+[https://chromewebstore.google.com/](https://chromewebstore.google.com/)
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-2-chromewebstore.png" >
+</figure>
+
+### 2. JSON Viewer 설치
+
+크롬 웹스토어 우측 상단의 검색창에 JSON Viewer를 검색합니다. 저희는 아래의 JSON Viewer를 설치하여 사용하도록 하겠습니다. Chrome에 추가 버튼을 클릭하여 설치합니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-2-jsonviewer.png" >
+</figure>
+
+<br>
+
+이제 JSON Viewer를 사용할 준비가 되었습니다. JSON Viewer는 자동 적용되기 때문에 적용을 위해 따로 준비해줄 사항은 없습니다. JSON Viewer에 의해서 프린트된 JSON 데이터의 모습은 다음과 같습니다. JSON 데이터의 key값과 value값이 색깔로 구분되어 보기 편하게 프린트됩니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/5-2-jsondata.png" >
+</figure>
+
+
