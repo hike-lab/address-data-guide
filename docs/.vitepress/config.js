@@ -7,7 +7,6 @@ export default {
   title: "Address Data Guide",
   description: "Address Data Guide for HIKE Lab. at CAU",
   base: "/docs/",
-
   lastUpdated: true,
   ignoreDeadLinks: true,
 
@@ -23,6 +22,7 @@ export default {
     },
     plugins: ["markdown-it-html5-embed"],
   },
+
   build: { outDir: "/theme/" },
   themeConfig: {
     nav: nav(),
@@ -47,6 +47,8 @@ export default {
     search: {
       provider: "local",
     },
+
+    outline: [2, 3],
 
     // algolia: {
     //   appId: '8J64VVRP8K',
@@ -107,7 +109,7 @@ function sidebarMain() {
       ],
     },
     {
-      text: "3. 주소 데이터 EDA",
+      text: "3. 주소 데이터 살펴보기",
       collapsed: true,
       items: [
         {
@@ -115,16 +117,20 @@ function sidebarMain() {
           link: "/contents/chapter-3/chapter-3-1.html",
         },
         {
-          text: "2. 도로명주소 데이터 살펴보기(1)",
+          text: "2. 프로젝트 환경 구축하기",
           link: "/contents/chapter-3/chapter-3-2.html",
         },
         {
-          text: "3. 도로명주소 데이터 살펴보기(2)",
+          text: "3. 도로명주소 데이터 살펴보기(1)",
           link: "/contents/chapter-3/chapter-3-3.html",
         },
         {
-          text: "4. 도로명 데이터 살펴보기",
+          text: "4. 도로명주소 데이터 살펴보기(2)",
           link: "/contents/chapter-3/chapter-3-4.html",
+        },
+        {
+          text: "5. 도로명 데이터 살펴보기",
+          link: "/contents/chapter-3/chapter-3-5.html",
         },
       ],
     },
