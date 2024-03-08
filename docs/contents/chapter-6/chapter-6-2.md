@@ -1,10 +1,10 @@
-# 2. 프로젝트 환경 구축하기
+# 6.2 프로젝트 환경 구축하기
 
 <br>
 
 #### 작성자: 박하람
 
-이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습합니다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명합니다.
+이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습합니다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명합니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
 ## 도커로 MySQL 설치하기
 
@@ -167,8 +167,3 @@ conn.close()
 ## 데이터 다운로드
 
 이번 장에서 사용할 실습 데이터는 주소기반산업지원서비스의 도로명주소 한글을 사용합니다. 해당 데이터는 [2.3장](/contents/chapter-2/chapter-2-3.md)에서 자세하게 설명하고 있으니 참고하세요. 데이터는 2024년 1월 전체자료분을 사용하고, 도로명주소 테이블 `rnaddrkor`과 관련지번 테이블 `jibun_rnaddrkor`을 모두 사용합니다. <span style="color:red">실습에 사용한 데이터는 간단히 여기에서 다운로드 받을 수 있습니다.</span>
-
-## 참고문헌
-
-- https://poiemaweb.com/docker-mysql
-- https://codechacha.com/ko/python-mysql-database/
