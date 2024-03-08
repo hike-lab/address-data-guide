@@ -143,7 +143,7 @@ function sidebarMain() {
           link: "/contents/chapter-4/chapter-4-1.html",
         },
         {
-          text: "4.2 프로젝트 환경 세팅",
+          text: "2. 프로젝트 환경 구축하기",
           link: "/contents/chapter-4/chapter-4-2.html",
         },
         {
