@@ -1,10 +1,10 @@
-# 3. 데이터베이스 생성하기
+# 6.3 데이터베이스 생성하기
 
 <br>
 
 #### 작성자: 박하람
 
-이번 장은 MySQL에서 주소 데이터를 저장할 데이터베이스를 생성합니다. 데이터에 맞게 파이썬으로 데이터베이스를 생성하는 방법에 대해 학습합니다.
+이번 장은 MySQL에서 주소 데이터를 저장할 데이터베이스를 생성합니다. 데이터에 맞게 파이썬으로 데이터베이스를 생성하는 방법에 대해 학습합니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
 ## 데이터 구조 살펴보기
 

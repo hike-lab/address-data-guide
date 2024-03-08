@@ -33,4 +33,16 @@ features:
   - title: Chapter 6. 파이썬과 MySQL로 구축하는 주소 데이터베이스
     details: 주소기반산업지원서비스에서 제공하는 도로명주소 한글 데이터를 데이터베이스에 저장하고, SQL을 이용해 질의해보기
     link: /contents/chapter-6/chapter-6-1
+  - title: Chapter 7. 주소 지식모델 (TBD)
+    details: 한국의 주소 체계를 표현한 주소 지식모델 이해하기
+    link: /contents/chapter-7/chapter-7-1
+  - title: Chapter 8. 주소 지식그래프 구축 (TBD)
+    details: 주소 데이터로 주소 지식그래프 구축하기
+    link: /contents/chapter-8/chapter-8-1
+  - title: Chapter 9. 주소 지식그래프 활용 (TBD)
+    details: 외부 데이터를 연게한 주소 지식그래프 활용하기
+    link: /contents/chapter-9/chapter-9-1
+  - title: Appendix
+    details: 주소와 관련된 법령과 논문 등의 자료 확인하기
+    link: /contents/appendix/contents
 ---
