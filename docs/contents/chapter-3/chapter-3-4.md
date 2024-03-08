@@ -6,7 +6,7 @@
 
 <i>[3-3 도로명주소 데이터 살펴보기(1)](../chapter-3/chapter-3-2.md)과 연속되는 내용입니다.</i>
 
-이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 전체 코드와 실행결과는 [코랩 코드](https://colab.research.google.com/drive/1ESR6gu4l9QlUx8uW8ngBUWd5MO9BUV5u?usp=sharing)에서 확인하세요.
+이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브]()에서 다운로드 받을 수 있고, 코드 원본은 [깃헙]()에서 확인할 수 있습니다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/3-4-mapbox.png" title="sido geo data">
@@ -82,7 +82,7 @@ POLYGON은 다수의 선분들이 연결되어 닫혀 있는 상태인 다각형
 - '도로명주소 개수'와 '인구수' 데이터는 '행정구역명' 기준으로 합칩니다.
 - 1에서 합친 데이터 프레임과 '면적' 데이터는 '행정동코드' 기준으로 합칩니다.
 
-### (1) 데이터 불러오고 처리하기
+### 데이터 불러오고 처리하기
 
 ```python
 ## 1. 시도별 도로명주소 개수
@@ -127,7 +127,7 @@ sido_total
 
 최종적으로 세 개의 데이터프레임을 합쳐줍니다.
 
-### (2) 면적 구하고 인구 대비, 면적 대비 도로명주소 개수 계산하기
+### 면적 구하고 인구 대비, 면적 대비 도로명주소 개수 계산하기
 
 ```python
 gdf_sido = gpd.GeoDataFrame(sido_total)
@@ -164,7 +164,7 @@ gdf_sido = gdf_sido.to_crs(epsg=4326)
 
 다양한 결과를 볼 수 있도록 '시도별 인구 대비 도로명주소 개수'와 '시군구별 면적 대비 도로명주소 개수'를 각각 진행해보겠습니다. 1~4의 전체 결과는 코드를 참고하세요.
 
-### (1) 시도별 인구 대비 도로명주소 개수
+### 시도별 인구 대비 도로명주소 개수
 
 ```python
 token = "본인의 token"
@@ -245,7 +245,7 @@ viz.show()
 <embed src="/docs/3-4-person-per-address-3d.html" width="100%" height="450px"></embed>
 동일한 시각화에서 위와 같은 파라미터를 추가하면, 각 면적의 height를 지정하여 입체적인 지도 시각화를 진행할 수 있습니다.
 
-### (2) 시군구별 면적 대비 도로명주소 개수
+### 시군구별 면적 대비 도로명주소 개수
 
 이번에는 시군구별 면적 대비 도로명주소 개수를 시각화해보겠습니다. 코드는 위와 동일하며, 데이터와 컬러만 적절하게 수정해주면 됩니다.
 
@@ -279,7 +279,7 @@ viz.show()
 
 ## 참고문헌
 
-- https://sparkdia.tistory.com/24
+- 공간 데이터 타입(Spatial Data Type), 
 - https://rightstone032.tistory.com/8
 - https://zziii.tistory.com/73
 - https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html

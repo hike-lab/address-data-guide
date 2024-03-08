@@ -4,7 +4,7 @@
 
 #### 작성자: 이정윤
 
-첫 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명주소 한글' 데이터입니다. 현재 공개되어 있는 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 실습은 코랩 환경에서 진행되며, 본 교안에서는 코드에 대한 설명을 진행합니다. 전체 코드와 실행결과는 [코랩 코드](https://colab.research.google.com/drive/184m11Kz-ShW_F8STIAf_b9FjBdZPL3Cg?usp=sharing)에서 확인하세요.
+첫 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명주소 한글' 데이터입니다. 현재 공개되어 있는 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 실습은 코랩 환경에서 진행되며, 본 교안에서는 코드에 대한 설명을 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브]()에서 다운로드 받을 수 있고, 코드 원본은 [깃헙]()에서 확인할 수 있습니다.
 
 ## 데이터 불러오기
 
@@ -20,7 +20,7 @@ def merged_df(columns, name):
         df = pd.read_csv(file_name, sep = "\|", engine='python', encoding = "cp949", names=columns, dtype = str, keep_default_na=False)
         total_df = pd.concat((total_df, df))
 
-    ## 전체 데이터 저장
+    # 전체 데이터 저장
     total_df.to_csv(f"total-{name}.csv", index=False, encoding="utf-8")
 
     return total_df
@@ -51,21 +51,21 @@ print('중복 제거 후 총 행 수', len(df.drop_duplicates()))
 ```
 
 ```python
-## null이 있는 컬럼 확인
+# null이 있는 컬럼 확인
 df.isnull().sum()
 ```
 
 ```python
-## 각 컬럼별 유니크 개수 확인
+# 각 컬럼별 유니크 개수 확인
 for i in df.columns:
     print(i, len(df[i].unique()))
 ```
 
-## 행정구역별 도로명주소의 수량
+## 행정구역별 도로명주소의 개수
 
 도로명주소는 기본적으로 `시/도 + 시/군/구 + 읍/면 + 도로명 + 건물번호 + 상세주소(동/층/호) + (참고항목)`의 조합으로 생성됩니다. 현재 공개하고 있는 도로명주소의 개수를 시도, 시군구, 시도별 시군구, 읍면동별 순으로 구분하여 하나씩 확인해보고 간단한 시각화를 진행해보겠습니다. 시각화는 파이썬 동적 시각화 툴인 Plotly를 사용합니다.
 
-### (1) 시도별
+### 시도별
 
 ```python
 sido = pd.DataFrame(df.groupby('시도명')["도로명관리번호"].count())
@@ -81,7 +81,7 @@ graph_viz(sido, "시도별 도로명주소 개수")
 
 대한민국의 시도는 총 17개입니다. '경기도', '경상북도', '경상남도' 등의 순으로 도로명주소의 개수가 많으며 세종특별자치시의 도로명주소 개수가 가장 적은 것을 확인할 수 있습니다.
 
-### (2) 시군구별
+### 시군구별
 
 ```python
 sigungu = pd.DataFrame(df.groupby(['시도명','시군구명'])["도로명관리번호"].count()).reset_index()
@@ -103,7 +103,7 @@ graph_viz(sigungu_top20, "시군구별 도로명주소 개수")
 
 시군구별 도로명주소는 제주특별자치도 '제주시', '경기도 화성시', '경상북도 경주시' 등의 순으로 많은 것을 확인할 수 있습니다.
 
-### (3) 시도별 시군구별
+### 시도별 시군구별
 
 ```python
 sido_list = list(df['시도명'].unique())
@@ -113,7 +113,7 @@ def sido_sigungu_df(total_df, sido_name):
     df = pd.DataFrame(df.groupby("시군구명")["도로명관리번호"].count()).sort_values("도로명관리번호", ascending=False)
     return df
 
-## 세종시는 시군구가 없으므로 제외함
+# 세종시는 시군구가 없으므로 제외함
 sido_list.remove('세종특별자치시')
 
 for sido in sido_list:
@@ -128,7 +128,7 @@ for sido in sido_list:
 
 세종특별자치도는 시군구에 해당하는 값이 없으므로 제외합니다. 시도 중 서울특별시만 예시로 살펴보면, 총 개의 25개의 시군구가 있으며 '관악구', '성북구', '은평구' 등의 순으로 도로명주소의 개수가 많고 '노원구'의 개수가 가장 적습니다.
 
-### (4) 읍면동별
+### 읍면동별
 
 ```python
 emd = pd.DataFrame(df.groupby(['시도명','시군구명','읍면동명'])["도로명관리번호"].count()).reset_index()
