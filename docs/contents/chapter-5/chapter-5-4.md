@@ -12,7 +12,7 @@
 
 ### 1. Flask 애플리케이션 생성하기
 
-먼저 프로젝트 폴더에 서버를 실행하는 파일을 만들어줍니다. 파일 이름은 main.py로 하겠습니다.
+먼저 프로젝트 폴더에 서버를 실행하는 파일을 만들어줍니다. 파일 이름은 `main.py`로 하겠습니다.
 
 Flask를 import 하고 Flask 객체 인스턴스를 생성해줍니다.
 
@@ -41,8 +41,8 @@ if __name__ == "__main__":
 ```
 <br>
 
-이렇게 만든 실행파일 main.py는 터미널에 다음과 같이 입력하여 실행합니다.
-```
+이렇게 만든 실행파일 `main.py`는 터미널에 다음과 같이 입력하여 실행합니다.
+```py
 python main.py
 ```
 
@@ -87,8 +87,8 @@ python main.py
 
 API 호출을 위한 라이브러리인 `requests`와 csv 데이터를 다루기 위해 필요한 라이브러리인 `pandas`를 import해서 사용하기 위해서 터미널에 다음의 코드를 입력합니다. 우리는 지금 가상환경이라는 독립된 환경에서 작업하고 있기 때문에 기존에 다른 작업에서 이미 사용하던 라이브러리라도 새로 install 해주는 과정이 필요합니다. 가상환경에 진입한 상태가 맞는지 다시 한 번 확인하고서 install을 진행해줍니다.
 
-```
-pip install requests pandas
+```py
+pip3 install requests pandas
 ```
 
 <br>
@@ -156,7 +156,7 @@ result = mygojang.loc[mygojang['DIST_CODE']==search_code].T.iloc[:,0]
 ### 3. 주소 검색 API 만들기
 
 
-이제 우리가 앞서 만들어둔 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 우리만의 API를 만들어 보겠습니다. main.py에 이어서 코드를 작성해보겠습니다.
+이제 우리가 앞서 만들어둔 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 우리만의 API를 만들어 보겠습니다. `main.py`에 이어서 코드를 작성해보겠습니다.
 
 ```py
 @app.route('/address/<keyword>/')
