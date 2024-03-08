@@ -1,4 +1,4 @@
-# 4. 제공하는 주소
+# 2.4 제공하는 주소
 
 <br>
 
@@ -22,7 +22,7 @@
 | 구역의 도형                | 법정구역, 기초구역, 지점번호표기 의무지역의 도형                                                          |
 | 기타자료                   | 공원, 하천/호수, 철도선로, 철도역사, 지하철선로, 지하철역사, 지하철출입구, 교량, 고가도로, 터널, 지하차도 |
 
-각 데이터의 세부 내용은 제공하는 주소의 데이터 레이아웃과 활용가이드문서를 참고하시기 바랍니다.
+제공하는 주소는 공간데이터(SHP) 또는 좌표데이터(TXT)로 제공됩니다. 이번 장에서 공간데이터는 시각화를 통해 데이터를 설명하고, 좌표데이터는 예시를 통해 데이터를 설명합니다. 각 데이터의 세부 내용은 제공하는 주소의 데이터 레이아웃과 활용가이드문서를 참고하시기 바랍니다.
 
 ## 도로명주소 출입구 정보
 
@@ -32,7 +32,7 @@
 
 | 파일명                    | 파일유형 | 설명              |
 | ------------------------- | -------- | ----------------- |
-| RNENTDATA*YYMM*시군구코드 | TXT      | 도로명주소 출입구 |
+| RNENTDATA.YYMM.시군구코드 | TXT      | 도로명주소 출입구 |
 
 ```
 36110101200000200181100000|3611010100|세종특별자치시||반곡동||361102000002|한누리대로|0|1811|0|30145|20181204||32169|RM|01|983296.172464|1833330.968984
@@ -351,7 +351,28 @@ OBJ030000000001503|중곡4동경로당입구앞|Junggok 4(sa)-dong senior citize
 
 ## 기타자료
 
+도로명주소의 배경지공원, 철도, 교량, 하천 등 도로명주소 전자지도의 배경으로 활용되는 도형(점,선,면)을 제공합니다. 모든 데이터는 시도별로 구분되고 `SHP` 파일로 제공됩니다.
+
+
+| 파일명 | 설명 |
+|---|---|
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_BRIDGE.시군구코드 | 교량 |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_OVERPASS.시군구코드 | 고가도로 |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_PARK.시군구코드 | 공원 |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_RIVER_LKE.시군구코드 | 하천/호수 |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_TUNNEL.시군구코드 | 터널 |
+| Total.JUSUBG.YYYYMMDD.TL_SPRD_UNDGRND.시군구코드 | 지하차도 |
+| Total.JUSUBG.YYYYMMDD.TL_SPRL_RLWAY.시군구코드 | 철도선로 |
+| Total.JUSUBG.YYYYMMDD.TL_SPRL_STATN.시군구코드 | 철도역사 |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_ENTRC.시군구코드 | 지하철출입구 |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_RLWAY.시군구코드 | 지하철선로 |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_STATN.시군구코드 | 지하철역사 |
+
+<br>
 <figure class="flex flex-col items-center justify-center">
     <figcaption style="text-align: center;"></figcaption>
     <img src="../img/2-4-etc-qgis.png" title="기타자료">
 </figure>
+
+위 그림은 공원과 지하철선로/지하철역사를 시각화한 결과입니다. 공원은 면형으로 제공되며, 지하철선로는 선형, 지하철역사는 점형으로 제공됩니다.
+

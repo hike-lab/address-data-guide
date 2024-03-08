@@ -83,27 +83,27 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "1. 개요",
+          text: "2.1 개요",
           link: "/contents/chapter-2/chapter-2-1.html",
         },
         {
-          text: "2. 주소정보 누리집",
+          text: "2.2 주소정보 누리집",
           link: "/contents/chapter-2/chapter-2-2.html",
         },
         {
-          text: "3. 공개하는 주소",
+          text: "2.3 공개하는 주소",
           link: "/contents/chapter-2/chapter-2-3.html",
         },
         {
-          text: "4. 제공하는 주소",
+          text: "2.4 제공하는 주소",
           link: "/contents/chapter-2/chapter-2-4.html",
         },
         {
-          text: "5. 제공하는 주소 신청방법과 QGIS 사용법",
+          text: "2.5 제공하는 주소 신청방법과 QGIS 사용법",
           link: "/contents/chapter-2/chapter-2-5.html",
         },
         {
-          text: "6. 주소 관련 코드체계",
+          text: "2.6 주소 관련 코드체계",
           link: "/contents/chapter-2/chapter-2-6.html",
         },
       ],
