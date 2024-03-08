@@ -1,10 +1,10 @@
-# 5. 데이터 삽입하기
+# 6.5 데이터 삽입하기
 
 <br>
 
 #### 작성자: 박하람
 
-이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해봅니다.
+이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해봅니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
 ## local infile 허용하기
 
