@@ -121,15 +121,15 @@ function sidebarMain() {
           link: "/contents/chapter-3/chapter-3-2.html",
         },
         {
-          text: "3.3 도로명주소 데이터 살펴보기(1)",
+          text: "3.3 도로명주소 데이터 EDA",
           link: "/contents/chapter-3/chapter-3-3.html",
         },
         {
-          text: "3.4 도로명주소 데이터 살펴보기(2)",
+          text: "3.4 도로명 데이터 EDA",
           link: "/contents/chapter-3/chapter-3-4.html",
         },
         {
-          text: "3.5 도로명 데이터 살펴보기",
+          text: "3.5 주소 데이터 활용하기",
           link: "/contents/chapter-3/chapter-3-5.html",
         },
       ],
