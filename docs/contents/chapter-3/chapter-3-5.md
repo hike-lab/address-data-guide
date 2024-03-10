@@ -4,25 +4,32 @@
 
 #### 작성자: 이정윤
 
-<i>[3-3 도로명주소 데이터 살펴보기(1)](../chapter-3/chapter-3-2.md)과 연속되는 내용입니다.</i>
-
-이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브]()에서 다운로드 받을 수 있고, 코드 원본은 [깃헙]()에서 확인할 수 있습니다.
+이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1xpg-qpanDXUxssnpIZw8dCN2t3Asfjvu/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1ESR6gu4l9QlUx8uW8ngBUWd5MO9BUV5u?usp=sharing)에서 확인할 수 있습니다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/3-4-mapbox.png" title="sido geo data">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-시작하기 앞서, 이번장에서 진행하는 지도시각화 툴인 mapbox를 사용하기 위해선 token이 있어야 합니다. [mapbox.com](https://www.mapbox.com/)으로 들어가서 회원가입을 한 뒤, Account로 들어가면 위와 같은 화면을 볼 수 있습니다. mapbox는 일정 사용량까지는 무료이고, 한도를 넘으면 과금이 되므로 각자 사용량을 확인하면서 사용하면 됩니다. python에서 mapbox를 사용할 때 입력해줘야 하는 token은 화면 하단의 'Default public token'에 나와 있습니다. 복사해서 아래 지도 시각화를 진행하는 부분에서 사용하세요.
 
-## 인구데이터
+이번 장의 주요 목표는 두 가지 분석의 결과를 기반으로 지도 시각화를 수행하는 것입니다. 이를 위해 지도 시각화 도구로 mapbox를 활용하며, 먼저 필요한 토큰을 발급받아야 합니다. [mapbox.com](https://www.mapbox.com/)에 접속하여 회원가입을 완료한 후, Account 섹션으로 이동하면 아래와 같은 화면을 확인할 수 있습니다. Mapbox는 특정 사용량 범위 내에서는 무료로 제공되며, 한도를 초과할 경우 과금이 발생할 수 있습니다. 따라서 개개인은 사용량을 확인하면서 이용하시기 바랍니다. Python에서 mapbox를 활용할 때 필요한 토큰은 화면 하단의 'Default public token'에 나와 있습니다. 해당 토큰을 복사하여 아래의 지도 시각화 섹션에서 사용하면 됩니다. 
 
+::: info
+
+분석1의 결과를 분석2에서 사용하므로 순서대로 진행하세요. 
+
+:::
+
+## 분석1. 인구 대비 도로명주소 개수
+
+### 데이터 정제하기
 인구데이터는 행정안전부에서 제공하는 [행정동별 주민등록 인구 및 세대현황](https://jumin.mois.go.kr/)의 전체시군구현황 데이터를 사용합니다. 데이터는 csv 혹은 xlsx 형식입니다. 데이터를 불러온 뒤 데이터의 형태, 수정이 필요한 부분 확인 등 간단한 전처리를 진행합니다.
 
 ```python
+# 데이터 불러오기
 df_pop = pd.read_excel('202401_202401_주민등록인구및세대현황_월간.xlsx', header=2)
 
-## 중복 데이터 확인하기
+# 중복 데이터 확인하기
 df_pop[df_pop['행정기관'].duplicated(keep=False)]
 ```
 
@@ -40,14 +47,64 @@ df_pop.reset_index(inplace=True, drop=True)
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-## 면적데이터
+### 인구 대비 도로명주소 개수 계산하기
 
+인구 대비 도로명주소 개수를 계산할 때에는 '시도별'과 '시군구별'을 따로 진행합니다. 계산을 위한 처리 과정은 두 경우 동일하므로 이 장에서는 시도별 인구 대비 도로명주소 개수를 계산하는 내용만 설명합니다. 전체 내용은 코드에서 확인할 수 있습니다. 
+
+```python
+# 시도별 도로명주소 개수 데이터
+sido = pd.DataFrame(df.groupby('시도명')["도로명주소관리번호"].count())
+sido.reset_index(inplace=True)
+
+# 시도별 인구수 데이터
+df_pop['행정기관'] = df_pop['행정기관'].apply(lambda x:x.strip())
+sido_pop = df_pop[df_pop['행정기관'].isin(list(sido['시도명']))].copy()
+```
+
+첫 번째 작업은 도로명주소와 인구수 각각의 데이터프레임을 정리하는 것입니다.. `sido`는 시도별로 도로명주소 개수를 포함하는 데이터프레임이고 `sido_pop`은 17개 시도의 인구수를 포함하는 데이터프레임입니다. 
+
+```python
+# 시도명, 행정기관 컬럼 -> 좌우 공백 없애기
+sido['시도명'] = sido['시도명'].apply(lambda x:x.strip())
+sido_pop['행정기관'] = sido_pop['행정기관'].apply(lambda x:x.strip())
+
+# 행정기관코드, code -> string으로 바꾸기
+sido_pop['행정기관코드'] = sido_pop['행정기관코드'].astype('str')
+
+# 도로명주소관리번호, 총인구수 -> int로 타입 바꾸기
+sido['도로명주소관리번호'] = sido['도로명주소관리번호'].astype(int)
+sido_pop['총인구수'] = sido_pop['총인구수'].str.replace(',', '').astype(int)
+```
+
+두 번째로는 두 데이터프레임을 합치기 전, 기준(PK)이 되는 컬럼은 동일한 값으로 인식될 수 있도록 좌우 공백을 없애고, 데이터 타입을 동일하게 수정합니다. 인구 대비 도로명주소 개수를 계산할 때 필요한 '도로명관리번호' (도로명주소 개수) 컬럼과 '총인구수' 컬럼은 int로 바꿔줍니다.
+
+```python
+# 하나의 데이터프레임으로 합치기
+sido_address_pop = pd.merge(sido, sido_pop, left_on='시도명', right_on='행정기관')
+sido_address_pop.drop('행정기관', axis=1,  inplace=True)
+sido_address_pop.rename(columns={'도로명주소관리번호':'도로명개수'}, inplace=True)
+
+# 인구 대비 도로명주소 개수 계산하기
+sido_address_pop["인구 대비 도로명주소 개수"] = sido_address_pop.apply(lambda row: row["도로명개수"] / row["총인구수"], axis=1)
+sido_address_pop
+```
+
+마지막으로 `sido`와 `sido_pop`을 17개 시도명을 기준으로 하나로 합친 `sido_address_pop`를 정의합니다. 이후, 인구 대비 도로명주소 개수를 계산한 컬럼을 추가합니다. 
+
+<embed src="/docs/3-5-sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
+
+시도별 인구 대비 도로명주소 개수의 값을 시각화하면 위와 같은 결과가 도출됩니다. 전라남도, 경상북도, 전북특별자치도 등 순으로 인구 대비 도로명주소의 개수가 많습니다. 
+
+
+## 분석2. 면적 대비 도로명주소 개수
+
+### 데이터 정제하기
 면적데이터는 주소기반산업지원서비스에서 제공하는 제공하는 주소 중 [구역의 도형](https://business.juso.go.kr/addrlink/elctrnMapProvd/geoDBDwldList.do?menu=%EA%B5%AC%EC%97%AD%EC%9D%98%20%EB%8F%84%ED%98%95) 2024년 1월 전체자료입니다. 제공하는 주소는 신청서를 작성한 뒤 데이터를 제공받을 수 있습니다. (자세한 신청 방법은 [2-5](../chapter-2/chapter-2-5.md)에서 확인하세요) 사이트에서 신청하여 받거나, 구글 드라이브에 저장된 'geojson' 폴더를 다운받아 사용하면됩니다.
 
 면적데이터는 시도 경계를 표현하는 파일과 시군구 경계를 표현하는 파일 두 개로 구분하여 제공합니다. 두 데이터는 동일한 방법으로 처리를 진행하므로 본 글에서는 시도 데이터를 처리하는 방법만 소개하겠습니다. (시군구 처리 방법은 코드를 참고하세요.)
 
 ```python
-# 해대비 경로에서 'CTPRVN.shp'로 끝나는 모든 파일 불러오기
+# 해당 경로에서 'CTPRVN.shp'로 끝나는 모든 파일 불러오기
 sido_file_list = glob.glob('geojson/*/*_CTPRVN.shp')
 
 sido_geojson = pd.DataFrame()
@@ -75,87 +132,41 @@ shp 파일을 geopandas를 통해 읽어오고, 데이터프레임으로 정의�
 
 POLYGON은 다수의 선분들이 연결되어 닫혀 있는 상태인 다각형을 의미하고 MULTIPOLYGON은 다수 개의 POLYGON의 집합을 의미합니다. 즉 행정구역의 경계를 나타내는 값이며, 이 정보로 행정구역별 면적을 계산할 수 있습니다.
 
-## 인구 대비, 면적 대비 도로명주소 개수
-
-시도별 인구, 면적 대비 도로명주소의 개수를 확인하기 위하여 1. 시도별 도로명주소 개수, 2. 인구수, 3. 면적데이터를 하나의 데이터프레임으로 합쳐야 합니다. 세 데이터는 각각의 데이터프레임에 저장되어 있으므로 우선 도로명주소 개수 데이터와 인구 데이터를 합치고, 이를 다시 면적데이터와 합쳐주는 과정으로 진행하겠습니다. 두 데이터 프레임을 합칠 때 기준이 되는 컬럼이 다르므로 이 부분을 주의해야 합니다. 하나의 데이터 프레임으로 만든 뒤, 지도시각화를 위해 행정구역의 경계에 따른 면적을 계산하고 '인구 대비 도로명주소 개수', '면적 대비 도로명주소 개수'를 계산합니다. 시군구별 데이터와 이와 동일한 과정으로 진행하므로 설명은 생략하며, 코드에서 확인할 수 있습니다.
-
-- '도로명주소 개수'와 '인구수' 데이터는 '행정구역명' 기준으로 합칩니다.
-- 1에서 합친 데이터 프레임과 '면적' 데이터는 '행정동코드' 기준으로 합칩니다.
-
-### 데이터 불러오고 처리하기
-
 ```python
-## 1. 시도별 도로명주소 개수
-sido = pd.DataFrame(df.groupby('시도명')["도로명관리번호"].count())
-sido.reset_index(inplace=True)
-
-## 2. 시도별 인구수
-df_pop['행정기관'] = df_pop['행정기관'].apply(lambda x:x.strip())
-sido_pop = df_pop[df_pop['행정기관'].isin(list(sido['시도명']))].copy()
-
-## 3. 시도별 면적 (위에서 정의함)
-# sido_geojson
-```
-
-합치기 위한 도로명주소 개수와 인구수 데이터프레임을 각각의 변수로 정의합니다.
-
-```python
-## 시도명, 행정기관 컬럼 -> 좌우 공백 없애기
-sido['시도명'] = sido['시도명'].apply(lambda x:x.strip())
-sido_pop['행정기관'] = sido_pop['행정기관'].apply(lambda x:x.strip())
-
-## 행정기관코드, code -> string으로 바꾸기
-sido_pop['행정기관코드'] = sido_pop['행정기관코드'].astype('str')
+sido_geojson = sido_geojson.set_crs(epsg=5179, allow_override=True)
 sido_geojson['code'] = sido_geojson['code'].astype('str')
-
-## '도로명관리번호', '총인구수' -> int로 타입 바꾸기
-sido['도로명관리번호'] = sido['도로명관리번호'].astype(int)
-sido_pop['총인구수'] = sido_pop['총인구수'].str.replace(',', '').astype(int)
+sido_geojson["면적"] = sido_geojson["geometry"].area
+sido_geojson
 ```
 
-데이터프레임을 합칠 때 기준이 되는 컬럼들은 동일한 값을 인식할 수 있도록 좌우 공백을 없애고, 데이터 타입을 동일하게 수정합니다. 계산을 해줘야 하는 '도로명관리번호' (도로명주소 개수) 컬럼과 '총인구수' 컬럼은 int로 바꿔줍니다.
-
-```python
-## 시도별 도로명주소개수, 인구수, 면적데이터 합치기
-sido_address_pop = pd.merge(sido, sido_pop, left_on='시도명', right_on='행정기관')
-sido_address_pop.drop('행정기관', axis=1,  inplace=True)
-sido_address_pop.rename(columns={'도로명관리번호':'도로명개수'}, inplace=True)
-
-sido_total = sido_address_pop.merge(sido_geojson, left_on='행정기관코드', right_on='code', how='outer')
-sido_total
-```
-
-최종적으로 세 개의 데이터프레임을 합쳐줍니다.
-
-### 면적 구하고 인구 대비, 면적 대비 도로명주소 개수 계산하기
-
-```python
-gdf_sido = gpd.GeoDataFrame(sido_total)
-
-## 면적 계산
-gdf_sido = gdf_sido.set_crs(epsg=5179, allow_override=True)
-gdf_sido["면적"] = gdf_sido["geometry"].area
-
-## 인구 대비, 면적 대비 도로명주소 개수 계산
-gdf_sido["인구 대비 도로명주소 개수"] = gdf_sido.apply(lambda row: row["도로명개수"] / row["총인구수"], axis=1)
-gdf_sido["면적 대비 도로명주소 개수"] = gdf_sido.apply(lambda row: row["도로명개수"] / row["면적"], axis=1)
-```
-
-최종 데이터프레임을 geoDataFrame으로 변환하고 면적을 계산해줍니다. 이때 설정하는 CRS(Coordinate Reference System)는 좌표계로,
+면적 대비 도로명주소의 개수를 계산하기 위해서는 구역의 경계 데이터를 기반으로 각 행정구역 별 '면적'을 알아야 합니다. 이때 설정하는 CRS(Coordinate Reference System)는 좌표계로,
 곡면인 지구의 표면을 2차원의 평면으로 표현하는 방법을 의미합니다. CRS의 유형은 epsg:4326, epsg:5179, epsg:4004 등이 있는데, 유형이 다른 데이터의 경우, 좌표간의 거리나 위치 등이 다르게 표현되므로 반드시 통일해줘야 합니다. (이때 epsgs는 European Petroleum Survey Group의 약자로, 좌표계와 관련된 표준 데이터 베이스를 의미하며 CRS에 관한 자세한 설명은 이 [문서](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)를 참고하세요.)
 
 구역의 도형 데이터의 CRS는 epsg:5179로 설정되어 있으므로([참고](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=1&keyword=%EC%A2%8C%ED%91%9C%EA%B3%84&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=124058&bulletinRefSn=124058&page=)), 이에 맞춰 데이터프레임의 좌표계를 설정해줍니다. 이후 '면적' 컬럼을 추가하여 내장함수를 통해 면적을 계산해주고 인구 대비, 면적 대비 도로명주소 개수를 계산합니다.
 
+### 면적 대비 도로명주소 개수 계산하기
+
+면적 대비 도로명주소 개수를 계산할 때 역시 '시도별'과 '시군구별'을 따로 진행하며 이 장에서는 시군구별 면적 대비 도로명주소 개수를 계산하는 내용만 다루겠습니다. 
+
 ```python
-# mapbox에 맞춰 좌표계 변환
-gdf_sido = gdf_sido.to_crs(epsg=4326)
+sigungu_total = sigungu_address_pop.merge(sigungu_geojson, left_on='행정기관코드', right_on='code', how='outer')
+sigungu_total["면적 대비 도로명주소 개수"] = sigungu_total.apply(lambda row: row["도로명개수"] / row["면적"], axis=1)
+sigungu_total
 ```
 
-시각화를 진행하기 전에, mapbox는 CRS를 epsg:4326으로 사용하므로 이에 맞춰 좌표계를 변환해줍니다. ([참고](https://docs.mapbox.com/help/glossary/projection/)) CRS를 변화하지 않고 시각화를 진행하면 제대로 지도가 그려지지 않으니 주의하세요!
+```python
+# 누락된 세종시 데이터 추가하기
+sigungu_total.loc[251] = sido_total[sido_total['시도명'] == '세종특별자치시'].iloc[0]
+sigungu_total['전체 시군구명'][251] = '세종특별자치시'
+sigungu_total
+```
 
-## 지도 시각화
+<embed src="/docs/3-5-sigungu_area_per_road_address_count.html" width="100%" height="420px"></embed>
 
-지금까지 처리한 데이터로 진행할 수 있는 지도 시각화는 크게 4종류 입니다.
+
+## 최종 지도 시각화
+
+지금까지 처리한 데이터로 진행할 수 있는 지도 시각화는 크게 네 종류 입니다.
 
 1. 시도별 인구 대비 도로명주소 개수
 2. 시도별 면적 대비 도로명주소 개수
@@ -163,6 +174,17 @@ gdf_sido = gdf_sido.to_crs(epsg=4326)
 4. 시군구별 면적 대비 도로명주소 개수
 
 다양한 결과를 볼 수 있도록 '시도별 인구 대비 도로명주소 개수'와 '시군구별 면적 대비 도로명주소 개수'를 각각 진행해보겠습니다. 1~4의 전체 결과는 코드를 참고하세요.
+
+```python
+token = "pk.eyJ1IjoianlsZWVlIiwiYSI6ImNsMGtnM3lxbDBtMW0zY3Vvc2hzN3dibG8ifQ.PQMSK1vvdKW2DnTNIFtv4w"
+```
+
+```python
+# mapbox에 맞춰 좌표계 변환
+gdf_sido = gdf_sido.to_crs(epsg=4326)
+```
+
+시각화를 진행하기 전에, mapbox는 CRS를 epsg:4326으로 사용하므로 이에 맞춰 좌표계를 변환해줍니다. ([참고](https://docs.mapbox.com/help/glossary/projection/)) CRS를 변화하지 않고 시각화를 진행하면 제대로 지도가 그려지지 않으니 주의하세요!
 
 ### 시도별 인구 대비 도로명주소 개수
 
@@ -279,8 +301,8 @@ viz.show()
 
 ## 참고문헌
 
-- 공간 데이터 타입(Spatial Data Type), 
-- https://rightstone032.tistory.com/8
-- https://zziii.tistory.com/73
-- https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html
-- https://blog.harampark.com/blog/python-map-visualization/
+- mapboxgl를 사용해 행정구역별 인구 데이터 시각화하기 (feat. geopandas로 shp 읽기, crs 설정), harampark [[바로가기](https://blog.harampark.com/blog/python-map-visualization/)]
+- 지리 정보 데이터 처리, 데이터 사이언스 스쿨 [[바로가기](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)]
+- 공간 데이터 타입(Spatial Data Type), 꿈을 향하여 질주하기 [[바로가기](https://sparkdia.tistory.com/)]
+- [Geopandas] Geopandas 만나기 # 1, 제이s [[바로가기](https://rightstone032.tistory.com/8)]
+- CRS 개념 및 파이썬 crs 변환, Zziii [[바로가기](https://zziii.tistory.com/73)]
