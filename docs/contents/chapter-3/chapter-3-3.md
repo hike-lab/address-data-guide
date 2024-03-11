@@ -6,7 +6,6 @@
 
 첫 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명주소 한글' 데이터입니다. 현재 공개되어 있는 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 실습은 코랩 환경에서 진행되며, 본 교안에서는 코드에 대한 설명을 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1pARe-TAxp0VFniVmovi1mtG0SKel8PDc/view?usp=sharing)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/184m11Kz-ShW_F8STIAf_b9FjBdZPL3Cg?usp=sharing)에서 확인할 수 있습니다.
 
-
 ## 데이터 불러오기
 
 실습 데이터는 [주소기반산업지원서비스](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%20%ED%95%9C%EA%B8%80)에서 제공하는 공개하는 주소 중 도로명주소 한글 데이터의 2024년 1월 기준 전체자료 입니다. 데이터는 시도별로 구분되어 txt 파일로 되어 있으며, 각 파일은 "|"로 구분되어 있습니다. 데이터를 처리하기 용이하도록 하나의 파일로 합치고 csv 파일로 저장하는 함수는 다음과 같습니다.
@@ -39,9 +38,8 @@ df = merged_df(columns, "road-name-address_2401")
 
 ::: details 저장한 결과 보기
 
-이미지 수정 예정~
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-2-colab-new-notebook.png" title="colab new notebook">
+    <img src="../img/3-3-df-example.png" title="colab new notebook">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 :::
@@ -51,6 +49,7 @@ print('총 열 수: ', len(df.columns))
 print('총 행 수: ', len(df))
 print('중복 제거 후 총 행 수', len(df.drop_duplicates()))
 ```
+
 저장한 데이터의 데이터의 기본 정보를 확인합니다. 총 24개의 열과 6384988개의 행이 있으며, 중복행은 존재하지 않습니다.
 
 ```python
@@ -170,7 +169,7 @@ pd.DataFrame(df[['시도명', '시군구명', '도로명','도로명코드']].dr
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-도로명코드가 가장 많이 부여된 '중앙로'가 전국에 어느 곳에 있는 지 살펴보면, 충남 천안, 보령에도 있고 전남 화순, 장흥에도 있습니다. 따라서 '도로명'만으로는 도로를 구분할 수 없으며, 고유한 값인 '도로명코드'로 구분해야 합니다. 
+도로명코드가 가장 많이 부여된 '중앙로'가 전국에 어느 곳에 있는 지 살펴보면, 충남 천안, 보령에도 있고 전남 화순, 장흥에도 있습니다. 따라서 '도로명'만으로는 도로를 구분할 수 없으며, 고유한 값인 '도로명코드'로 구분해야 합니다.
 
 도로명코드는 시군구코드(5자리) + 도로명번호(7자리)로 구성된 코드로, 하나의 도로에는 하나의 도로명코드가 부여됩니다. 예를들어, 중앙로가 서울에도 있고 부산에도 있을 때, 이 둘을 구분할 수 있는 코드가 바로 도로명코드인 것입니다. 도로명코드가 도로명의 고유한 코드 역할을 제대로 하고 있는 지는 다음 장에서 자세히 살펴보도록 하겠습니다.
 
@@ -183,4 +182,4 @@ most_count_roadName
 
 <embed src="/docs/3-3-road-per-address-count.html" width="100%" height="450px"></embed>
 
-부여된 도로명주소가 가장 많은 도로명은 '강원특별자치도 원주시 치악로'이고 '경기도 포천시 호국로', '제주특별자치도 서귀초시 중산간동로' 순으로 많은 도로명주소가 부여되었습니다. 
+부여된 도로명주소가 가장 많은 도로명은 '강원특별자치도 원주시 치악로'이고 '경기도 포천시 호국로', '제주특별자치도 서귀초시 중산간동로' 순으로 많은 도로명주소가 부여되었습니다.
