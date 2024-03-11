@@ -25,7 +25,17 @@ export default {
 
   build: { outDir: "/theme/" },
   themeConfig: {
-    nav: nav(),
+    nav: [
+      { text: "Guide", link: "/contents/guide/guide.html" },
+      // {
+      //   text: "Info",
+      //   items: [
+      //     { text: "Item A", link: "/item-1" },
+      //     { text: "Item B", link: "/item-2" },
+      //     { text: "Item C", link: "/item-3" },
+      //   ],
+      // },
+    ],
     logo: "/static/icon/hikeLogo.svg",
 
     sidebar: {
@@ -121,15 +131,15 @@ function sidebarMain() {
           link: "/contents/chapter-3/chapter-3-2.html",
         },
         {
-          text: "3.3 도로명주소 데이터 살펴보기(1)",
+          text: "3.3 도로명주소 데이터 EDA",
           link: "/contents/chapter-3/chapter-3-3.html",
         },
         {
-          text: "3.4 도로명주소 데이터 살펴보기(2)",
+          text: "3.4 도로명 데이터 EDA",
           link: "/contents/chapter-3/chapter-3-4.html",
         },
         {
-          text: "3.5 도로명 데이터 살펴보기",
+          text: "3.5 주소 데이터 활용하기",
           link: "/contents/chapter-3/chapter-3-5.html",
         },
       ],
@@ -143,7 +153,7 @@ function sidebarMain() {
           link: "/contents/chapter-4/chapter-4-1.html",
         },
         {
-          text: "4.2 프로젝트 환경 세팅",
+          text: "4.2. 프로젝트 환경 구축하기",
           link: "/contents/chapter-4/chapter-4-2.html",
         },
         {
@@ -221,40 +231,40 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "7.1 프로젝트 소개", 
-          link: "/contents/chapter-7/chapter-7-1.html"
-        }
-      ]
+          text: "7.1 프로젝트 소개 ",
+          link: "/contents/chapter-7/chapter-7-1.html",
+        },
+      ],
     },
     {
       text: "8. 주소 지식그래프 구축 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "8.1 프로젝트 소개", 
-          link: "/contents/chapter-8/chapter-8-1.html"
-        }
-      ]
+          text: "8.1 프로젝트 소개",
+          link: "/contents/chapter-8/chapter-8-1.html",
+        },
+      ],
     },
     {
       text: "9. 주소 지식그래프 활용 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "9.1 프로젝트 소개", 
-          link: "/contents/chapter-9/chapter-9-1.html"
-        }
-      ]
+          text: "9.1 프로젝트 소개",
+          link: "/contents/chapter-9/chapter-9-1.html",
+        },
+      ],
     },
     {
       text: "Appendix",
       collapsed: true,
       items: [
         {
-          text: "자료 목록", 
-          link: "/contents/appendix/contents.html"
-        }
-      ]
-    }
+          text: "자료 목록",
+          link: "/contents/appendix/contents.html",
+        },
+      ],
+    },
   ];
 }

@@ -88,10 +88,68 @@ div.VPContent.is-home div.main p.text {
   font-size: 35px !important;
 }
 
-.tl-full-color-background .tl-text p { 
-  color : #3a3a3c !important;
+.tl-full-color-background .tl-text p {
+  color: #3a3a3c !important;
 }
 
 button.tl-slidenav-content-container {
-  color : #3a3a3c;
+  color: #3a3a3c;
+}
+
+/**
+ * Component: VPDoc
+ * -------------------------------------------------------------------------- */
+
+.VPDoc {
+  padding: 32px 32px 96px !important;
+  width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .VPDoc {
+    padding: 48px 0px 128px !important;
+    width: 100%;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPDoc {
+    padding: 48px 0px 0 !important;
+    width: 100%;
+  }
+
+  .VPDoc:not(.has-sidebar) .container {
+    display: flex;
+    justify-content: center;
+    max-width: 992px;
+  }
+
+  .VPDoc:not(.has-sidebar) .content {
+    max-width: 752px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .VPDoc .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .VPDoc .aside {
+    display: block;
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPDoc:not(.has-sidebar) .content {
+    max-width: 784px;
+  }
+
+  .VPDoc:not(.has-sidebar) .container {
+    max-width: 1104px;
+  }
+}
+
+.VPDoc.has-aside .content-container {
+  max-width: 897px !important;
 }
