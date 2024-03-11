@@ -1,5 +1,5 @@
 <template>
-        <div id="timeline-embed" style="width: 100%; height: 600px"></div>
+    <div id="timeline-embed" style="width: 100%; height: 600px"></div>
 </template>
 
 <script setup>
