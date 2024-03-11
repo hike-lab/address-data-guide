@@ -2,8 +2,13 @@
 
 ## 법령
 
--
-
+- [도로명주소법 (법률 제17574호, 2020. 12. 8., 전부개정)](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%EB%B2%95)
+- [도로명주소법 시행령 (대통령령 제34085호, 2024. 1. 2., 타법개정)](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9)
+- [도로명주소법 시행규칙 (행정안전부령 제324호, 2022. 3. 30., 타법개정)](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99)
+- [주소정보시설규칙 (행정안전부령 제256호, 2021. 6. 9., 전부개정)](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EC%A3%BC%EC%86%8C%EC%A0%95%EB%B3%B4%EC%8B%9C%EC%84%A4%EA%B7%9C%EC%B9%99)
+- [주소정보 전산체계 운영규정 (행정안전부훈령 제196호, 2021. 6. 9., 폐지제정)](https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000174765)
+- [주소정보기본도 작성·관리 규정 (훈령 제236호, 2022. 3. 14., 일부개정)](https://www.law.go.kr/LSW/admRulLsInfoP.do?admRulSeq=2100000201745)
+- [주소정보 제공에 관한 규정 (고시 제2023-25호, 2023. 4. 21., 일부개정)](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulSeq=2100000222420)
 ## 논문
 
 - 고종신, 이용호, & 이보미. (2012). 국제 주소 표준화 동향에 따른 대응 전략. 지적과 국토정보, 42(1), 39–58. http://dx.doi.org/
