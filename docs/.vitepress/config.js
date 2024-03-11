@@ -10,7 +10,12 @@ export default {
   lastUpdated: true,
   ignoreDeadLinks: true,
 
-  head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
+  head: [
+    ["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }],
+
+    // SEO
+    // ['meta', { name: 'description', content: description}]
+  ],
 
   // markdown-it-footnote
   markdown: {
@@ -66,7 +71,9 @@ export default {
     //   indexName: 'vitepress'
     // }
   },
+
 };
+
 
 function nav() {
   return [
