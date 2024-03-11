@@ -10,7 +10,12 @@ export default {
   lastUpdated: true,
   ignoreDeadLinks: true,
 
-  head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
+  head: [
+    ["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }],
+
+    // SEO
+    // ['meta', { name: 'description', content: description}]
+  ],
 
   // markdown-it-footnote
   markdown: {
@@ -66,7 +71,9 @@ export default {
     //   indexName: 'vitepress'
     // }
   },
+
 };
+
 
 function nav() {
   return [
@@ -257,11 +264,11 @@ function sidebarMain() {
       ],
     },
     {
-      text: "Appendix",
+      text: "부록",
       collapsed: true,
       items: [
         {
-          text: "자료 목록",
+          text: "관련 자료 목록",
           link: "/contents/appendix/contents.html",
         },
       ],
