@@ -1,8 +1,6 @@
 # 3.4 도로명 데이터 EDA
 
-<br>
 
-#### 작성자: 송채은, 이정윤
 
 두 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명' 데이터입니다. 현재 공개되어 있는 도로명의 개수를 도로유형별, 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1Rt0UaQGB6psj7snY3I3MzJYGXDrnUGCg/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1zryZex86ykiYYjz24MTyWVvRQTImvZgR?usp=sharing)에서 확인할 수 있습니다.
 
