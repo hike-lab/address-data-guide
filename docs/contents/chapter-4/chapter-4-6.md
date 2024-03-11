@@ -15,18 +15,27 @@
 
 ## 공공데이터 샘플 품질 평가
 
-이제 예시 데이터의 품질을 직접 평가해보도록 하겠습니다. 샘플 데이터를 열면 아래 사진과 같은 파일이 열릴 것입니다.
-
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/4-2-sample.png" title="naver cloud main page">
-</figure>
-
-겉보기에도 비어있는 셀들이 많이 보입니다. 전체 데이터에서 채워져 있는 셀의 비중인 **완전성** 부터 알아봅시다. 
+앞선 챕터에서는 공공데이터의 품질요소로 어떠한 것들이 있는지 알아봤는데요. 컬럼별 데이터 유형에 구애받지 않고 평가가 가능한 완전성과 이해가능성을 제외한 나머지 평가 요소들의 적용 범위는 다음 표와 같습니다. 도로명 주소의 경우 4.4. 장에서 이미 유효성, 정확성 평가를 진행했으므로 제외되었습니다.
 
 
-## 완전성 평가 방식
+| 컬럼명 | 유효성 | 정확성 | 일관성 | 
+|-------|--------|-------|-------|
+|휴관일 | O |x|O|
+|운영시간(시작/종료, 평일/주말)| O | X | O |
+|유료사용여부 | O | X | O |
+|사용기준시간 | O | X | O|
+|사용료| O | X | O |
+|사용안내전화번호| O | X | X|
+|위도/경도| O | O | O |
+|데이터기준일자| O |X|X|
+|소재지도로명주소| - | -| O|
+|소재지지번주소|X| O | O|
+|**총합**| 9|2|7|
 
-우선, 필요한 라이브러리와 파일을 열겠습니다.
+활용되는 라이브러리들을 불러오는 코드는 아래와 같습니다.
+
+
+우선, 필요한 라이브러리와 파일을 열겠습니다. 이번에는 matplotlib와 seaborn을 시각화에 활용하도록 하겠습니다.
 
 ```python
 import pandas as pd
@@ -38,19 +47,57 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 import matplotlib.ticker as ticker
+import plotly.express as px
 # 폰트 설정 (colab 기준)
 
 
-# 데이터 로드하기
+# 앞서 병합한 데이터 로드하기
 df = pd.read_csv("sample.csv")
 
 # 데이터 형태 파악하기
 print(df.shape)
 df.head(5)
 ```
+평가에 앞서, 각 데이터 값에 대한 평가 요소별 평가 결과를 저장할 테이블을 따로 만들어줍시다.
 
-컬럼별 완전성을 알아봅시다. 채워져 있는 데이터는 파란색으로, 비어있는 데이터는 회색으로 나타나도록 하겠습니다.
+오류, 또는 공백 데이터는 1, 정상적인 데이터는 0, 그리고 공백 데이터는 `None`으로 저장하도록 합니다.
 
+```python
+# 유효성 평가 테이블
+valid = pd.DataFrame(np.zeros((100, 14)), # 0값으로만 채운 데이터셋을 만듭니다
+                     columns=['휴관일', '평일운영시작시각','평일운영종료시각',
+                                '주말운영시작시각','주말운영종료시각','유료사용여부',
+                                '사용기준시간','사용료','사용안내전화번호',
+                                '소재지도로명주소','소재지지번주소','위도',
+                                '경도','데이터기준일자'])
+# 정확성 평가 테이블
+factual = pd.DataFrame(np.zeros((100, 4)),
+                       columns = ['소재지도로명주소','소재지지번주소',
+                                    '위도','경도'])
+# 일관성 평가 테이블
+consis = pd.DataFrame(np.zeros((100, 12)),
+                      columns = ['휴관일','평일운영시작시각','평일운영종료시각',
+                                '주말운영시작시각','주말운영종료시각', '유료사용여부',
+                                '사용기준시간','사용료','소재지도로명주소',
+                                '소재지지번주소','위도','경도'])
+```
+
+마지막으로 평가테이블의 결과를 시각화하는 `vis_portion` 함수를 생성하도록 합니다. 해당 함수는 이해가능성, 유효성, 정확성, 일관성 평가 파트에서 반복적으로 사용됩니다.
+
+## 1. 완전성 평가
+
+컬럼별 완전성부터 알아봅시다. 채워져 있는 데이터는 파란색으로, 비어있는 데이터는 회색으로 나타나도록 하겠습니다.
+
+우선 컬럼별로 비어있는 컬럼의 개수와 비율을 집계한 데이터 프레임을 생성해줍니다.
+
+```python
+# 컬럼별 완전성 데이터프레임
+df_fill_rate = pd.DataFrame(df.isnull().sum() / len(df) * 100, columns=['null_rate(%)']) # 공백 비율 계산
+df_fill_rate = df_fill_rate.sort_values(by='null_rate(%)', ascending=False) # 공백 비율 순으로 정렬
+df_fill_rate["fill_rate(%)"] = 100-df_fill_rate['null_rate(%)'] # 공백이 아닌 비율 계산
+
+```
+생성된 데이터 프레임을 시각화하는 코드는 아래와 같습니다.
 ```python
 # Seaborn을 사용하여 그래프 그리기
 plt.figure(figsize=(10, 6))
@@ -71,46 +118,9 @@ for i in range(len(df_fill_rate)):
 ```
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/4-2-result1.png" title="naver cloud main page">
+    <img src="../img/4-6-result1.png" title="naver cloud main page">
 </figure>
 
-이번에는 결측값이 발생한 컬럼의 행들을 살펴보도록 하겠습니다. 히트맵을 통해 결측이 발생한 부분을 효과적으로 확인할 수 있습니다. 
-
-```python
-# 결측 행을 0, 채워진 행은 1로 변환하는 apply 적용 함수
-def tf_numeric(x):
-    if x is False:
-        return 0
-    else:
-        return 1
-
-# 결측데이터, 채워진 데이터를 각각 0,1로 변환
-null_col = df_fill_rate[df_fill_rate['null_rate(%)'] > 0].index.tolist() # 결측 컬럼 추출
-df_null = df.notnull().applymap(tf_numeric) # 값 변환하기
-
-df_null_exist = df_null[null_col] # 결측값이 존재하는 컬럼만 분리
-df_null_exist = np.transpose(df_null_exist) # 시각화 위해 축 전환
-
-
-#  히트맵 시각화
-plt.figure(figsize=(20, 8))
-sns.heatmap(df_null_exist, cbar=False, cmap='Greys', linewidth=.5, linecolor='grey')
-
-# 10의 단위로 행 번호 표기
-ax = plt.gca()
-ax.xaxis.set_major_locator(ticker.MultipleLocator(10)) # 10 단위로 표기
-ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%d행')) # 표기 형식
-
-# x축, y축 글자 회전
-plt.xticks(rotation=0, fontsize=12)
-plt.yticks(rotation=0, fontsize=12)
-```
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/4-2-result2.png" title="naver cloud main page">
-</figure>
-
-
- 히트맵 시각화를 통해 어떤 부분에서 집중적으로 결측이 발생했는지 한 눈에 파악할 수 있습니다. 대부분의 결측이 사용기준시간이나 사용료와 같은 선택적으로 기입하는 항목에서 발생했다는 것을 확인할 수 있습니다. 
 
 선택적으로 기입하는 항목이라고 해도, 공백 값을 그대로 두지 않고 '해당없음'과 같이 명확한 값을 부여해주는 것이 좋습니다. 선택 항목으로서 값이 존재하지 않는 것을 명시하는 값과 어떠한 정보도 포함하지 않는 공백 값은 엄연히 다르기 때문입니다.
 
@@ -134,52 +144,119 @@ complete = round(complete, 2)
 print("완전성(%) : ", complete)
 ```
 
-코드를 실행하면 89.19 라는 수치를 얻을 수 있습니다. 유/무료 여부에 따라 선택적으로 기입하는 사용기준시간과 사용료 컬럼이 존재한다는 것을 고려하면, 대체로 완전한 데이터셋임을 파악할 수 있습니다.
+코드를 실행하면 76.59% 라는 수치를 얻을 수 있습니다. 인구 관련 컬럼이 비어있는 경우가 많이 발견되는데, 이는 인구데이터에 없던 법정동이 샘플 데이터 존재하여, 두 데이터를 병합하면서 결측값이 발생한 것을 이해할 수 있습니다.
 
 
-## 정확성 평가 방식
+## 2. 이해가능성 평가
 
-이번에는 정확성을 살펴보도록 합시다. 정확성을 검증할 컬럼들과 평가 항목에 대해서는 아래의 표에 정리하였습니다
+컬럼의 이해가능성은 정규표현식을 통해, 데이터가 한글, 영어, 수치, 통상적으로 사용하는 기호가 아닌 인코딩 시의 오류, 또는 주, TM과 같이 기계가 판독이 불가능한 ASCII 코드 체계에 속하지 않는 기호가 포함되었는지의 여부를 점검합니다. 
 
-| 컬럼명 | 유효성 | 사실성 | 일관성 |
-|-------|--------|-------|-------|
-|휴관일 | O |x|O|
-|운영시간(시작/종료, 평일/주말)| O | X | O |
-|유료사용여부 | O | X | O |
-|사용기준시간 | O | X | O|
-|사용료| O | X | O |
-|사용안내전화번호| O | X | X|
-|소재지도로명/지번주소| O* | O | O |
-|위도/경도| O | O | O |
-|데이터기준일자| O |X|X|
-|**총합**| 9|2|7|
+정규표현식에 대한 파이썬 코드는 아래와 같습니다. `check_readable` 함수는 특수기호가 포함된 값에는 1을, 정상적인 문자에는 0을 리턴합니다.
 
-> *주소데이터에 대한 구문적 규칙 준수 여부에 대해서는 4-3과 4-4 장에서 자세히 다룰 예정이므로, 본 장에서는 논외로 하겠습니다.
-
-평가에 앞서, 각 평가항목별로 준수 여부를 1,0으로 표기할 수 있는 테이블을 생성해주도록 합시다.
 ```python
-# 유효성 평가 테이블
-valid = pd.DataFrame(np.zeros((100, 14)), # 0값으로만 채운 데이터셋을 만듭니다
-                     columns=['휴관일', '평일운영시작시각','평일운영종료시각',
-                                '주말운영시작시각','주말운영종료시각','유료사용여부',
-                                '사용기준시간','사용료','사용안내전화번호',
-                                '소재지도로명주소','소재지지번주소','위도',
-                                '경도','데이터기준일자'])
-# 사실성 평가 테이블
-factual = pd.DataFrame(np.zeros((100, 4)),
-                       columns = ['소재지도로명주소','소재지지번주소',
-                                    '위도','경도'])
-# 일관성 평가 테이블
-consis = pd.DataFrame(np.zeros((100, 12)),
-                      columns = ['휴관일','평일운영시작시각','평일운영종료시각',
-                                '주말운영시작시각','주말운영종료시각', '유료사용여부',
-                                '사용기준시간','사용료','소재지도로명주소',
-                                '소재지지번주소','위도','경도'])
+def check_readable(x):
+    if x != None:
+        if type(x) == float or type(x) == int:
+            return 1
+        else:
+            if re.search(r"[^[가-힣]\w\s,._-:;'0-9/+()]", x):
+                return 0
+            else:
+                return 1
+    else:
+        return "n"
+
+```
+함수를 적용시켜 이해가능성을 평가하는 방법은 아래와 같습니다.
+
+```python
+# 컬럼별 판정
+readable_list = []
+for col in df.columns.tolist():
+    correct = pd.DataFrame(df[col].apply(check_readable), columns =[col])
+    readable_list.append(correct)
+    
+# readable 데이터프레임 업데이트를 위한 데이터프레임 생성
+readable_df = pd.concat(readable_list, axis=1)
+
+# readable 데이터프레임 업데이트
+readable.update(readable_df[df.columns.tolist()])
+readable = readable.replace('n', None)
 ```
 
-### 1. 유효성 평가
+평가 결과를 완전성 평가 결과를 시각화했던 방법대로 시각화하면 다음과 같은 결과를 얻을 수 있습니다. 
+
+```python
+vis_portion(readable, "이해가능")
+```
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-6-result2.png" title="naver cloud main page">
+</figure>
+샘플 데이터에서는 ASCII 문자가 사용되거나 문자 인코딩이 깨진 데이터는 존재하지 않는다는 것을 확인할 수 있습니다.
+
+
+## 3. 유효성 평가
+
+유효성, 정확성, 일관성 평가부분부터는 정규표현식만 조금씩 달라질 뿐, 전반적인 로직은 거의 동일합니다.
+
+따라서, 평가요소별로 대표 컬럼 1개를 기준으로 설명하도록 하겠습니다. 
 
 유효성 평가는 주로 정규표현식을 활용해 검증합니다. 컬럼 유형별로 나눠서 어떻게 정규 표현식을 작성하고 이를 적용하는지 코드를 하나씩 보며 알아보도록 합시다.
+
+문서에서는 좌표계 컬럼의 평가 방식을 기준으로 정규표현식으로 구문 패턴을 적용해 구문 오류를 점검하는 방법에 대해 설명하겠습니다.
+
+- **좌표계 컬럼**
+    > 해당 컬럼 : 위도, 경도
+
+    위도/경도 값을 활용할 수 있는지 평가합니다. 위/경도 값 중 어느 하나의 값이 누락되었는지를 검사한 후, 좌표계의 최소 자릿수(소수점 이하 여섯 자리)를 만족하는지를 확인합니다.
+    
+    - `check_coord_format` : 좌표계 값들에 대해 자릿수에 대한 구문을 체크하는 함수
+    
+    ```python
+    def check_coord_format(input_str):
+        pat =r"^-?\d+\.\d{6,}$"
+        if re.match(pat, str(input_str)):
+            return 1
+        else:
+            if input_str != None:
+                return 0
+            return None
+    ```
+    
+    - `get_invalid_coord_rows` : 위도, 경도 중 하나의 값이 빠지는 데이터 검사하는 함수
+    
+    ```python 
+    def get_invalid_coord_rows(df):
+        notnull = df[['위도', '경도']].notnull().index
+        invalid_coord_rows = []
+        for i in notnull:
+            if (df.loc[i, "위도"] is None and df.loc[i, "경도"] is not None) or \
+                (df.loc[i, "경도"] is None and df.loc[i, "위도"] is not None):
+                    invalid_coord_rows.append(i)
+        return invalid_coord_rows
+    ```
+    - `apply` 메서드를 활용한 함수 적용 및 `valid` 테이블 업데이트
+    ```python
+    # 자릿수 체크
+    lat_correct_df = pd.DataFrame(df["위도"].apply(check_coord_format), columns =["위도"])
+    lon_correct_df = pd.DataFrame(df["경도"].apply(check_coord_format), columns =["경도"])
+
+    # 하나의 데이터가 없는 행 체크
+    invalids = get_invalid_coord_rows(df)
+    lat_correct_df.iloc[invalids] = 0
+    lon_correct_df.iloc[invalids] = 0
+
+    # 결과 업데이트
+    valid.update(lon_correct_df["경도"])
+    valid.update(lat_correct_df["위도"])
+    ```
+
+위와 같은 방식으로 나머지 컬럼들에 대해서도 정규표현식을 작성하여 구문 오류를 점검할 수 있습니다. 오류 여부는 앞서 생성한 `valid`테이블에 기입합니다.
+
+
+<details> 
+<summary>나머지 컬럼에 대한 평가 방법</summary>
 
 - **시각 컬럼**
     > 해당 컬럼 : 평일운영시작시각, 평일운영종료시각, 주말운영시작시각, 주말운영종료시각
@@ -403,117 +480,30 @@ consis = pd.DataFrame(np.zeros((100, 12)),
     </figure>
 
 
-- **좌표계 컬럼**
-    > 해당 컬럼 : 위도, 경도
-
-    위도/경도 값을 활용할 수 있는지 평가합니다. 위/경도 값 중 어느 하나의 값이 누락되었는지를 검사한 후, 좌표계의 최소 자릿수(소수점 이하 여섯 자리)를 만족하는지를 확인합니다.
-    ```python
-    # 좌표계 자릿수 체크하는 함수
-    def check_coord_format(input_str):
-        pat =r"^-?\d+\.\d{6,}$"
-        if re.match(pat, str(input_str)):
-            return 1
-        else:
-            if input_str != None:
-                return 0
-            return None
-        
-    # 위도, 경도 중 하나의 값이 빠지는 데이터 검사하는 함수
-    def get_invalid_coord_rows(df):
-        notnull = df[['위도', '경도']].notnull().index
-        invalid_coord_rows = []
-        for i in notnull:
-            if (df.loc[i, "위도"] is None and df.loc[i, "경도"] is not None) or \
-                (df.loc[i, "경도"] is None and df.loc[i, "위도"] is not None):
-                    invalid_coord_rows.append(i)
-        return invalid_coord_rows
-
-    # 자릿수 체크
-    lat_correct_df = pd.DataFrame(df["위도"].apply(check_coord_format), columns =["위도"])
-    lon_correct_df = pd.DataFrame(df["경도"].apply(check_coord_format), columns =["경도"])
-
-    # 하나의 데이터가 없는 행 체크
-    invalids = get_invalid_coord_rows(df)
-    lat_correct_df.iloc[invalids] = 0
-    lon_correct_df.iloc[invalids] = 0
-
-    # 결과 업데이트
-    valid.update(lon_correct_df["경도"])
-    valid.update(lat_correct_df["위도"])
-    ```
-<br>
+</details>
 
 **결과 종합**
 
-지금까지 유효성에 대한 개별 데이터값 별 평가는 모두 `valid` 데이터셋에 저장했는데요. 이제 `valid` 데이터셋으로 컬럼별 유효성을 계산해보도록 합시다. 유효성은 `유효데이터 / 비공백데이터`로 구해줍니다. 이러한 방식으로 사실성과 일관성도 시각화 해볼 예정이므로, 코드의 재사용을 위해 함수로 만들어 사용하도록 합시다.
-
-> [파이썬 코드 파일]()에는 plotly를 사용해 동적으로 바 차트를 구현한 코드도 있습니다.
-
+다른 컬럼들에 대해서도 구문 오류를 체크했다면, 이제 `valid` 데이터셋으로 컬럼별 유효성을 계산해보도록 합시다.
 ```python
-# 결과 종합 시각화 함수
-def vis_portion(table, name):
-    val_counts = pd.DataFrame()
-    for col in table.columns:
-        valcol = table[col].value_counts()
-        val_counts = pd.concat([val_counts, valcol], axis=1)
-
-    val_counts = val_counts.fillna(0)
-    val_counts = np.transpose(val_counts)
-    val_counts["none"] = (100-val_counts[1]-val_counts[0])
-    val_counts[name] = val_counts[1] / (val_counts[1]+val_counts[0]) * 100
-    val_counts = val_counts.sort_values(by=0, ascending=True)
-    
-    fig, axes = plt.subplots(1, 2,sharey=True)
-    fig.set_size_inches(10, 5)
-    axes[0].barh(val_counts.index.tolist(), val_counts[1], color='#afe0ed')
-    axes[0].barh(val_counts.index.tolist(), val_counts[0], left=val_counts[1], color='#edafd2')
-    axes[0].barh(val_counts.index.tolist(), val_counts["none"], left=val_counts[1]+val_counts[0], color='#ebeded')
-    axes[0].set_title("컬럼별 %s 데이터 비중"%name)
-
-
-    axes[1].barh(val_counts.index.tolist(), val_counts[name], color='#a78bfa')
-    axes[1].set_title("컬럼별 %s성( %s 데이터 / 비공백 데이터 )"%(name,name))
-    # 서브플롯 간의 간격 조정
-    plt.subplots_adjust(wspace=0.07)
-    for i in range(len(val_counts)):
-        axes[1].text(val_counts[name][i]-6, i, f"{round(val_counts[name][i],2)}%", ha="center", va="center")
-    axes[0].set_frame_on(False)
-    axes[1].set_frame_on(False)
-    return val_counts
-
-  # 함수실행
-  vis_portion(valid, "유효") 
+# 실행 코드
+vis_portion(valid, "유효") 
 ```
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/4-2-result4.png" title="naver cloud main page">
+    <img src="../img/4-6-result3.png" title="naver cloud main page">
 </figure>
 
 전체 데이터셋의 유효성은 `컬럼별 유효성 총합 / 유효성 평가 대상 컬럼 수`로 구합니다. 샘플 데이터의 유효성은 84.54%임을 확인할 수 있습니다.
 
-### 2. 사실성 평가
+## 4. 정확성 평가
 
-해당 주소나 좌표가 실제로 존재하는지 알아보도록 합시다. 1장의 API 코드를 활용하여 해당 주소나 좌표값을 검색하고, 실존하는 주소인지 확인합니다. 
+> 외부 API를 활용해야 하므로 시간이 매우 오래 소요됩니다. 이미 API를 통해 검사가 완료된 데이터를 첨부했으니( [링크]() ), 빠르게 확인하고자 하시는 분들은 바로 데이터를 불러와서 활용해주세요.
 
-API는 주소에 상응하는 좌표계도 결과로 제공합니다. 일관성 평가 파트에서 주소 컬럼과 좌표계의 일치 여부를 확인하기 위해 또 다시 API를 요청하는 것은 비효율적이므로, 이번 파트에서는 도로명주소-지번주소, 주소-좌표계의 일관성도 함께 체크하겠습니다.
+앞선 장에서는 도로명주소가 실제로 존재하는지를 알아봤습니다. 이번에는 지번 주소와 좌표계 데이터가 실제로 존재하는지 알아볼 것인데요. 4.4.에서 활용했던 코드들을 조금 수정해 다시 사용하겠습니다. 
 
-본격적으로 주소데이터를 평가하기 전에, API를 쉽게 호출 할 수 있도록 함수를 만들어줍시다.
+일관성 평가 파트에서 주소 컬럼과 좌표계의 일치 여부를 확인하기 위해 또 다시 API를 요청하는 것은 비효율적이므로, 이번 파트에서는 도로명주소-지번주소, 주소-좌표계의 일관성도 함께 체크하겠습니다.
 
-```python
-# 주소 검색 함수
-def search_addr(addr):
-    # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
-    headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
-
-    # 파라미터에는 검색할 주소를 입력합니다. 
-    params = {"query" : addr, "output":"json"}
-
-    # 정보를 요청할 url입니다
-    url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
-
-    data = requests.get(url, headers=headers, params=params)
-    
-    return json.loads(data.text)
-```
+주소와 좌표계의 정확성을 평가하기 위해선 호출 한도가 있는 외부 API를 활용하므로, 한 번 호출 할 때 주소와 함께 좌표계까지 점검해야 합니다. 보다 효율적인 주소-좌표 컬럼 점검 과정은 아래와 같습니다.
 
 - **STEP 1. 도로명주소, 지번주소 존재 여부 확인**
     
@@ -557,9 +547,101 @@ def search_addr(addr):
 
 <br>
 
-위의 과정에 따라 코드를 입력하면 다음과 같습니다. 먼저 STEP1.에 해당하는 과정을 따르는 코드입니다.
+위의 과정에 따라 코드를 입력하면 다음과 같습니다. 먼저 STEP1.에 해당하는 과정을 따르는 코드입니다. 도로명주소에 대한 점검과 정제는 이미 앞선 챕터에서 완료했으므로, 이번에는 지번주소와 좌표계 데이터의 존재 여부만 점검하도록 하겠습니다.
+
+아래에서 설명할 코드들에서는 4.4.장에서 API호출 및 주소 구성 요소를 사용했었던 함수들이 포함됩니다. 사용되는 함수들의 코드는 다음과 같습니다.
+
+<details>
+    <summary> 사용 함수 코드</summary>
+
+- `search_addr` : 주소 검색 함수
+
+    ```python
+    # 주소 검색 함수
+    def search_addr(addr):
+        # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+        headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+        # 파라미터에는 검색할 주소를 입력합니다. 
+        params = {"query" : addr, "output":"json"}
+
+        # 정보를 요청할 url입니다
+        url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
+
+        data = requests.get(url, headers=headers, params=params)
+        
+        return json.loads(data.text)
+    ```
+
+- `search_coord` : 좌표계 검색 함수
+
+    ```python
+    # 좌표 검색 함수
+    # 경도, 위도 순으로 입력
+    def search_coords(x,y):
+        coord = f"{x},{y}"
+        # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+        headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+        # 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
+        params = {"coords" : coord, "output":"json", "orders":"roadaddr,addr"}
+
+        # 정보를 요청할 url입니다
+        url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+
+        data = requests.get(url, headers=headers, params=params)
+        
+        return json.loads(data.text)
+    ```
+
+- `road_addr_maker` : 리턴된 주소 구성요소로부터 도로명주소를 합성하는 함수
+
+    ```python
+    # 도로명주소를 합성하는 함수
+    def road_addr_maker(road_obj):
+        road = road_obj["region"]["area1"]["name"] + " " + road_obj["region"]["area2"]["name"]
+        if road_obj["region"]["area3"]["name"][-1] == "읍" or road_obj["region"]["area3"]["name"][-1] == "면":
+            road += " " + road_obj["region"]["area3"]["name"]
+        if road_obj["land"]["name"] != "":
+            road += " " + road_obj["land"]["name"]
+        if road_obj["land"]["number1"] != "":
+            road += " " + road_obj["land"]["number1"]
+        if  road_obj["land"]["number2"] != "":
+            road += "-" + road_obj["land"]["number2"]
+        return road
+    ```
+
+- `addr_maker` : 리턴된 주소 구성요소로부터 지번주소를 합성하는 함수
+
+    ```python
+    # 지번주소를 합성하는 함수
+    def addr_maker(addr_obj):
+        addr = addr_obj["region"]["area1"]["name"] + " " + addr_obj["region"]["area2"]["name"] + " " + addr_obj["region"]["area3"]["name"]
+        if addr_obj["region"]["area4"]["name"] != "":
+            addr += " " + addr_obj["region"]["area4"]["name"]
+        if addr_obj["land"]["type"] == "1":
+            addr += " " + addr_obj["land"]["number1"]
+        if addr_obj["land"]["type"] == "2":
+            addr += " " + addr_obj["land"]["number1"]+"-"+addr_obj["land"]["number2"]
+    return addr
+    ```
+
+</details>
+
+
+다음은 STEP2.에 해당하는 코드입니다. STEP1. 을 거치며 업데이트된 `factual`, `consist` 테이블을 활용해야 하므로, 앞선 코드를 반드시 먼저 실행해주세요. 
+
+<details>
+    <summary>코드 전문</summary>
 
 ```python
+# 도로명주소, 지번주소 모두 존재하는 경우
+addr_idx1 = df['소재지도로명주소'].notnull().index.tolist()
+addr_idx2 = df['소재지지번주소'].notnull().index.tolist()
+
+addr_idx = addr_idx1+addr_idx2
+addr_idx = list(set(addr_idx)) 
+
 for i in tqdm(addr_idx):
     if (i in addr_idx1) and (i in addr_idx2):
         re_val = search_addr(df.loc[i, "소재지도로명주소"])
@@ -595,121 +677,51 @@ for i in tqdm(addr_idx):
                     factual['소재지지번주소'][i] = None
                     consist["소재지도로명주소-소재지지번주소"][i] = None
 ```
+</details>
 
-다음은 STEP2.에 해당하는 코드입니다. STEP1. 을 거치며 업데이트된 `factual`, `consist` 테이블을 활용해야 하므로, 앞선 코드를 반드시 먼저 실행해주세요.
-
-본격적으로 API를 호출하는 코드를 작성하기에 앞서, 주소 구성요소들로 분절된 결과값을 합성해주는 함수를 작성해줍시다. 코드에 대한 자세한 설명은 뒷장에서 상세히 다루도록 하겠습니다.
-
-```python
-
-# 도로명주소를 합성하는 함수
-def road_addr_maker(road_obj):
-    road = road_obj["region"]["area1"]["name"] + " " + road_obj["region"]["area2"]["name"]
-    if road_obj["region"]["area3"]["name"][-1] == "읍" or road_obj["region"]["area3"]["name"][-1] == "면":
-        road += " " + road_obj["region"]["area3"]["name"]
-    if road_obj["land"]["name"] != "":
-        road += " " + road_obj["land"]["name"]
-    if road_obj["land"]["number1"] != "":
-        road += " " + road_obj["land"]["number1"]
-    if  road_obj["land"]["number2"] != "":
-        road += "-" + road_obj["land"]["number2"]
-    return road
-
-# 지번주소를 합성하는 함수
-def addr_maker(addr_obj):
-    addr = addr_obj["region"]["area1"]["name"] + " " + addr_obj["region"]["area2"]["name"] + " " + addr_obj["region"]["area3"]["name"]
-    if addr_obj["region"]["area4"]["name"] != "":
-        addr += " " + addr_obj["region"]["area4"]["name"]
-    if addr_obj["land"]["type"] == "1":
-        addr += " " + addr_obj["land"]["number1"]
-    if addr_obj["land"]["type"] == "2":
-        addr += " " + addr_obj["land"]["number1"]+"-"+addr_obj["land"]["number2"]
-    return addr
-```
-
-그리고 좌표계를 검색하는 함수도 작성해줍시다.
-
-```python
-# 좌표 검색 함수
-# 경도, 위도 순으로 입력
-def search_coords(x,y):
-    coord = f"{x},{y}"
-    # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
-    headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
-
-    # 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
-    params = {"coords" : coord, "output":"json", "orders":"roadaddr,addr"}
-
-    # 정보를 요청할 url입니다
-    url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
-
-    data = requests.get(url, headers=headers, params=params)
-    
-    return json.loads(data.text)
-```
 
 이제 좌표계의 실존 여부와, 좌표계와 주소의 일치여부를 확인해봅시다. 좌표계의 실존여부와 함께 도로명, 지번주소와의 일치 여부를 동시에 체크하므로 코드가 다소 복잡합니다. 
 
-```python
-for i in tqdm(val_coords):
-        # 좌표계 검색
-        re_val = search_coords(df.loc[i, "경도"],df.loc[i, "위도"])
-      
-        # 검색한 좌표계가 존재하는지 확인
-        if (re_val["status"]["name"] != "ok") or (len(re_val["results"]) == 0):
-            factual['위도'][i] = 0
-            factual['경도'][i] = 0
-            consist["소재지지번주소-좌표계"][i] = None
-            consist["소재지도로명주소-좌표계"][i] = None
-        
-        # 검색한 좌표계가 존재하는 경우   
-        else:
-            factual['위도'][i] = 1
-            factual['경도'][i] = 1
-            # 지번, 도로명주소가 모두 존재하는 지점인 경우
-            if len(re_val["results"]) == 2:
-                road_obj = re_val["results"][0]
-                addr_obj = re_val["results"][1]
-                
-                # 주소 합성
-                road = road_addr_maker(road_obj)
-                addr= addr_maker(addr_obj)
+<details>
+    <summary> 코드 전문 </summary>
 
-                # 각각의 주소가 존재하는 경우에 따라 비교
-                # 지번주소만 존재하는 경우
-                if df['소재지도로명주소'][i] != None:
-                    if df['소재지도로명주소'][i] == road:
-                        consist["소재지도로명주소-좌표계"][i] = 1
-                    else:
-                        consist["소재지도로명주소-좌표계"][i] = 0
-                else:
-                    consist["소재지도로명주소-좌표계"][i] = None
-                
-                # 도로명주소만 존재하는 경우
-                if df['소재지지번주소'][i] != None:
-                    if df['소재지지번주소'][i] == addr:
-                        consist["소재지지번주소-좌표계"][i] = 1
-                    else:
-                        consist["소재지지번주소-좌표계"][i] = 0
-                else:
-                    consist["소재지지번주소-좌표계"][i] = None
+
+```python
+    for i in tqdm(val_coords):
+            # 좌표계 검색
+            re_val = search_coords(df.loc[i, "경도"],df.loc[i, "위도"])
+        
+            # 검색한 좌표계가 존재하는지 확인
+            if (re_val["status"]["name"] != "ok") or (len(re_val["results"]) == 0):
+                factual['위도'][i] = 0
+                factual['경도'][i] = 0
+                consist["소재지지번주소-좌표계"][i] = None
+                consist["소재지도로명주소-좌표계"][i] = None
             
-            # 지번, 도로명 중 하나의 주소만 존재하는 경우
-            # (일반적으로 지번만 존재하는 경우가 다수임)
-            elif len(re_val["results"]) == 1:
-                if re_val["results"][0]["name"] == "roadaddr":
+            # 검색한 좌표계가 존재하는 경우   
+            else:
+                factual['위도'][i] = 1
+                factual['경도'][i] = 1
+                # 지번, 도로명주소가 모두 존재하는 지점인 경우
+                if len(re_val["results"]) == 2:
                     road_obj = re_val["results"][0]
+                    addr_obj = re_val["results"][1]
+                    
+                    # 주소 합성
                     road = road_addr_maker(road_obj)
+                    addr= addr_maker(addr_obj)
+
+                    # 각각의 주소가 존재하는 경우에 따라 비교
+                    # 지번주소만 존재하는 경우
                     if df['소재지도로명주소'][i] != None:
                         if df['소재지도로명주소'][i] == road:
                             consist["소재지도로명주소-좌표계"][i] = 1
                         else:
                             consist["소재지도로명주소-좌표계"][i] = 0
                     else:
-                        consist["소재지도로명주소-좌표계"][i] = None 
-                else:
-                    addr_obj = re_val["results"][0]
-                    addr= addr_maker(addr_obj)
+                        consist["소재지도로명주소-좌표계"][i] = None
+                    
+                    # 도로명주소만 존재하는 경우
                     if df['소재지지번주소'][i] != None:
                         if df['소재지지번주소'][i] == addr:
                             consist["소재지지번주소-좌표계"][i] = 1
@@ -717,38 +729,67 @@ for i in tqdm(val_coords):
                             consist["소재지지번주소-좌표계"][i] = 0
                     else:
                         consist["소재지지번주소-좌표계"][i] = None
+                
+                # 지번, 도로명 중 하나의 주소만 존재하는 경우
+                # (일반적으로 지번만 존재하는 경우가 다수임)
+                elif len(re_val["results"]) == 1:
+                    if re_val["results"][0]["name"] == "roadaddr":
+                        road_obj = re_val["results"][0]
+                        road = road_addr_maker(road_obj)
+                        if df['소재지도로명주소'][i] != None:
+                            if df['소재지도로명주소'][i] == road:
+                                consist["소재지도로명주소-좌표계"][i] = 1
+                            else:
+                                consist["소재지도로명주소-좌표계"][i] = 0
+                        else:
+                            consist["소재지도로명주소-좌표계"][i] = None 
+                    else:
+                        addr_obj = re_val["results"][0]
+                        addr= addr_maker(addr_obj)
+                        if df['소재지지번주소'][i] != None:
+                            if df['소재지지번주소'][i] == addr:
+                                consist["소재지지번주소-좌표계"][i] = 1
+                            else:
+                                consist["소재지지번주소-좌표계"][i] = 0
+                        else:
+                            consist["소재지지번주소-좌표계"][i] = None
 ```
+</details>
 
-약간의 시간에 걸쳐서 체크가 완료되었을텐데요, 테이블이 모두 채워진 사실성부터 점검해보도록 합시다. 앞서 만들었던 시각화 함수 `vis_portion`을 사용해 결과를 시각화합니다.
+긴 시간에 걸쳐서 체크가 완료되었을텐데요, 테이블이 모두 채워진 사실성부터 점검해보도록 합시다. 앞서 만들었던 시각화 함수 `vis_portion`을 사용해 결과를 시각화합니다.
 
 ```python
-vis_portion(factual, "사실")
+vis_portion(factual, "정확")
 ```
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-2-result5.png" title="naver cloud main page">
 </figure>
 
-전체 데이터셋의 사실성은 유효성 평가와 마찬가지로 `컬럼별 사실성 총합 / 사실성 평가 대상 컬럼 수`로 구합니다. 샘플 데이터의 사실성은 92.82%임을 확인할 수 있습니다.
+전체 데이터셋의 정확성은 유효성 평가와 마찬가지로 `컬럼별 정확성 총합 / 정확성 평가 대상 컬럼 수`로 구합니다. 샘플 데이터의 사실성은 92.82%임을 확인할 수 있습니다.
 
-### 3. 일관성 평가
+정확성 평가의 경우, 외부 API를 활용해 데이터 하나씩 검사를 요청하는 만큼, 데이터의 크기가 크면 클스록시간이 오래 소요됩니다. 또는, 교차 검증할 데이터세트가 따로 없는 경우도 있을 것입니다. 이러한 경우, 필요에 따라 해당 과정을 생략할 수도 있습니다.
 
-주소와 주소, 주소와 좌표계의 일관성을 평가하는 부분을 제외하고는, 맵핑 테이블을 활용해 어긋나는 경우만을 필터링 하는 방식으로 일관성에 어긋나는 데이터를 간단히 평가할 수 있습니다.
+## 5. 일관성 평가
+
+주소와 주소, 주소와 좌표계의 일관성을 평가하는 부분을 제외하고는, 맵핑 테이블을 활용해 어긋나는 경우만을 필터링 하는 방식으로 일관성에 어긋나는 데이터를 간단히 평가할 수 있습니다. 휴관일 컬럼과 주말운영시작/종료시각의 컬럼을 기준으로 평가 방법을 설명하겠습니다.
 
 - 휴관일 & 주말운영시작시각, 주말운영종료시각
 
     휴관일의 경우, 기입 형식이 매우 다양한 것을 확인할 수 있습니다. 정확한 비교를 위해 요일에 대한 표기에서 모두 '-요일'을 제거합니다. 편리한 비교를 위해 "공휴일"에서 "-일"도 제거합니다.
 
-    ```python
-    def day_cleaner(x):
-        if "요일" in x:
-            x = x.replace("요일", "")
-        if "공휴일" in x:
-            x = x.replace("공휴일", "공휴")
-        return x
+    - `day_cleaner` : '-일'을 제외하는 함수
+        
+        ```python
+        def day_cleaner(x):
+            if "요일" in x:
+                x = x.replace("요일", "")
+            if "공휴일" in x:
+                x = x.replace("공휴일", "공휴")
+            return x
 
-    df['휴관일'] = df['휴관일'].apply(lambda x: day_cleaner(x))
-    df['휴관일'].unique()       
-    ```
+        df['휴관일'] = df['휴관일'].apply(lambda x: day_cleaner(x))
+        df['휴관일'].unique()       
+        ```
 
     `00:00`의 경우, 정황상 운영하지 않는다는 것을 나타내었다는 것으로 추측 할 수 있겠으나 상시운영으로 해석될 여지가 있으므로, 이 경우도 모두 일관성이 어긋나는 데이터로 판정합니다. 맵핑 테이블은 다음 표와 같습니다.
 
@@ -760,71 +801,82 @@ vis_portion(factual, "사실")
 
     맵핑 테이블을 코드로 구현하여 적용한 것은 다음과 같습니다.
 
-    ```python
-    # 맵핑 테이블
-    def  map_table(x,y):
-        if x != None:
-            if "토+일" in x: # 토요일/일요일이 휴관일
-                if y == None:
+    - `map_table` : 맵핑 테이블에 따라 데이터의 구문 오류를 체크하는 함수
+        ```python
+        # 맵핑 테이블
+        def  map_table(x,y):
+            if x != None:
+                if "토+일" in x: # 토요일/일요일이 휴관일
+                    if y == None:
+                        return 1
+                    else: # 주말이 휴관일인데 주말운영시각이 존재하는 경우
+                        return 0
+                else:
                     return 1
-                else: # 주말이 휴관일인데 주말운영시각이 존재하는 경우
-                    return 0
             else:
                 return 1
-        else:
-            return 1
-        
+        ```
+    앞선 파트와 마찬가지로 `apply` 메서드로 `map_table`함수를 컬럼별로 적용시켜줍니다.
+
+    ```python
     # apply를 활용한 맵핑 테이블 적용   
     consist["휴관일-주말운영시작시각"] = df.apply(lambda x: map_table(x['휴관일'], x['주말운영시작시각']), axis=1)
     consist["휴관일-주말운영종료시각"] = df.apply(lambda x: map_table(x['휴관일'], x['주말운영종료시각']), axis=1)
     ```
 
-- 유료사용여부 & 사용료
+    다른 평가 대상 컬럼들에 대해서도 `map_table`의 내용만 바꿔 위와 동일한 방법으로 평가가 진행됩니다.
+    <details>
+        <summary> 나머지 컬럼에 대한 평가 방법 </summary>
 
-    앞서 유효성 검사에서 `Y/N`의 형식으로 작성되지 않았던 데이터들을 모두 수정 한 후 비교해줍시다. "0"은 모두 "무료"로 바꿔줍니다.
-    
-    맵핑 테이블은 아래와 같습니다.
-    
-    | 유료사용여부 | 사용료 | 오류판정 |
-    |-------------|-------|----------|
-    |N| 무료 | X|
-    |N| None | None (평가불가)|
-    |N| 무료, None이 아닌 모든 값 | O|
-    |Y| None | None (평가불가) |
-    |Y| 무료 | O|
-    |Y| None, 무료가 아닌 모든 값 | X|
+    - 유료사용여부 & 사용료
 
-    테이블에 따라 작성한 코드입니다. 
+        앞서 유효성 검사에서 `Y/N`의 형식으로 작성되지 않았던 데이터들을 모두 수정 한 후 비교해줍시다. "0"은 모두 "무료"로 바꿔줍니다.
+        
+        맵핑 테이블은 아래와 같습니다.
+        
+        | 유료사용여부 | 사용료 | 오류판정 |
+        |-------------|-------|----------|
+        |N| 무료 | X|
+        |N| None | None (평가불가)|
+        |N| 무료, None이 아닌 모든 값 | O|
+        |Y| None | None (평가불가) |
+        |Y| 무료 | O|
+        |Y| None, 무료가 아닌 모든 값 | X|
 
-    ```python
-    # 0원을 모두 '무료'로 변환
-    df['사용료'] = df['사용료'].replace("0","무료") 
+        테이블에 따라 작성한 코드입니다. 
 
-    # 맵핑테이블
-    def  yn_map_table(x,y):
-        if x == "Y":
-            if y == None:
-                return None
-            elif y == "무료":
-                return 0
-            else:
-                return 1
-        else:
-            if x == "N":
-                if y == "무료":
-                    return 1
-                elif y == None:
+        ```python
+        # 0원을 모두 '무료'로 변환
+        df['사용료'] = df['사용료'].replace("0","무료") 
+
+        # 맵핑테이블
+        def  yn_map_table(x,y):
+            if x == "Y":
+                if y == None:
                     return None
-                else:
+                elif y == "무료":
                     return 0
+                else:
+                    return 1
             else:
-                return None
-    
-    # 맵핑 테이블 적용
-    consist["유료사용여부-사용료"] = df.apply(lambda x: yn_map_table(x['유료사용여부'], x['사용료']), axis=1)
-    ```
+                if x == "N":
+                    if y == "무료":
+                        return 1
+                    elif y == None:
+                        return None
+                    else:
+                        return 0
+                else:
+                    return None
+        
+        # 맵핑 테이블 적용
+        consist["유료사용여부-사용료"] = df.apply(lambda x: yn_map_table(x['유료사용여부'], x['사용료']), axis=1)
+        ```
 
-컬럼별 일관성은 다음과 같습니다.
+    </details>
+
+
+전체 컬럼별 일관성은 다음과 같습니다.
 
 ```python
 vis_portion(consist, "일관")
@@ -834,20 +886,18 @@ vis_portion(consist, "일관")
     <img src="../img/4-2-result6.png" title="naver cloud main page">
 </figure>
 
-전체 데이터의 일관성은 63.39% 입니다. 대부분 도로명주소와 지번주소, 주소-좌표계에서 불일치하는 데이터가 많이 발생했다는 것을 확인할 수 있습니다. 도로명주소와 지번주소, 주소컬럼들과 좌표계 컬럼에서 왜 이렇게 많은 불일치 데이터가 나타났던 것인지 뒤의 장에서 자세히 알아보도록 하겠습니다.
+주소 컬럼, 특히 지번주소와 도로명주소에서의 불일치가 높게 나타나는 것을 확인할 수 있습니다. 또한, 좌표계 데이터와의 불일치도 높게 나타납니다. 따라서, 도로명주소를 통한 주소와 좌표계 데이터의 수정이 필요해 보입니다.
 
 
-### 4. 정확성 평가
+## 종합 평가
 
-앞선 과정에서 전체 데이터셋의 유효성, 사실성, 일관성을 평가했습니다. 결과를 간단히 정리하면 다음과 같습니다.
+지금까지 전체 데이터셋의 완전성, 유효성, 이해가능성, 정확성, 일관성을 평가했습니다. 결과를 간단히 정리하면 다음과 같습니다.
 
-|유효성|사실성|일관성|
-|-----|------|-----|
-|84.54|92.82|63.69|
+|완전성|이해가능성|유효성|정확성|일관성|
+|-----|------|-----|-----|------|
+|84.54|92.82|63.69| 1|1 |
 
 정확성은 이 세 수치의 평균으로 구할 수 있습니다. 정확성은 80.35%입니다. 이 수치들을 방사형 그래프(rader chart)로 나타내어 봅시다. 
-
-matplotlib을 사용하는 방법은 너무 복잡하므로 여기서는 plotly 라이브러리로 간단하게 시각화 하겠습니다.
 
 ```python
 import plotly.express as px
@@ -865,8 +915,4 @@ fig.show()
 
 이처럼 레이더 차트를 활용해 해당 데이터셋의 정확성 요소들의 수치들을 한 눈에 비교하고, 보완이 필요한 부분을 구체적으로 파악할 수 있습니다.
 
-
-
-## 전체 데이터 품질
-
-전체 데이터 품질은 완전성과 정확성의 평균으로 구해집니다. 앞서 구한 완전성 수치는 89.19, 정확성 수치는 80.35 이므로, 전체 데이터의 품질은 84.76입니다. 이 수치를 통해 해당 데이터가 약간의 정제 과정만 거치면 대부분의 데이터를 활용 가능 하다는 점을 파악할 수 있습니다.
+위의 5가지 수치들의 평균으로 전체적인 데이터의 품질이 어떤 수준인지 파악할 수 있습니다. 전체적인 수치 평균은 NN으로, 해당 데이터가 약간의 정제 과정만 거치면 대부분의 데이터를 활용 가능 하다는 점을 알 수 있습니다.
