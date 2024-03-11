@@ -135,6 +135,7 @@ errs = addr_error[(addr_error["pattern"] == 1) | ( addr_error["unvalid_city"] ==
 
 구문 오류에 따라 정규표현식을 적용하여 수정하는데요. 단계적으로 오류 사항을 하나씩 수정해나가는 과정을 거칩니다. 
 
+
 <details>
     <summary>주소의 구문 오류를 정제하는 코드</summary>
 
@@ -307,6 +308,7 @@ df['소재지도로명주소'][errs.index] = newadds
 ```
 정제가 완료된 후, 앞선 구문 유효성 체크 함수를 다시 실행시킨 후 다시 시각화 해봅시다.
 
+
 ```python
 df.index.map(lambda i: element_check(i))
 add_error_fig = make_error_rate_plot(addr_error, "pattern")
@@ -381,6 +383,93 @@ for i in tqdm(range(len(df))):
 ```python
 idx = addr_error[addr_error["exist"]==1].index.tolist()
 idx += addr_error[addr_error["exist"].isnull()].index.tolist()
+```
+
+`search_coords`는 좌표계를 통해 도로명주소를 검색하는 함수입니다. 앞서 도로명주소를 검색하는 함수와 유사하나, 요청 URL과 요청값이 다릅니다.
+
+```python
+# 주소 검색 함수
+def search_addr(addr):
+    # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+    headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+    # 파라미터에는 검색할 주소를 입력합니다. 
+    params = {"query" : addr, "output":"json"}
+
+    # 정보를 요청할 url입니다
+    url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
+
+    data = requests.get(url, headers=headers, params=params)
+    
+    return json.loads(data.text)
+```
+
+`search_addr`함수를 이용해 도로명주소의 실존 여부를 확인하는 코드는 아래와 같습니다. 응답값의 검색 결과 개수를 기준으로 존재 여부를 체크합니다.
+
+
+
+주소가 존재할 경우, 추후 인구데이터와의 병합키를 만들기 위해 동명칭을 검색 결과에서 추출해 `addr_error`테이블의 `API_addr`에 추가합니다.
+
+```python
+for i in tqdm(range(len(df))):
+    if df['소재지도로명주소'][i] != None:
+        re_val = search_addr(df.loc[i, "소재지도로명주소"])
+        
+        # 검색한 주소가 존재하는지 확인
+        if (re_val["status"] != "OK") or (re_val["meta"]["totalCount"] == 0):
+            addr_error['exist'][i] = 1
+            addr_error['API_addr'][i] = None
+            
+        else:
+            if re_val["status"] == "OK":
+                addr_error['exist'][i] = 0
+                
+                # 동명칭을 추가합니다.
+                dong = re_val['addresses'][0]["addressElements"][2]["longName"]
+                addr_error['API_addr'][i] = dong
+    else:
+        addr_error['exist'][i] = None
+        addr_error['API_addr'][i] = None
+```
+
+결과를 `make_error_rate_plot`함수로 시각화하면 다음과 같습니다.
+<embed src="/docs/4-4-addr-exist.html" width="100%" height="420px"></embed>
+
+
+### 2. 존재하지 않는 주소는 좌표계 데이터로 정제하기
+
+샘플 데이터에는 좌표계 데이터가 존재합니다. 존재하지 않는 도로명주소들에 대해서는 좌표계 데이터를 통한 주소 검색으로 나온 결과값으로 수정합니다.
+
+먼저 정제할 행들을 추출해 `idx`라는 리스트에 넣어줍니다. 이번에는, 도로명주소 컬럼의 결측 행도 포함시켜줍니다.
+
+```python
+
+idx = addr_error[addr_error["exist"]==1].index.tolist()
+idx += addr_error[addr_error["exist"].isnull()].index.tolist()
+# 도로명주소를 합성하는 함수
+def road_addr_maker(road_obj):
+    road = road_obj["region"]["area1"]["name"] + " " + road_obj["region"]["area2"]["name"]
+    if road_obj["region"]["area3"]["name"][-1] == "읍" or road_obj["region"]["area3"]["name"][-1] == "면":
+        road += " " + road_obj["region"]["area3"]["name"]
+    if road_obj["land"]["name"] != "":
+        road += " " + road_obj["land"]["name"]
+    if road_obj["land"]["number1"] != "":
+        road += " " + road_obj["land"]["number1"]
+    if  road_obj["land"]["number2"] != "":
+        road += "-" + road_obj["land"]["number2"]
+    return road
+
+# 지번주소 합성 함수 (본 챕터에서 사용 X)
+def addr_maker(addr_obj):
+    addr = addr_obj["region"]["area1"]["name"] + " " + addr_obj["region"]["area2"]["name"] + " " + addr_obj["region"]["area3"]["name"]
+    if addr_obj["region"]["area4"]["name"] != "":
+        addr += " " + addr_obj["region"]["area4"]["name"]
+    if addr_obj["land"]["type"] == "1":
+        addr += " " + addr_obj["land"]["number1"]
+    if addr_obj["land"]["type"] == "2":
+        addr += " " + addr_obj["land"]["number1"]+"-"+addr_obj["land"]["number2"]
+    return addr
+
 ```
 
 다음은 코드에서 사용되는 함수들입니다.
@@ -519,7 +608,9 @@ df["key"] = df.index.map(lambda i: key_make(i))
 merged = pd.merge(left = df, right = census, on="key", how="left")
 ```
 
+
 합쳐진 데이터를 `merged_clean.xlsx`로 저장해줍니다. 다음 챕터에서는 이렇게 합친 데이터의 품질을 평가하는 방법에 대해 알아보도록 하겠습니다.
+
 
 ```python
 # 사용하지 않을 컬럼은 제외합니다

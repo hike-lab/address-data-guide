@@ -1,4 +1,4 @@
-# 5. 주소 관련 코드체계
+# 2.6 주소 관련 코드체계
 
 <br>
 
@@ -27,7 +27,7 @@
 법정동코드와 행정동코드는 10자리로 구성되고, 각 자리의 의미는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-korea-admin-code-ex.png" title="법정동코드-행정동코드">
+    <img src="../img/2-6-korea-admin-code-ex.png" title="법정동코드-행정동코드">
     <figcaption style="text-align: center;">법정동코드와 행정동코드의 비교 (출처: <a href="https://blog.harampark.com/blog/korea-admin-codes" target="_blank">blog</a>)</figcaption>
 </figure>
 
@@ -42,13 +42,13 @@
 지번을 표현하는 코드로, 토지의 위치를 식별하기 위해 사용됩니다. [공간정보의 구축 및 관리 등에 관한 법률 시행규칙](<https://www.law.go.kr/법령/공간정보의구축및관리등에관한법률시행규칙/(20240206,01305,20240206)/제68조>) 제 68조에 따르면, '토지의 고유번호'를 관리하고 있으며, 이를 필지코드(PNU)라고 합니다. 필지코드는 19자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-pnu.png" title="PNU">
+    <img src="../img/2-6-pnu.png" title="PNU">
     <figcaption style="text-align: center;">필지코드(PNU)</figcaption>
 </figure>
 
 - 행정구역코드 10자리 + 산여부 1자리 + 지번본번 4자리 + 지번부번 4자리
 
-행정구역코드는 법정동코드 10자리와 동일하고, 산여부는 주소데이터 상 지번에 산이 포함되어 있을 때 사용됩니다. 산이 있는 경우, 임야대장에서 관리하므로 1은 토지대장, 2는 임야대장을 의미합니다. 지번본번과 지번부번은 자릿수에 따라 앞자리에 0이 들어갈 수 있습니다. 예를 들어, 0100-0001은 주소에서 100-1로 표기됩니다.
+행정구역코드는 법정동코드 10자리와 동일하고, 산여부는 주소데이터 상 지번에 산이 포함되어 있을 때 사용됩니다. 주소가 부여된 건물의 지번에 산이 없으면 0, 산이 있으면 1로 구분합니다. 지번본번과 지번부번은 자릿수에 따라 앞자리에 0이 들어갈 수 있습니다. 예를 들어, 0100-0001은 주소에서 100-1로 표기됩니다.
 
 주소 데이터의 컬럼에서 명시적으로 등장하지 않지만, 외부 데이터(예: 건축물대장)와 연계 시 사용됩니다. 또한, 지번과 도로명주소를 연계하여 사용할 때 활용할 수 있습니다.
 
@@ -57,7 +57,7 @@
 도로명이 부여된 도로를 관리하기 위한 코드입니다. 도로명주소가 도입되면서 도로명을 체계적으로 관리하기 위해 도로명마다 고유번호를 부여하고 있습니다. 도로명코드는 12자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-road.png" title="도로명코드">
+    <img src="../img/2-6-road.png" title="도로명코드">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
@@ -88,7 +88,7 @@
 도로명주소관리번호는 26자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-address-code.png" title="도로명주소관리번호">
+    <img src="../img/2-6-address-code.png" title="도로명주소관리번호">
     <figcaption style="text-align: center;">도로명주소관리번호</figcaption>
 </figure>
 
@@ -103,7 +103,7 @@
 건물관리번호는 26자리로 구성되어 있으며, 각 자리의 의미는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/2-5-building-code.png" title="건물관리번호">
+    <img src="../img/2-6-building-code.png" title="건물관리번호">
     <figcaption style="text-align: center;">건물관리번호</figcaption>
 </figure>
 
@@ -115,9 +115,9 @@
 
 ## 참고자료
 
-- [행정동코드, 법정동코드, 행정구역코드 뽀개기](https://blog.harampark.com/blog/korea-admin-codes/)
-- [공간정보의 구축 및 관리 등에 관한 법률 시행규칙](<https://www.law.go.kr/법령/공간정보의구축및관리등에관한법률시행규칙/(20240206,01305,20240206)/제68조>)
-- [도로에 12자리 고유번호 붙인다](https://www.korea.kr/news/policyNewsView.do?newsId=148644220)
-- [법제처 “모든 도로에 도로명 부여해야 하는 것 아니다”](http://www.taxtimes.co.kr/news/article.html?no=188127)
-- [제공하는주소-건물관리번호 문의](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=2&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=110490&bulletinRefSn=110490&page=)
-- [도로명관리번호와 건물관리번호 차이](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=3&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=105400&bulletinRefSn=105400&page=)
+- haram park, [행정동코드, 법정동코드, 행정구역코드 뽀개기](https://blog.harampark.com/blog/korea-admin-codes/)
+- [공간정보의 구축 및 관리 등에 관한 법률 시행규칙 (국토교통부령 제1305호, 2024. 2. 6., 일부개정)](<https://www.law.go.kr/법령/공간정보의구축및관리등에관한법률시행규칙/(20240206,01305,20240206)/제68조>)
+- 대한민국 정책브리핑, [도로에 12자리 고유번호 붙인다](https://www.korea.kr/news/policyNewsView.do?newsId=148644220)
+- 한국세정신문, [법제처 “모든 도로에 도로명 부여해야 하는 것 아니다”](http://www.taxtimes.co.kr/news/article.html?no=188127)
+- 주소기반산업지원서비스, [[제공하는주소]건물관리번호 문의](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=2&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=110490&bulletinRefSn=110490&page=)
+- 주소기반산업지원서비스, [[주소검색솔루션]도로명관리번호와 건물관리번호 차이](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=3&keyword=%EA%B1%B4%EB%AC%BC%EA%B4%80%EB%A6%AC%EB%B2%88%ED%98%B8&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=105400&bulletinRefSn=105400&page=)
