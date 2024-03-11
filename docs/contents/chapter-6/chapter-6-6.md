@@ -1,9 +1,5 @@
 # 6.6 SQL로 주소 데이터 분석하기
 
-<br>
-
-#### 작성자: 박하람
-
 이번 장은 SQL을 사용해 주소 데이터를 분석합니다. 분석 과제는 총 2가지입니다. 첫번째 분석은 시도별 도로명주소의 개수를 분석하고, 두번째 분석은 개별 도로명주소와 관련된 지번의 개수를 분석해봅니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
 ## 분석1. 시도별 도로명주소의 개수 분석하기

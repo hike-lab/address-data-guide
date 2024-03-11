@@ -1,4 +1,4 @@
-/contents/chapter-3/chapter-3-5.html
+# 부록
 
 ## 법령
 
@@ -9,6 +9,7 @@
 - [주소정보 전산체계 운영규정 (행정안전부훈령 제196호, 2021. 6. 9., 폐지제정)](https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000174765)
 - [주소정보기본도 작성·관리 규정 (훈령 제236호, 2022. 3. 14., 일부개정)](https://www.law.go.kr/LSW/admRulLsInfoP.do?admRulSeq=2100000201745)
 - [주소정보 제공에 관한 규정 (고시 제2023-25호, 2023. 4. 21., 일부개정)](https://www.law.go.kr/LSW//admRulLsInfoP.do?admRulSeq=2100000222420)
+
 ## 논문
 
 - 고종신, 이용호, & 이보미. (2012). 국제 주소 표준화 동향에 따른 대응 전략. 지적과 국토정보, 42(1), 39–58. http://dx.doi.org/
