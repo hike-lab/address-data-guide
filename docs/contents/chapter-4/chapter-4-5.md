@@ -1,128 +1,134 @@
-# 5. 데이터 품질 알아보기
-<br>
+# 6.5 데이터 삽입하기
 
-#### 작성자: 안지은
+이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해봅니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
-5챕터에 걸쳐서 우리는 도로명주소를 정제하고, 도로명주소의 구성요소를 재가공하여 인구데이터와 합칠 수 있는 키 컬럼을 생성하여 두 데이터세트를 합쳤습니다. 이제 분석할 데이터는 준비되었으니, 합쳐진 데이터의 품질을 평가해보고 이를 바탕으로 활용성을 점검해보도록 합시다.
+## local infile 허용하기
 
-## 데이터 품질이란?
+`local infile`은 로컬 파일에서 MySQL로 데이터를 직접 업로드할 수 있게 하는 기능입니다. 로컬에서 데이터를 직접 읽기 때문에 대용량의 데이터를 업로드할 때 속도가 향상됩니다. 다만 보안상의 문제가 있을 수 있기 때문에 초기 MySQL은 `local infile` 기능을 허용해두고 있지 않습니다. 하지만 실습할 데이터는 적은 용량이 아니기 때문에 `local infile` 기능을 사용하는 것이 효과적입니다.
 
-> 데이터 품질에 대해서는 다양한 정의와 해석이 존재하며, 개별 품질 요소에 대해서도 일관적인 평가 체계(metric)가 존재하지 않습니다. 4챕터에서 언급되는 '데이터 품질'과 '품질 평가 요소'에 대한 전반적인 정의와 설명은 다수의 참고 문헌과 공공데이터 관리지침에서 제시된 테이블 형식의 파일 데이터의 품질 요소와 정의, 평가방식을 취사 선택하였습니다. 참고한 내용은 모두 각주로 첨부하였습니다. 
+`local infile` 기능은 클라이언트와 서버 단에서 모두 허용해주어야 합니다. 앞서 [도커로 MySQL을 실행할 때](/contents/chapter-6/chapter-6-2.html#docker-mysql-실행하기), `--loose-local-infile=1`을 설정해준 적이 있습니다. 이는 서버 단에서 `local infile` 기능을 허용한 것입니다. 클라이언트 단에서 설정해주려면, `pymysql`로 접속할 때 해당 기능을 설정할 수 있습니다.다음은 `init_db_connection()` 함수에 `local infile`를 허용해주는 조건을 추가한 것입니다.
 
-ISO 25012 표준에서는 데이터 품질에 대해 "특정 조건에서 데이터를 사용할 때 명시적이거나 암묵적인 필요를 충족시킬 수 있는 정도"라고 정의합니다. 쉽게 말해 데이터가 사용자에게 유용한 가치를 줄 수 있는 정도라고도 할 수 있습니다.
+```py
+def init_db_connection():
+    connection = pymysql.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password="root",
+        database="address",
+        cursorclass=pymysql.cursors.DictCursor,
+        charset="utf8",
+        local_infile=True # 클라이언스 상에서 조건 추가
+    )
+    return connection
+```
 
-공공데이터 관리지침에서는 이러한 정의에 따라 데이터 품질 요소로 최신성과 정확성, 상호연계성로 나누어 보고 있으며, 품질관리체계와 데이터 자체에 대한 품질로 나누어 퓸질을 평가합니다. 
+## 데이터 경로 확인하기
 
-그러나, 공공데이터 관리지침은 '관리지침'이므로 관리자 관점에서 평가 체계가 구성되었고, 따라서 데이터 자체를 평가보다는 관리 프로세스 위주로 체계가 구성되어 있다는 한계가 있습니다. 따라서 공공데이터 관리지침의 기준대로 활용의 관점에서 데이터의 측면들을 완전히 평가하는 것은 어렵다고 판단하여, 본 문서에서는 다른 연구에서 사용된 평가 체계의 평가 요소를 위주로 다룹니다.
+로컬로 데이터를 올리기 위해서 데이터 경로를 확인해야 합니다. 도로명주소 한글 데이터는 `data/rnaddrkor`에 모두 저장했고, 이 폴더에 전체분(`rnaddrkor`)과 관련지번(`jibun_rnaddrkor`) 데이터가 함께 포함되어 있습니다. 전체분부터 데이터를 `rnaddrkor` 테이블에 넣는다고 하면, 다음의 코드로 해당 데이터를 가져올 수 있습니다. `glob.glob("data/rnaddrkor/rnaddrkor_*.txt")`은 `rnaddrkor_`로 시작하는 파일명만 모두 가져옵니다. 17개의 시도별로 나누어진 데이터 목록이 출력됩니다.
 
+```py
+import glob
 
-## 데이터 품질의 평가 영역
+file_list = glob.glob("data/rnaddrkor/rnaddrkor_*.txt")
 
-데이터 품질 평가의 큰 틀은 Open Data Quality Measurement Framework: Definition and Application to Open Government Data(Antonio Vero,. 2016)에서 제시한 프레임워크의 품질 평가요소와 metric을 따릅니다. 
+for file in file_list:
+    print(file)
+# data/rnaddrkor/rnaddrkor_sejong.txt
+# data/rnaddrkor/rnaddrkor_jeonnam.txt
+# data/rnaddrkor/rnaddrkor_seoul.txt
+# data/rnaddrkor/rnaddrkor_ulsan.txt
+# data/rnaddrkor/rnaddrkor_gyeongnam.txt
+# data/rnaddrkor/rnaddrkor_incheon.txt
+# data/rnaddrkor/rnaddrkor_chungnam.txt
+# data/rnaddrkor/rnaddrkor_daejeon.txt
+# data/rnaddrkor/rnaddrkor_daegu.txt
+# data/rnaddrkor/rnaddrkor_chungbuk.txt
+# data/rnaddrkor/rnaddrkor_gangwon.txt
+# data/rnaddrkor/rnaddrkor_gyunggi.txt
+# data/rnaddrkor/rnaddrkor_gwangju.txt
+# data/rnaddrkor/rnaddrkor_jeju.txt
+# data/rnaddrkor/rnaddrkor_busan.txt
+# data/rnaddrkor/rnaddrkor_gyeongbuk.txt
+# data/rnaddrkor/rnaddrkor_jeonbuk.txt
+```
 
-해당 논문에서 제시한 프레임워크는 SPDQM(Square-Aligned Portal Data Quality Model)에 이론적 기반을 두고 있습니다. 
-SPDQM은 데이터 포털의 테이블 형식 데이터를 평가하기 위한 평가요소와 이들에 대한 정의를 제시합니다. SPDQM은 ISO 25012의 내용을 반영하여 비교적 표준화된 정의에서의 품질 요소를 정의하며, 보다 활용 관점에서의 충실한 평가를 위해 이용자 관점의 데이터 평가 모델인 PDQM에서 제안된 평가요소들도 일부 포함하고 있습니다. 또한, 실제 데이터 이용자를 대상으로 설문조사를 진행한 결과를 통해 평가 요소를 추가적으로 추려내었다고 합니다. 
+## 데이터 업로드하기
 
-논문에서 제시된 평가 요소는 완전성, 정확성, 이해가능성, 최신성, 유효성, 만기성?, 추적성?이 있습니다. 여기서 추최신성, 추적성, 만기성의 경우, 본 문서에서 다루는 범위가 파일 데이터 수준이므로 제외하였습니다. 또한 다른 평가 요소의 metric에서도 현실적으로 평가하기 어려운 부분에 대해서는 제외하였습니다.
+`rnaddrkor` 테이블에 시도별로 구분된 데이터를 모두 업데이트 해봅시다. 다음의 코드는 17개의 시도 데이터를 한번에 테이블로 업로드합니다. 개별 데이터는 `cp949`로 읽고, 이를 다시 `utf8`로 작성해 임시파일로 저장하고 MySQL 테이블에 업로드합니다. 코드에 대한 자세한 설명은 다음과 같습니다.
 
-또한, 평가 요소의 metric이 다른 평가 요소의 metric과 의미적으로 유사하거나 모호한 경우도 다른 문헌이나 관리지침의 평가 요소들을 참고해 수정하였습니다. 
+- 1-2줄: 필요한 모듈을 불러옵니다.
+- 4줄: 데이터가 모두 업로드되었는지 확인하기 위해 데이터의 총 행수를 알아야합니다. `total_line_count`는 총 행수를 저장할 변수입니다.
+- 6줄: `file_list`에 저장된 데이터를 하나씩 for문으로 돌리면서 작업을 수행합니다.
+- 7-11줄: 도로명주소 한글은 `cp949`로 인코딩되었기 때문에 `cp949`로 데이터를 읽습니다.
+- 13-17줄: 파일을 하나씩 읽으면서 총 행수를 추가합니다.
+- 19-22줄: `cp949`로 읽은 파일을 다시 `utf8`로 인코딩된 파일에 작성하고 임시저장합니다.
+- 24-29줄: 임시파일에 저장한 데이터를 테이블에 업로드합니다.
+- 31-32줄: 업로드된 임시파일은 삭제합니다.
 
-예를들어, 완전성의 경우 논문에서 제시한 metric은 1. 비어있지 않은 데이터, 2. 도메인 규칙을 준수하는 데이터(meaningful value)를 함께 합산하여 평가할 것을 제시하는데요. 이 경우 실질적으로 공백인 부분과 구문론적으로 유효하지 않은 부분에 대한 지표를 분리하여 확인할 수 없다는 문제가 존재하였습니다. 또한, '도매인 규칙을 준수하는 데이터'는 곧, '표준화된 규칙을 적용하는지에 대한 여부에 대한 평가인 유효성의 정의에 더 가깝다는 점에서 metric이 평가 요소에 대한 지표를 직관적이고 이해하기 쉽게 나타내지 못하는 것으로 보였습니다.
+대용량의 데이터라 데이터를 업로드하는데 시간이 걸릴 수 있습니다. 실습과정에서 `rnaddrkor` 테이블에 데이터를 넣는데 약 1분 40초가 소요되었고, `jibun_rnaddrkor` 테이블에 데이터를 넣는데 25초가 소요되었습니다.
 
-따라서 앞서 언급된 부분들은 공공데이터 관리지침과 다른 문헌에서 제시한 평가모델들의 지표들을 참고하여 일부 수정하였으며, 논문에서 언급되지 않은 구체적인 평가 대상이나 방법론 역시 타 문헌들을 참고하여 작성하였습니다.
+```py
+import os
+from tqdm import tqdm
 
+total_line_count = 0  # 총 행수를 저장할 변수
 
-## 품질 요소별 평가 방법
+for file in tqdm(file_list, desc='Processing files'):
+    file_path = os.path.abspath(file)
 
+    # cp949로 파일 읽고 행 불러오기
+    with open(file_path, 'r', encoding='cp949', errors='ignore') as f:
+        lines = f.readlines()
 
-- 완전성에 대한 평가 수식은 다음과 같습니다.
+    # 행 수 계산
+    line_count = len(lines)
 
-    > 컬럼별 완전성 평가
+    # 총 행 수에 더하기
+    total_line_count += line_count
 
-    $$complete_{C_i} = \frac{dataLength - icc(C_i)}{dataLength},\space icc=number\space of\space incomplete\space cell\space in\space column\space i$$
+    # cp949로 읽은 파일을 utf8로 임시파일에 저장
+    temp_file_path = "temp_file.txt"
+    with open(temp_file_path, 'w', encoding='utf8') as f:
+        f.writelines(lines)
 
-    >  전체 데이터셋의 완전성 평가
+    sql = f'''
+        LOAD DATA LOCAL INFILE "{temp_file_path}" INTO TABLE rnaddrkor
+        FIELDS TERMINATED BY "|";
+    '''
+    print(f"Processing file: {file_path}, Number of lines: {line_count}")
+    query_update(sql) # query_update로 수정
 
-    $$complete_{all} = \frac{(n*DataLength - \Sigma_{i=1}^n icc(C_i))}{n*DataLength}, \space n = number\space of\space columns$$
+    # 임시파일 삭제
+    os.remove(temp_file_path)
 
-- 일관성의 경우, 두 쌍의 행을 비교하므로 나머지 평가요소들과 다른 방법이 적용됩니다. 일관성은 논리적관계를 갖는 한 쌍의 컬럼 명칭으로 이뤄진 컬럼 테이블을 평가에 사용하며, 두 값이 논리적으로 올바른 경우 해당 행에는 1, 올바르지 않으면 0, 두 컬럼 중 어느 한 컬럼의 값이라도 공백인 경우는 None을 기입합니다.
+print(f"Total number of lines: {total_line_count}")
+# Processing files: 100%|██████████| 17/17 [01:43<00:00,  6.12s/it]
+# Total number of lines: 6384988
+```
 
-    > 컬럼세트별 일관성 평가
+로컬 데이터를 MySQL 테이블에 업로드할 때 사용한 SQL을 더 자세히 살펴봅시다. `LOAD DATA LOCAL INFILE "{temp_file_path}"`은 데이터가 저장된 로컬 경로를 작성합니다. `INTO TABLE rnaddrkor`은 데이터를 업로드할 테이블명을 작성합니다. `FIELDS TERMINATED BY "|"`는 컬럼을 구분하는 구분자로 "|"를 설정합니다.
 
-    $$consistency_{ColSet_i} =  \frac{dataLength-null(ColSet_i) - ics(ColSet_i)}{dataLength-null(ColSet_i)},\space ics=number\space of\space inconsistence\space rows\space in\space column\space set\space i$$ 
+```sql
+LOAD DATA LOCAL INFILE "{temp_file_path}" INTO TABLE rnaddrkor \\
+    FIELDS TERMINATED BY "|";
+```
 
-    > 전체 데이터셋 일관성 평가
+지금까지 코드는 전체분 데이터를 `rnaddrkor` 테이블에 업로드하는 방법입니다. 관련지분 데이터를 `jibun_rnaddrkor` 테이블에 업로드하려면 (1) `file_list`에 정의된 파일 경로를 관련지번 데이터에 맞게 수정하고, (2) `sql` 변수에 담긴 테이블을 `jibun_rnaddrkor`로 수정합니다. <span style="color:red;">전체 코드는 [깃헙에 공개된 파이썬 노트북](https://github.com/hike-lab/address-data-guide/blob/main/code/chapter-6/address-pymysql-guide.ipynb)에서 확인할 수 있습니다.</span>
 
-    $$consistency_{all} = \frac{\Sigma_{i=1}^{n}consistency_{ColSet_i}}{n} , \space n = number\space of\space column\space sets$$
+## 데이터 업로드 확인하기
 
-- 일관성, 완전성을 제외한 나머지 평가항목에 대한 평가 산식은 아래의 수식과 같습니다. 유효성이나 정확성 등의 항목들은 각각 평가대상 컬럼들이 포함된 평가 테이블을 만들어 평가를 진행합니다. 개별 평가 항목의 테이블 셀에는 평가 요소에 대한 준수 여부를 ``1(준수)/0(미준수)/공백``으로 체크한 후, 컬럼별 준수 비율과 전체 준수비율을 구하는 방식으로 진행됩니다.
+데이터가 MySQL에 잘 업로드되었는지 확인해봅시다. 기본적인 `SELECT` 구문을 활용해 데이터를 출력합니다. 다음의 코드는 `rnaddrkor` 테이블에서 5행의 데이터를 출력합니다. `SELECT *`는 테이블의 모든 컬럼을 가져오고, `LIMIT 5`는 5행의 데이터만 출력합니다. 만약 일부 컬럼에 대한 데이터만 가져오고 싶다면, `SELECT 도로명주소관리번호 FROM rnaddrkor LIMIT 5;`와 같이 컬럼명을 작성합니다.
 
-    > 컬럼세트별 일관성 평가
+```py
+sql = "SELECT * FROM rnaddrkor LIMIT 5;"
+query_get(sql)
+```
 
-    $$evalaute_{C_i} =  \frac{dataLength-null(C_i) - flasey(C_i)}{dataLength-null(C_i)},\space falsey=number\space of\space flasey\space cells\space in\space column\space set\space i$$ 
+다음의 코드는 `rnaddrkor` 테이블의 모든 행수를 계산하는 코드입니다. `COUNT(*)`은 행의 개수를 계산합니다. 로컬 데이터의 총 행수가 6,384,988건이며, 테이블의 모든 행수와 동일합니다. 데이터가 무사히 MySQL에 올라간 것을 확인할 수 있습니다.
 
-    > 전체 데이터셋 일관성 평가
-
-    $$evaluate_{all} = \frac{\Sigma_{i=1}^{n}evaluate_{C_i}}{n} , \space n = number\space of\space columns$$
-
----
-
-### 완전성
-
->  구문의 일관적 표기 여부는 일관성의 개념과 유효성의 개념 모두에 포함되는 metric입니다. 일관성을 대체로 컬럼의 논리성의 측면에서 정의하며, 구문적 오표기는 실질적으로 이용의 관점에서 유효하지 않으므로, 실질적으로 유효성의 개념에 포함되는 것이 적합합니다. 따라서 완전성의 정의와 metric에서는 오직 공백 셀에 대한 완전한 셀의 비중으로만 설명합니다.
-
-**정의** |
-완전성은 데이터가 필수적으로 가져야 하는 값을 갖고 있는지, 또는 식별자 값에 공백이 없는지 등, 데이터를 활용함에 있어 필요한 정보가 얼마나 온전한지를 나타냅니다. 
-필수 작성 컬럼에 대한 정보를 알 수 없는 경우, 일반적으로 데이터셋의 전체 공백 비율로 완전성을 평가합니다. 
-
-**metric** | 전체 데이터셋, 또는 컬럼에서 공백이 아닌 값의 비율
-
-
-### 유효성
-
-**정의** | 유효성은 컬럼에 표준적으로 적용되는 형식이 존재하는 경우, 이를 준수하고 있는지에 대한 여부를 평가하는 항목입니다. 공공데이터 개방표준에서 제시하는 유효성의 진단 항목으로는 **여부, 수량, 금액, 율, 날짜, 코드**가 있습니다. 유효성은 표기 규칙에 따른 정규표현식을 작성하여 빠르게 확인할 수 있습니다.
-
-**metric** | 전체 데이터셋, 또는 컬럼에서 공백을 제외한 값들 중 표준 형식을 준수하는 값의 비율
-
-### 정확성
-
-**정의** | 정확성은 데이터의 값들이 정확한 값들인지에 대해 평가하는 지표입니다. 예를 들어 공공시설물의 소재지주소가 "서울특별시 동작구 흑석로 84"인데, 실제 위치는 "서울특별시 동작구 흑석로 82-1"인 경우, 정확하지 않은 데이터로 평가합니다. 해당 문서에서 다루는 정확성 대상 컬럼의 범위는, 외부 API를 활용한 검색을 통해 사실 여부를 자동적으로 체크할 수 있는 컬럼으로, **주소, 좌표계**컬럼이 이에 해당됩니다.
-
-**metric** | 전체 데이터셋, 또는 컬럼에서 공백을 제외한 값들 중 API를 통한 검색 결과가 존재하는 값의 비율
-
-### 이해가능성
-
-**정의** | 이해가능성은 사람과 기계 모두가 이해할 수 있는 문자 체계로 작성되었는지에 대한 여부로 평가합니다. 정규표현식으로 영어와 한글, 일자나 전화번호 표기를 위한 "-"나 일반적인 문장부호를 제외한 특수기호의 포함여부를 체크합니다.
-
-**metric** | 전체 데이터셋, 또는 컬럼에서 공백을 제외한 값들 중 사람과 기계가 식별이 불가능한 문자가 포함되지 않은 값의 비율
-
-### 일관성*
-    
-> 해당 항목은 Accuracy 항목에 제시된 metics 중 하나인 "Accuracy in Aggreagation"을 따로 분리하여 "일관성"이라는 별도의 품질 요소로 분리한 것입니다. 공공데이터 관리지침에서의 정의도 추가하였습니다.
-
-**정의** | 일관성은 컬럼자체가 갖는 논리적 관계를 준수하는지에 대한 평가 항목입니다. 일관성의 평가 대상은 **컬럼논리관계, 시간순서, 총합(타 컬럼 값들에 대한 총합)** 이 있습니다. 예를들어, 어떤 공공시설물의 소재지주소가 "서울특별시 동작구 흑석로 84"인데 소재지 시도명 컬럼에 "경기도"가 표기된 것과 같이, 컬럼간의 사실관계가 상충하는 경우 일관성이 떨어진다고 평가합니다. 일관성은 논리적으로 관계가 있는 두 컬럼의 값들을 비교하거나, 매핑테이블을 활용해 논리적 관계에 어긋나는 값들의 쌍을 찾아내는 방식으로 점검할 수 있습니다.
-
-**metric** | 논리적 관계를 갖는 컬럼-컬럼 쌍에서, 어느 한 컬럼이라도 공백을 갖는 행을 제외한 행들에 대해 논리적으로 옳은 행의 비율
-
-
-## 권장하는 품질 평가 프로세스
-
-품질 평가는 **유효성 ➡️ 사실성 ➡️ 일관성** 순서로 진행하는 것이 효율적입니다. 유효성은 대체로 정규표현식으로 빠르게 점검이 가능하나 사실성은 외부 데이터를 통한 검증이 이뤄지고, 대체로 API를 활용하므로 시간이 오래 걸리기 때문입니다.
-
-일관성을 가장 마지막으로 점검하는 이유는 유효성과 사실성으로 인한 오류를 제외한 후에 데이터에서 발생하는 일관성 오류만을 파악하는 것이 효과적이기 때문입니다. 따라서, 일관성 검증 시 유효성, 사실성 부분에서 문제가 있는 부분을 제한 후 파악하는 것을 추천합니다.
-
-해당 프로세스는 어디까지나 권장하는 사안이므로, 상황에 맞게 효율적으로 조정하시길 바랍니다. 또한, 다른 데이터에서의 재사용을 위해서 점검 코드를 함수화 하는 방식을 권장합니다.
-
-## 참고자료
-
-1. [김학래. (2020). 공공데이터 개방표준 데이터의 품질평가. 한국콘텐츠학회 논문지, 20(9), 439-447.](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002633333)
-
-2. [박고은 & 김창재. (2015). 공공개방데이터 품질 특성에 관한 연구. 디지털융복합연구, 13(10), 135-146.](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002044798)
-
-3. [공공데이터 관리지침(2021)]()
-
-4. [Vetro, Antonio & Canova, Lorenzo & Torchiano, Marco & Minotas, Camilo & Iemma, Raimondo & Morando, Federico. (2016). Open data quality measurement framework: Definition and application to Open Government Data. Government Information Quarterly. 33. 10.1016/j.giq.2016.02.001.](https://www.researchgate.net/publication/295394863_Open_data_quality_measurement_framework_Definition_and_application_to_Open_Government_Data)
-
-5. [Caro, Angelica & Calero, Coral & Caballero, Ismael & Piattini, Mario. (2008). A proposal for a set of attributes relevant for Web portal data quality. Software Quality Journal. 16. 513-542. 10.1007/s11219-008-9046-7. ](https://www.researchgate.net/publication/220635758_A_proposal_for_a_set_of_attributes_relevant_for_Web_portal_data_quality)
-
-6. [Moraga, C., Moraga, M. Á., Calero, C., & Caro, A. (2009). SQuaRE-Aligned Data Quality Model for Web Portals. 2009 Ninth International Conference on Quality Software, 117–122. ](https://ieeexplore.ieee.org/document/5381502)
+```py
+sql = "SELECT COUNT(*) FROM rnaddrkor;"
+query_get(sql)
+# [{'COUNT(*)': 6384988}]
+```

@@ -1,345 +1,149 @@
-# 4. 도로명주소 유효성 평가 & 정제
+# 6.4 테이블 생성하기
 
-<br>
+이번 장은 도로명주소 한글 데이터에 맞는 테이블 스키마를 설게하고, 테이블을 생성합니다. 테이블 스키마가 간단히 무엇인지 알아보고, `rnaddrkor`과 `jibun_rnaddrkor` 테이블의 스키마를 작성하고 테이블을 생성합니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 
-**작성자: 안지은**
+## 테이블 스키마란?
 
-앞선 챕터에서는 도로명주소 데이터에서 흔히 나타나는 오류에 대해 알아봤습니다. 이번 장에서는 공공데이터에 존재하는 도로명주소 데이터의 유효성을 평가하고, 오류 데이터를 정제하는 방법들을 알아봅시다. 
-
-## 평가 테이블 만들기
-
-본격적인 평가에 앞서, 셀 별 값의 오류를 체크할 테이블을 만들어줍시다. 테이블의 명칭은 ``addr_error``로 하겠습니다.
-
-구문오류 체크와 광역자치단체명 축약 여부, 그리고 API 검색 가능 여부를 확인하기 위한 컬럼과 함께,  추후 정제 과정을 위해 검색된 주소를 저장해놓는 컬럼을 생성해줍시다.
-
-```python
-datalength = len(df) # 전체 행의 길이
-addr_error = pd.DataFrame(np.zeros((datalength, 4)),
-    columns=["pattern","unvalid_city","exist","API_addr"])
-addr_error["data"] = df['소재지도로명주소'] # 확인을 위한 원본 데이터
-```
-
-
-## 오류유형 패턴을 통한 유효성 평가
-
-정규표현식을 활용하여 오류유형 패턴에 해당하는 주소들을 탐색하고, 정제해봅시다. 행정구역별로 오류 유형을 탐색하는 패턴 규칙을 나타내는 표 입니다.
+테이블 스키마는 테이블의 구조를 정의하는 규칙입니다. 테이블에 어떤 데이터가 어떤 방식으로 저장될지를 명시합니다. 예를 들어, 어떤 컬럼명이 들어갈 것인지, 컬럼명에 들어갈 값의 형식은 무엇인지 등이 설정됩니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/4-4-patterns.png" title="click console">
+    <img src="../img/5-1-public-juso-data.png" title="juso.go.kr guide">
 </figure>
 
-위의 표에 있는 주소 구성요소 규칙에 따라 유효성을 점검하고 주소를 직접 수정해보도록 합시다.
+위의 그림과 같이 주소기반산업지원서비스는 개별 데이터에 대한 스키마 정보를 제공하고 있습니다. '도로명주소 한글 활용'이란 버튼을 클릭하면 팝업창에서 전체분(`rnaddrkor`)과 관련지번(`jibun_rnaddrkor`)의 테이블 정보를 확인할 수 있습니다. 테이블 스키마는 팝업창에 나타난 정보를 그대로 활용합니다. 참고로 `활용가이드다운로드`를 클릭하면 도로명주소 한글과 관련된 상세한 정보와 Oracle로 작성된 SQL 코드를 확인할 수 있습니다.
 
-### 1. 주소의 유효성 평가하기
+도로명주소 한글의 레이아웃은 크게 4가지 정보를 제공합니다. 컬럼명과 개별 컬럼명의 값의 크기와 형식, PK가 제공됩니다. 값의 크기는 해당 컬럼명의 자릿수를 의미하고, 형식은 문자 또는 숫자와 같은 값의 유형을 표현합니다. PK는 Primary Key의 약자로, 테이블의 각 행을 고유하게 식별하는 컬럼입니다. 이 PK에 해당하는 컬럼은 `NULL` 값을 허용하지 않고, 중복된 값을 가질 수 없습니다. 개별 테이블마다 지정된 PK는 다음과 같습니다.
 
-아래는 표에 제시된 패턴 규칙을 구현한 정규표현식 코드입니다. 
+- 전체분(rnaddrkor): 도로명주소관리번호(PK1), 도로명코드(PK2), 지하여부(PK3), 건물본번(PK4), 건물부번(PK5)
+- 관련지번(jibun_rnaddrkor): 도로명주소관리번호(PK1), 법정동코드(PK2), 산여부(PK3), 지번본번(번지)(PK4), 지번부번(호)(PK5)
 
-```python
-# 특별/광역시/특별자치도/도 + 구/자치시/행정시 + 도로명 + 건물번호
-pattern1 = r"(?P<province>[가-힣]+)(?:특별시|광역시|특별자치도|도)\s+(?P<city>[가-힣]+)(시|구)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])" 
+## 도로명주소 한글의 테이블 스키마 {#table-schema}
 
-# 광역시/도/특별자치도 + 자치구/군 + 읍/면 + 도로명 + 건물번호
-pattern2 = r"(?P<province>[가-힣]+)(?:도|광역시|특별자치도)\s+(?P<city>[가-힣]+)(시|군|구)\s+(?P<local>[가-힣]+)(읍|면)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])" 
+주소기반산업지원서비스에 나와있는 그대로 테이블 스키마를 간단하게 작성해보면 다음과 같습니다. `CREATE TABLE`은 테이블을 생성하는 명령어이고, 괄호 안에 컬럼명과 형식, 크기를 설정합니다. 값의 형식이 문자인 것은 `VARCHAR`로, 숫자인 것은 `INT`로 표현했습니다. 테이블에서 PK가 여러 개이므로 가장 마지막에 `PRIMARY KEY`를 설정해주었습니다. PK로 설정한 컬럼의 값은 자동적으로 `NOT NULL`이 설정됩니다.
 
-# 특별자치시 + 읍/면 + 도로명 + 건물번호
-pattern3 = r"(?P<province>[가-힣]+)(?:특별자치시)\s+(?P<type>[가-힣]+)(?:읍|면)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])"
+### 전체분 테이블
 
-# 특별자치시 + 도로명 + 건물번호
-pattern4 = r"(?P<province>[가-힣]+)(?:특별자치시)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])"
-
-# 특별자치도/도 + 자치/행정시 + 일반구 + 도로명 + 건물번호
-pattern5 = r"(?P<province>[가-힣]+)(?:도|특별자치도)\s+(?P<city>[가-힣]+)(?:시)\s+(?P<type>[가-힣]+)(?:구)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])" 
-
-# 특별자치도/도 + 자치/행정시 + 일반구 + 읍/면 + 도로명 + 건물번호
-pattern6 = r"(?P<province>[가-힣]+)(?:도|특별자치도)\s+(?P<city>[가-힣]+)(?:시)\s+(?P<type>[가-힣]+)(?:구)\s+(?P<local>[가-힣]+)(?:읍|면)\s+(?P<road>[가-힣\d]+)(?:로|길)\s+(?P<number>[\d])" 
+```sql
+CREATE TABLE rnaddrkor (
+    `도로명주소관리번호` VARCHAR(26),
+    `법정동코드` VARCHAR(10),
+    `시도명` VARCHAR(40),
+    `시군구명` VARCHAR(40),
+    `읍면동명` VARCHAR(40),
+    `리명` VARCHAR(40),
+    `산여부` VARCHAR(1),
+    `번지` VARCHAR(4),
+    `호` VARCHAR(4),
+    `도로명코드` VARCHAR(12),
+    `도로명` VARCHAR(80),
+    `지하여부` VARCHAR(1),
+    `건물본번` INT(5),
+    `건물부번` INT(5),
+    `행정동코드` VARCHAR(60),
+    `행정동명` VARCHAR(60),
+    `기초구역번호(우편번호)` VARCHAR(5),
+    `이전도로명주소` VARCHAR(400),
+    `효력발생일` VARCHAR(8),
+    `공동주택구분` VARCHAR(1),
+    `이동사유코드` VARCHAR(2),
+    `건축물대장건물명` VARCHAR(400),
+    `시군구용건물명` VARCHAR(400),
+    `비고` VARCHAR(200),
+    PRIMARY KEY (`도로명주소관리번호`, `도로명코드`, `지하여부`, `건물본번`, `건물부번`)
+);
 ```
 
-위의 패턴들을 적용해 구문오류를 탐색한 후에는, 특별시/광역시/특별자치도/특별자치시와 같은 광역자치단체명의 누락을 찾아냅니다. 이 과정들을 모두 반영하여 주소의 구문 오류를 탐색하는 함수를 작성하면 아래의 코드와 같습니다.
+### 관련지번 테이블
 
-```python
-def element_check(i):
-    item = df['소재지도로명주소'][i]
-    if item != None:
-        # 패턴을 통한 구문 오류 체크
-        if re.match(pattern1, item) or re.match(pattern2, item) or re.match(pattern3, item) or re.match(pattern4, item) or re.match(pattern5, item) or re.match(pattern6, item):
-            addr_error["pattern"][i] = 0
-            
-        else:
-            addr_error["pattern"][i] = 1
-            
-        # 축약된 광역자치단체명 체크    
-        sido = df['소재지도로명주소'][i].split(" ")[0]
-        print(sido)
-        if sido in sido_map.keys():
-            addr_error["unvalid_city"][i] = 1
-        else:
-            addr_error["unvalid_city"][i] = 0
-    # 공백값
-    else:
-        addr_error["pattern"][i] = None
-        addr_error["unvalid_city"][i] = None
-            
-df.index.map(lambda i: element_check(i))
-
+```sql
+CREATE TABLE rnaddrkor_jibun (
+    `도로명주소관리번호` VARCHAR(26),
+    `법정동코드` VARCHAR(10),
+    `시도명` VARCHAR(40),
+    `시군구명` VARCHAR(40),
+    `법정읍면동명` VARCHAR(40),
+    `법정리명` VARCHAR(40),
+    `산여부` VARCHAR(1),
+    `지번본번(번지)` INT(4),
+    `지번부번(호)` INT(4),
+    `도로명코드` VARCHAR(12),
+    `지하여부` VARCHAR(1),
+    `건물본번` INT(5),
+    `건물부번` INT(5),
+    `이동사유코드` VARCHAR(2),
+    PRIMARY KEY (`도로명주소관리번호`, `법정동코드`, `산여부`, `지번본번(번지)`, `지번부번(호)`)
+);
 ```
 
-오류 주소의 비율은 어느정도 되는지, 또 오류가 발생한 행은 주로 어디에 있는지 시각화해서 알아봅시다. 시각화에서는 plotly 라이브러리를 활용하도록 하겠습니다.
+## 테이블 생성하기
 
-```python
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+앞서 작성한 테이블 스키마를 활용해 테이블을 생성해봅시다. 그 전에 다음의 3가지 함수를 정의해서 더 효율적으로 MySQL 접속과 SQL 쿼리를 수행해봅시다.
 
-def make_error_rate_plot(addr_error):
-    # colors
-    # 정상 : darkblue, 오류 : darkred, 공백 : lightgrey
-    COLORS = ["darkblue", "darkred", "lightgrey"]
-    
-    # 오류 비중 계산
-    
-    errors = addr_error["pattern"].value_counts()[1]
-    normal = addr_error["pattern"].value_counts()[0]
-    blank = len(df) - errors - normal 
+- `init_db_connection()` 함수는 [6.2장의 파이썬 노트북으로 MySQL 연결하기](/contents/chapter-6/chapter-6-2.html#파이썬-노트북으로-mysql-연결하기)에서 사용한 `init_connection()` 함수에 디폴트로 접속할 데이터베이스를 `address`로 설정한 것입니다.
+- `query_get()` 함수는 MySQL에 접속한 다음 `sql`에 담긴 쿼리를 실행하고 그 결과를 가져옵니다. 쿼리에 담긴 질의가 `SELECT`와 같이 결과를 가져올 때 사용합니다.
+- `query_update()` 함수는 MySQL에 접속한 다음 `sql`에 담긴 쿼리를 실행하고 잘 실행되었다면 `True`를 반환합니다. 쿼리에 담긴 질의가 `CREATE`와 같이 데이터를 업로드하거나 조작할 때 사용합니다.
 
-    # 서브플롯 객체 생성
-    # 히트맵을 위해 2개 컬럼에 걸쳐 히트맵 plot 배정
-    fig = make_subplots(rows=1, cols=3, 
-                        specs=[[{'type':'pie'}, {"colspan": 2}, None]],
-                        subplot_titles=("오류 데이터 비율","오류 행 현황"))
+```py
+def init_db_connection():
+    connection = pymysql.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password="root",
+        database="address",
+        cursorclass=pymysql.cursors.DictCursor,
+        charset="utf8",
+    )
+    return connection
 
-    # 파이차트 추가
-    fig.add_trace(go.Pie(labels=['정상','오류','공백'], textinfo='label+percent', 
-                        values=[normal, errors, blank],marker=dict(colors=COLORS), showlegend=False,), 
-                row=1, col=1)
-    # 히트맵차트 추가
-    fig.add_trace(go.Heatmap(z=[addr_error['pattern']], x = list(addr_error.index), y= ["error row # "],
-                            colorscale = [[0, "darkblue"],[1, "darkred"]]), row=1, col=2)
-    
-    fig.show()
-    return fig
+def query_get(sql):
+    connection = init_db_connection()
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            return cursor.fetchall()
+
+def query_update(sql):
+    connection = init_db_connection()
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute(sql)
+            connection.commit()
+            return True
 ```
 
-<embed src="/docs/4-4-addr-error.html" width="100%" height="420px"></embed>
+`query_update()` 함수를 사용해 전체분(`rnaddrkor`)과 관련지번(`jibun_rnaddrkor`) 테이블을 생성해봅시다. [도로명주소 한글의 테이블 스키마](#table-schema)에서 생성한 구문은 `sql` 변수에 넣고, `query_update(sql)`를 실행합니다. 다음의 코드는 전체분과 관련지번에 맞춰 2번 수행해야겠죠. `True`가 리턴된다면 테이블이 무사히 생성된 것입니다.
 
-대략 5%의 주소에 구문 오류가 있음을 확인할 수 있습니다.
+```py
+sql = '''
+    CREATE TABLE `rnaddrkor` (
+        `도로명주소관리번호` varchar(26) NOT NULL,
+        ...
+        PRIMARY KEY (`도로명주소관리번호`, `도로명코드`, `지하여부`, `건물본번`, `건물부번`)
+    );
+'''
 
-### 2. 유효하지 않은 주소 정제하기
-
-
-이제 오류 행만 뽑아서 정제해봅시다. 
-
-구문 오류에 따라 정규표현식을 적용하여 수정하는데요. 단계적으로 오류 사항을 하나씩 수정해나가는 과정을 거칩니다. 오류 수정 과정은 다음과 같습니다. 
-
-> 각 과정에 해당하는 정규표현식과 전체 코드가 매우 길고 복잡한 관계로, 코드는 파이썬 노트북 파일에서만 설명하고 넘어가겠습니다.
-
-정제가 완료된 후, 앞선 구문 유효성 체크 함수를 다시 실행시켜보면 아래와 같은 그래프를 얻을 수 있습니다.
-
-<embed src="/docs/4-4-addr-after-refine.html" width="100%" height="420px"></embed>
-
-## API를 통한 유효성 평가 & 정제
-
-API를 통한 주소의 실존 여부에 대한 확인 과정에서는, 추후 행정동별 인구 데이터와의 통합을 위해, 검색된 주소의 행정동 요소도 따로 저장합니다,
-
-### 1. 실존하지 않는 주소 탐색하기
-
-갱신, 폐지되었거나 오기입이 있는 주소를 API를 통해 파악해봅시다. 이 과정에서는 주소를 검색할 수 있는 API 검색 함수 `search_addr`를 생성해 활용합니다.
-
-```python
-# 주소 검색 함수
-def search_addr(addr):
-    # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
-    headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
-
-    # 파라미터에는 검색할 주소를 입력합니다. 
-    params = {"query" : addr, "output":"json"}
-
-    # 정보를 요청할 url입니다
-    url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
-
-    data = requests.get(url, headers=headers, params=params)
-    
-    return json.loads(data.text)
+query_update(sql)
+# True
 ```
 
-`search_addr`함수를 이용해 도로명주소의 실존 여부를 확인하는 코드는 아래와 같습니다. 응답값의 검색 결과 개수를 기준으로 존재 여부를 체크합니다.
+## 생성한 테이블 확인하기
 
+테이블이 잘 만들어졌는지 확인해봅시다. 다음의 코드는 `query_get()` 함수를 사용해 해당 데이터베이스에 있는 모든 테이블을 출력합니다. 주석으로 처리된 결과와 같이 `rnaddrkor`과 `jibun_rnaddrkor` 테이블이 잘 생성되었습니다.
 
-
-주소가 존재할 경우, 추후 인구데이터와의 병합키를 만들기 위해 동명칭을 검색 결과에서 추출해 `addr_error`테이블의 `API_addr`에 추가합니다.
-
-```python
-for i in tqdm(range(len(df))):
-    if df['소재지도로명주소'][i] != None:
-        re_val = search_addr(df.loc[i, "소재지도로명주소"])
-        
-        # 검색한 주소가 존재하는지 확인
-        if (re_val["status"] != "OK") or (re_val["meta"]["totalCount"] == 0):
-            addr_error['exist'][i] = 1
-            addr_error['API_addr'][i] = None
-            
-        else:
-            if re_val["status"] == "OK":
-                addr_error['exist'][i] = 0
-                
-                # 동명칭을 추가합니다.
-                dong = re_val['addresses'][0]["addressElements"][2]["longName"]
-                addr_error['API_addr'][i] = dong
-    else:
-        addr_error['exist'][i] = None
-        addr_error['API_addr'][i] = None
+```py
+query_get("SHOW TABLES;")
+# [{'Tables_in_address': 'jibun_rnaddrkor'}, {'Tables_in_address': 'rnaddrkor'}]
 ```
 
-결과를 `make_error_rate_plot`함수로 시각화하면 다음과 같습니다.
-<embed src="/docs/4-4-addr-exist.html" width="100%" height="420px"></embed>
+개별 테이블의 스키마도 확인할 수 있습니다. `DESC rnaddrkor;`은 해당 테이블의 스키마를 보여주는 질의문입니다. 주석으로 처리된 결과는 테이블 스키마의 일부인데, 테이블의 스키마로 작성한 정보를 제공합니다.
 
-
-### 2. 존재하지 않는 주소는 좌표계 데이터로 정제하기
-
-샘플 데이터에는 좌표계 데이터가 존재합니다. 존재하지 않는 도로명주소들에 대해서는 좌표계 데이터를 통한 주소 검색으로 나온 결과값으로 수정합니다.
-
-먼저 정제할 행들을 추출해 `idx`라는 리스트에 넣어줍니다. 이번에는, 도로명주소 컬럼의 결측 행도 포함시켜줍니다.
-
-```python
-idx = addr_error[addr_error["exist"]==1].index.tolist()
-idx += addr_error[addr_error["exist"].isnull()].index.tolist()
-```
-
-`search_coords`는 좌표계를 통해 도로명주소를 검색하는 함수입니다. 앞서 도로명주소를 검색하는 함수와 유사하나, 요청 URL과 요청값이 다릅니다.
-
-```python
-# 경도, 위도 순으로 입력
-def search_coords(x,y):
-    coord = f"{x},{y}"
-    # 요청 헤더에는 API 키와 아이디 값을 입력합니다.
-    headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
-
-    # 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
-    params = {"coords" : coord, "output":"json", "orders":"roadaddr,addr"}
-
-    # 정보를 요청할 url입니다
-    url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
-
-    data = requests.get(url, headers=headers, params=params)
-    
-    return json.loads(data.text)
-```
-
-`road_addr_maker`는 API에서 리턴된 주소 구성 요소들을 합성해 도로명주소로 만들어주는 함수입니다. 주소 구문 유형에 따라 다르게 구성요소를 합성합니다.
-```python
-# 도로명주소를 합성하는 함수
-def road_addr_maker(road_obj):
-    road = road_obj["region"]["area1"]["name"] + " " + road_obj["region"]["area2"]["name"]
-    if road_obj["region"]["area3"]["name"][-1] == "읍" or road_obj["region"]["area3"]["name"][-1] == "면":
-        road += " " + road_obj["region"]["area3"]["name"]
-    if road_obj["land"]["name"] != "":
-        road += " " + road_obj["land"]["name"]
-    if road_obj["land"]["number1"] != "":
-        road += " " + road_obj["land"]["number1"]
-    if  road_obj["land"]["number2"] != "":
-        road += "-" + road_obj["land"]["number2"]
-    return road
-
-# 지번주소 합성 함수 (본 챕터에서 사용 X)
-def addr_maker(addr_obj):
-    addr = addr_obj["region"]["area1"]["name"] + " " + addr_obj["region"]["area2"]["name"] + " " + addr_obj["region"]["area3"]["name"]
-    if addr_obj["region"]["area4"]["name"] != "":
-        addr += " " + addr_obj["region"]["area4"]["name"]
-    if addr_obj["land"]["type"] == "1":
-        addr += " " + addr_obj["land"]["number1"]
-    if addr_obj["land"]["type"] == "2":
-        addr += " " + addr_obj["land"]["number1"]+"-"+addr_obj["land"]["number2"]
-    return addr
-
-```
-
-이제 앞서 만든 함수들을 활용해서 도로명주소를 정제해봅시다. `non_exist_coord`에는 검색 결과가 존재하지 않는 좌표계의 행 번호를 저장합니다.
-```python
-# 좌표계 데이터 역시 잘못된 경우 저장
-non_exist_coord = []
-
-for i in tqdm(idx):
-        # 좌표계 검색
-        re_val = search_coords(df.loc[i, "경도"],df.loc[i, "위도"])
-      
-        # 검색한 좌표계가 존재하는지 확인
-        if (re_val["status"]["name"] != "ok") or (len(re_val["results"]) == 0):
-            non_exist_coord.append(i)
-            
-        # 검색한 좌표계가 존재하는 경우   
-        else:
-            # 도로명주소가 모두 존재하는 지점인 경우
-            if len(re_val["results"]) == 2:
-                road_obj = re_val["results"][0]
-
-                # 주소 합성
-                road = road_addr_maker(road_obj)
-                df['소재지도로명주소'][i] = road
-
-```
-`non_exist_coord`에는 668행만 존재합니다. 668번행의 데이터의 경우, 주소 검색 과정에서 실존하는 주소임을 확인했으므로, 모든 도로명주소가 유효한 값을 갖게 되었다는 것을 확인할 수 있습니다. 
-
-## 데이터 합치기
-
-> 샘플 데이터와 병합할 인구데이터 원본은 행정동/읍/면 단위로 집계되어 있으며, 출장소나 광역지방자치단체, 기초지방자치단체 단위의 합산값도 포함되어 있습니다. 이번 프로젝트에서는 행정동이 아닌 법정동을 기준으로 집계하며, 출장소나 시/군/구 단위 집계치는 제외된 상태의 정제된 데이터를 활용하도록 하겠습니다. 
-> 
-> 실습에서 활용된 인구데이터를 정제한 코드와 원본 파일 모두 [깃허브]() 폴더에 있습니다.
-
-이제, 도로명주소 컬럼의 데이터를 활용해 인구 데이터와 합치기 위한 키 컬럼을 만들어줍시다. 
-
-인구데이터 파일과 법정동별로 병합이 필요한 지역에 대한 json table은 [드라이브]()에 있습니다. 다운받아주시길 바랍니다.
-
-앞선 과정에서 API로 주소데이터를 점검함과 동시에 법정동에 대한 정보도 함께 저장했었는데요, 이번에는 인구데이터의 법정동과 도로명주소의 법정동을 key 값으로 두 데이터를 합쳐보도록 합시다.
-
-```python
-census = pd.read_excel("census_data_cleaned.xlsx") # 인구 데이터
-merge_table = json.load(open("dong_merge_table.json", "r")) # 동 명칭 병합이 필요한 테이블
-merge_table = merge_table["data"]
-change_list = list(merge_table.keys()) # 법정동끼리 병합이 필요한 지역
-
-# 복수의 법정동이 합산되어 집계된 지역
-def mergeing_dong(i):
-    if df['소재지도로명주소'][i] != None:
-        addr_splits = df['소재지도로명주소'][i].split(" ")
-    
-        city = addr_splits[0] + " " + addr_splits[1]
-        if addr_error["API_addr"][i] in change_list and city == merge_table[addr_error["API_addr"][i]]["city"]:
-            addr_error["API_addr"][i] = merge_table[addr_error["API_addr"][i]]["changeto"]
-
-addr_error.index.map(lambda i: mergeing_dong(i))
-
-```
-
-이제 법정동을 기준으로 두 데이터를 합쳐봅시다. 합치기 전에, 행정기관명을 조합하여 키 컬럼을 만듭니다.
-
-```python
-census["key"] = census['행정기관']
-df["동명칭"] = addr_error["API_addr"]
-def key_make(i):
-    if df['소재지도로명주소'][i] != None:
-        key_match = re.search(r"[가-힣]+(?P<city>특별시|광역시|특별자치도|도|특별자치시)+(\s[가-힣]+(?P<city2>(?:시|군|구)))?+(\s[가-힣]+(?P<local>구))?", df['소재지도로명주소'][i])
-        if key_match != None and type(df['동명칭'][i]) == str:
-            return df['소재지도로명주소'][i][key_match.span()[0]: key_match.span()[1]] + " " + df["동명칭"][i]
-        else:
-            return None
-    else:
-        if df['소재지지번주소'][i] != None:
-            key_match = re.search(r"[가-힣]+(?P<city>특별시|광역시|특별자치도|도|특별자치시)+(\s[가-힣]+(?P<city2>(?:시|군|구)))?+(\s[가-힣]+(?P<local>구))?", df['소재지지번주소'][i])
-            if key_match != None and type(df['동명칭'][i]) == str:
-                return df['소재지지번주소'][i][key_match.span()[0]: key_match.span()[1]]+ " " + df["동명칭"][i]
-            else:
-                return None
-df["key"] = df.index.map(lambda i: key_make(i))
-```
-
-이제 생성된 키 컬럼을 기준으로 두 데이터를 합쳐봅시다.
-
-```python
-merged = pd.merge(left = df, right = census, on="key", how="left")
-```
-
-합쳐진 데이터를 저장해줍니다. 다음 챕터에서는 이렇게 합친 데이터의 품질을 평가하는 방법에 대해 알아보도록 하겠습니다.
-
-```python
-# 사용하지 않을 컬럼은 제외합니다
-merged.drop(["동명칭", "key"], axis = 1, inplace = True)
-merged.to_excel("merged_clean.xlsx", index=False)
+```py
+query_get("DESC rnaddrkor;")
+# [{'Field': '도로명주소관리번호',
+#   'Type': 'varchar(26)',
+#   'Null': 'NO',
+#   'Key': 'PRI',
+#   'Default': None,
+#   'Extra': ''},
 ```
