@@ -1,9 +1,5 @@
 # 2.4 제공하는 주소
 
-<br>
-
-#### 작성자: 송채은
-
 ## 제공하는 주소
 
 [제공하는 주소](https://business.juso.go.kr/addrlink/adresInfoProvd/guidance/provdAdresInfo.do)는 도형정보 또는 좌표를 포함한 자료로 구성되어 있습니다. 총 11종의 데이터로 구성되어 있으며, 데이터 목록은 아래와 같습니다.
@@ -353,20 +349,19 @@ OBJ030000000001503|중곡4동경로당입구앞|Junggok 4(sa)-dong senior citize
 
 도로명주소의 배경지공원, 철도, 교량, 하천 등 도로명주소 전자지도의 배경으로 활용되는 도형(점,선,면)을 제공합니다. 모든 데이터는 시도별로 구분되고 `SHP` 파일로 제공됩니다.
 
-
-| 파일명 | 설명 |
-|---|---|
-| Total.JUSUBG.YYYYMMDD.TL_SPOT_BRIDGE.시군구코드 | 교량 |
-| Total.JUSUBG.YYYYMMDD.TL_SPOT_OVERPASS.시군구코드 | 고가도로 |
-| Total.JUSUBG.YYYYMMDD.TL_SPOT_PARK.시군구코드 | 공원 |
-| Total.JUSUBG.YYYYMMDD.TL_SPOT_RIVER_LKE.시군구코드 | 하천/호수 |
-| Total.JUSUBG.YYYYMMDD.TL_SPOT_TUNNEL.시군구코드 | 터널 |
-| Total.JUSUBG.YYYYMMDD.TL_SPRD_UNDGRND.시군구코드 | 지하차도 |
-| Total.JUSUBG.YYYYMMDD.TL_SPRL_RLWAY.시군구코드 | 철도선로 |
-| Total.JUSUBG.YYYYMMDD.TL_SPRL_STATN.시군구코드 | 철도역사 |
-| Total.JUSUBG.YYYYMMDD.TL_SPSB_ENTRC.시군구코드 | 지하철출입구 |
-| Total.JUSUBG.YYYYMMDD.TL_SPSB_RLWAY.시군구코드 | 지하철선로 |
-| Total.JUSUBG.YYYYMMDD.TL_SPSB_STATN.시군구코드 | 지하철역사 |
+| 파일명                                             | 설명         |
+| -------------------------------------------------- | ------------ |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_BRIDGE.시군구코드    | 교량         |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_OVERPASS.시군구코드  | 고가도로     |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_PARK.시군구코드      | 공원         |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_RIVER_LKE.시군구코드 | 하천/호수    |
+| Total.JUSUBG.YYYYMMDD.TL_SPOT_TUNNEL.시군구코드    | 터널         |
+| Total.JUSUBG.YYYYMMDD.TL_SPRD_UNDGRND.시군구코드   | 지하차도     |
+| Total.JUSUBG.YYYYMMDD.TL_SPRL_RLWAY.시군구코드     | 철도선로     |
+| Total.JUSUBG.YYYYMMDD.TL_SPRL_STATN.시군구코드     | 철도역사     |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_ENTRC.시군구코드     | 지하철출입구 |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_RLWAY.시군구코드     | 지하철선로   |
+| Total.JUSUBG.YYYYMMDD.TL_SPSB_STATN.시군구코드     | 지하철역사   |
 
 <br>
 <figure class="flex flex-col items-center justify-center">
@@ -375,4 +370,3 @@ OBJ030000000001503|중곡4동경로당입구앞|Junggok 4(sa)-dong senior citize
 </figure>
 
 위 그림은 공원과 지하철선로/지하철역사를 시각화한 결과입니다. 공원은 면형으로 제공되며, 지하철선로는 선형, 지하철역사는 점형으로 제공됩니다.
-

@@ -1,9 +1,5 @@
 # 2.3 공개하는 주소
 
-<br>
-
-#### 작성자: 송채은
-
 ## 공개하는 주소
 
 주소정보 제공의 [공개하는 주소](https://business.juso.go.kr/addrlink/adresInfoProvd/guidance/othbcAdresInfo.do)는 도형정보 또는 좌표를 제외한 자료로 구성되어 있습니다. 이용자는 로그인 절차없이 누구나 이용할 수 있습니다.
