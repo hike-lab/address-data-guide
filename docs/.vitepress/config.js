@@ -264,11 +264,11 @@ function sidebarMain() {
       ],
     },
     {
-      text: "Appendix",
+      text: "부록",
       collapsed: true,
       items: [
         {
-          text: "자료 목록",
+          text: "관련 자료 목록",
           link: "/contents/appendix/contents.html",
         },
       ],
