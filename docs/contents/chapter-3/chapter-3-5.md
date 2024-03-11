@@ -1,235 +1,308 @@
-# 4. 도로명 데이터 살펴보기
+# 3.5 주소 데이터 활용하기
 
 <br>
 
-#### 작성자: 송채은, 이정윤
+#### 작성자: 이정윤
 
-두 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명' 데이터입니다. 현재 공개되어 있는 도로명의 개수를 도로유형별, 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브]()에서 다운로드 받을 수 있고, 코드 원본은 [깃헙]()에서 확인할 수 있습니다.
-
-## 데이터 불러오기
-
-실습 데이터는 [주소기반산업지원서비스](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%20%ED%95%9C%EA%B8%80)에서 제공하는 공개하는 주소 중 도로명 데이터의 2024년 1월 기준 전체자료 입니다. 데이터는 txt 파일로 되어 있으며, 각 파일은 "\\|"로 구분되어 있습니다. 데이터를 처리하기 용이하도록 활용가이드에서 확인한 컬럼명을 붙이고, csv 파일로 저장합니다.
-
-```python
-path = r"TN_SPRD_RDNM.txt"
-
-## 활용가이드에서 확인한 컬럼명 붙여주기
-col = ['시군구코드', '도로명번호', '읍면동일련번호', '도로명', '영문도로명', '시도명', '시군구명',
-          '읍면동구분', '읍면동코드', '읍면동명', '사용여부', '부여사유',
-          '변경이력사유', '변경이력정보', '영문시도명', '영문시군구명', '영문읍면동명',
-          '도로구간의시작지점기초번호', '도로구간끝지점기초번호', '효력발생일', '말소일자']
-
-df = pd.read_csv(path, sep='\|', names = col, engine='python', encoding='cp949', dtype=
-str, keep_default_na=False, header = None)
-
-## csv로 저장하기
-df.to_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/total-road-name_2401.csv', index=False, encoding="utf-8")
-```
-
-## 데이터 확인하기
-
-```python
-df = pd.read_csv('total-road-name_2401.csv', encoding='utf-8')
-df.head()
-```
-
-저장한 데이터를 불러온 뒤, 데이터의 기본 정보를 확인합니다. (여기까지는 3-2. 도로명주소 데이터 살펴보기(1)에서 진행한 방식과 동일합니다)
-
-```python
-print('총 열 수: ', len(df.columns))
-print('총 행 수: ', len(df))
-print('중복 제거 후 총 행 수', len(df.drop_duplicates()))
-```
-
-```python
-## null이 있는 컬럼 확인
-df.isnull().sum()
-```
-
-```python
-## 각 컬럼별 유니크 개수 확인
-for i in df.columns:
-    print(i, len(df[i].unique()))
-```
-
-### 복수의 읍면동을 지나는 도로
-
-현재 데이터를 살펴보면, 개별 도로명을 구분할 수 있는 '도로명코드'컬럼이 없습니다. 도로명코드를 '시군구코드+도로명번호'를 통해서 생성한뒤, 고유한 도로명의 개수와 현재 데이터의 전체 행수를 비교해보겠습니다.
-
-```python
-## 개별 도로명을 구분할 수 있는 고유값 생성하기
-df['도로명코드'] = df.apply(lambda x: f"{x['시군구코드']}{x['도로명번호']}", axis=1)
-print(len(df['도로명코드'].unique()))
-print(len(df))
-```
-
-고유한 도로명코드의 개수는 171,728개이고, 전체 행수는 366,364개입니다. 이 이유는 도로명코드(시군구코드+도로명번호)가 동일한데, **여러개의 읍면동을 지나는 경우 다른 행으로 분리해서 기입되어 있기 때문입니다.**
-
-```python
-pd.DataFrame(df.groupby(['도로명', '도로명코드'])['읍면동코드'].count()).sort_values(by='읍면동코드', ascending=False)
-```
-
-도로명 당 몇 개의 읍면동이 지나는 지 확인하기 위해 groupby를 실시하면 퇴계로, 3·15대로, 국채보상로, 제물량로 등 순으로 읍면동을 가장 많이 지납니다. 퇴계로의 서울특별시 중구에 위치하며 남창동, 홍인동, 황학동, 충무로1가 등 28개의 읍면동을 지납니다.
-
-따라서 위의 경우 원래 하나의 도로이기 때문에 도로명코드 당 하나의 행만 남기고 삭제해주겠습니다.
-
-```python
-df.drop_duplicates(subset=['시군구코드', '도로명번호', '도로명', '영문도로명', '시도명', '시군구명', '사용여부', '부여사유', '변경이력사유', '변경이력정보', '영문시도명', '영문시군구명','효력발생일', '말소일자'],keep='first', inplace=True)
-df.reset_index(inplace=True, drop=True)
-```
-
-## 중복 도로명 개수 (예외 고속도로)
-
-도로명은 동일한 이름이 전국의 여러 도로에 부여될 수 있습니다. 중복으로 부여된 도로명의 현황을 알아보기 위해 도로명 당 부여된 도로명코드의 개수를 groupby를 통해 확인하고, 2개 이상 사용된 도로명만 남깁니다.
-
-```python
-dup_roadName = pd.DataFrame(df.groupby('도로명')['도로명코드'].count()).sort_values(by='도로명코드', ascending=False)
-dup_roadName.loc[dup_roadName['도로명코드']>1]
-dup_roadName.head(20)
-```
-
-<embed src="/docs/3-5-dup-road-name.html" width="100%" height="420px"></embed>
-
-중복 부여가 가장 많이 된 도로명은 '중앙로'입니다. 전체 도로명 141435개 중 약 9.23%인 13063개가 중복되어 사용되고 있습니다.
-그런데, 중복 도로명 중에 '경부고속도로'가 보입니다. 경부고속도로가 2개일 수는 없는데, 왜 복수의 도로명코드가 부여되었는지 확인해보겠습니다.
+이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1xpg-qpanDXUxssnpIZw8dCN2t3Asfjvu/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1ESR6gu4l9QlUx8uW8ngBUWd5MO9BUV5u?usp=sharing)에서 확인할 수 있습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-5-gyeong-bu-example.png" title="gyeong-bu example">
-    <figcaption style="text-align: center;"></figcaption>
-</figure>
-위 표는 도로명이 '경부고속도로인' 행의 일부 예시입니다. 동일한 도로명이라도 시도명이 모두 다르며, 도로명코드가 상이합니다. 정리하면, 고속도로의 경우 동일한 도로라도 시도, 시군구에 걸쳐서 존재하기 때문에 도로명코드가 상이하게 부여된다는 것입니다. (도로명코드의 앞부분 5자리는 시군구코드이기 때문에) 따라서 고속도로의 예외사항은 제외해줍니다.
-
-```python
-dup_roadName = dup_roadName.loc[~dup_roadName.index.str.endswith("고속도로")]
-```
-
-## 도로유형별 도로명의 개수
-
-[도로명주소법 시행렬 제3조 1항](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9)에 따르면 도로는 유형벌로 '고속도로', '대로', '로', '길'로 구분합니다. 이에 따라 도로명을 도로유형별로 분리하여 개수를 확인하고, 유형별 개수 비교를 하는 시각화를 진행하겠습니다.
-
-주어진 데이터에는 도로의 유형을 나타내는 코드가 없기 때문에 '고속도로', '대로', '로', '길'과 같은 텍스트를 추출하여 도로명을 확인합니다. 하지만, 이 추출 방법에는 한계가 있습니다. 예를 들어, '남대로'라는 도로명이 있다면 '남대+로'인지, '남+대로'인지를 명확히 구분할 수 없습니다. 도로명 유형을 더 정확하게 확인하려면 '도로명이 부여된 도로 도형' 데이터에서 제공하는 도로의 유형 코드를 활용할 수 있습니다.
-
-### 고속도로
-
-```python
-df_gsdr = df[df["도로명"].str.endswith("고속도로")]
-df_gsdr
-```
-
-### 대로
-
-```python
-df_dr = df[df["도로명"].str.endswith("대로")]
-df_dr
-```
-
-### 로
-
-```python
-gsdril = list(df_gsdr.index) #고속도로에 해당하는 데이터의 인덱스를 리스트로
-dril = list(df_dr.index) #대로에 해당하는 데이터의 인덱스를 리스트로
-il = gsdril + dril #고속도로와 대로에 해당하는 데이터의 인덱스가 담긴 리스트
-
-df_ro = df[df["도로명"].str.endswith("로")]
-df_ro = df_ro.drop(il) #'로'로 끝나는 데이터 중 고속도로와 대로에 해당하는 데이터를 제외
-df_ro
-```
-
-'로'는 '고가대로', '대로'에 모두 포함되므로, 두 유형에 포함되지 않는 행 중에서 '로'가 포함되는 행을 추출합니다.
-
-### 길
-
-```python
-df_gil = df[df["도로명"].str.endswith("길")]
-df_gil
-```
-
-### 기타
-
-```python
-filtered_rows = df[~df.isin(df_dr.to_dict(orient='list')).all(axis=1) &
-                   ~df.isin(df_gsdr.to_dict(orient='list')).all(axis=1) &
-                   ~df.isin(df_ro.to_dict(orient='list')).all(axis=1) &
-                   ~df.isin(df_gil.to_dict(orient='list')).all(axis=1)]
-
-filtered_rows
-```
-
-고가대로, 대로, 로, 길에 해당하지 않는 유형은 32개입니다. 기타 유형에는 '젊음의 거리', '먹자거리', '소양강자전거길좌안'. '공지천자전거길우안' 등이 있습니다.
-
-<embed src="/docs/3-5-road-name-type.html" width="100%" height="450px"></embed>
-
-최종적으로 모든 유형의 도로명 개수를 시각화하면, '길'이 85.6%로 가장 많고 그 다음으로 '로'가 13.4%, '대로'가 0.833%, '고속도로'가 0.193%로 나타납니다. 앞서 언급했듯, 이는 정확한 수치가 아닐 수 있습니다.
-
-## 도로명, 도로명번호, 도로명코드 정리
-
-마지막으로 도로명 데이터를 분석할 때 기준이 되는 값을 정리해보겠습니다. 도로명과 관련된 값은 '도로명', '도로명번호', '도로명코드' 세 가지가 있고, 도로명과 도로명번호는 지자체에서 부여하며 도로명코드는 시군구코드(5자리)와 도로명번호(7자리)를 합한 값입니다. 지자체에서 부여하는 값은 각 지자체별로 관리하는 기관 단위가 (도청, 시청, 구청) 상이하고 부여 방식도 다르기 때문에 중복값이 존재할 수 있습니다. 따라서 시군구코드를 붙인 12자리 코드로 도로명을 구분할 수 있는데, 이때의 가정은 '같은 시군구 내에서 동일한 도로명번호를 가진 도로명은 없다'입니다. 이러한 가정이 실제로 성립하는 지, 도로명이 같은데 도로명번호가 다른 경우가 있는지 등 다양한 케이스를 하나씩 살펴보겠습니다.
-
-\* 도로명 A와 도로명B가 있다고 가정
-
-| 케이스 번호 | 도로명 | 도로명번호 | 도로명코드 | 가능 여부 |
-| :---------: | :----: | :--------: | :--------: | :-------: |
-|      1      |  A=B   |    A=B     |    A=B     |   가능    |
-|      2      |  A=B   |    A=B     |    A≠B     |   가능    |
-|      3      |  A=B   |    A≠B     |    A=B     |  불가능   |
-|      4      |  A≠B   |    A=B     |    A=B     |  불가능   |
-|      5      |  A=B   |    A≠B     |    A≠B     |   가능    |
-|      6      |  A≠B   |    A=B     |    A≠B     |   가능    |
-|      7      |  A≠B   |    A≠B     |    A=B     |  불가능   |
-|      8      |  A≠B   |    A≠B     |    A≠B     |   가능    |
-
-- 1번: A=B, A=B, A=B
-
-세 값이 모두 같으면 동일한 도로라고 볼 수 있습니다.
-
-- 2번: A=B, A=B, A≠B
-
-도로명코드만 다른 케이스로, 시군구코드만 다르다는 것을 의미합니다. 따라서 다른 시도시군구에 위치한 도로라는 의미인데, 이때 한 도로가 여러 시군구에 걸쳐 있는 경우로 생각할 수도 있고, 다른 도로이지만 각 지자체에서 동일한 도로명번호를 부여한 경우일 수도 있습니다. 즉, 동일한 도로명과 도로명번호를 갖지만 도로명코드만 다른 경우, 두개 이상의 도로가 원래 하나의 도로인지, 상이한 도로인지 판단할 수 있는 기준이 없다는 것을 의미합니다. 이러한 케이스의 예시로는 '송내대로'가 있습니다. 경기도 부천시 원미구에 위치하는 '송내대로'의 경우 도로명번호는 '2000015'이고 도로명코드는 '411922000015'이지만, 경기도 부천시 소사구에 위치하는 '송내대로'의 경우 도로명번호는 동일하게 '2000015'이지만 도로명코드는 '211942000015'로 상이합니다. 지도상에서 확인하면 두 도로가 인접해있어 하나의 도로라고 추측할 수 있지만, 데이터 상으로는 구분하기 어렵습니다. 이런 맥락에서 다른 도로이지만 각 지자체에서 동일한 도로명번호를 부여한 경우를 데이터 상에서 찾을 수 없게 됩니다.
-2번 케이스의 예시를 확인할 수 있는 코드는 다음과 같습니다.
-
-```python
-df[df.duplicated(subset=['도로명', '도로명번호'], keep=False)].sort_values(by=['도로명', '도로명번호'], ascending=False)
-```
-
-- 3번: A=B, A≠B, A=B / 7번: A≠B, A≠B, A=B
-
-3번 케이스는 존재할 수 없습니다. 도로명코드의 뒷 7자리는 도로명번호이므로 도로명번호가 다른데 도로명코드가 같을 순 없기 때문입니다. 동일한 이유로 7번 케이스도 불가능합니다.
-
-- 4번: A≠B, A=B, A=B
-
-4번 케이스의 경우는 같은 시도시군구에 위치하는 다른 도로명을 가지지만, 같은 도로명번호를 가지는 상황으로, 도로명번호를 부여하는 지자체의 오류 케이스를 제외하면 존재할 수 없습니다. 아래 코드로 확인했을 때, 현재 이러한 케이스는 존재하지 않습니다.
-
-```python
-df[df.duplicated(subset=['도로명번호', '도로명코드'], keep=False)].sort_values(by=['도로명번호', '도로명코드'], ascending=False)
-```
-
-- 5번: A=B, A≠B, A≠B
-
-5번 케이스는 도로명이 같은데 도로명번호와 도로명코드가 다른 경우로, 위에서 진행한 중복 도로명 개수를 확인하는 작업과 동일합니다. 이때 한 가지 생각해야 할 부분은, 예를 들어 '중앙로'가 중복으로 부여된 횟수가 93번이라고 해서 전국에 93개의 '중앙로'가 있다고 해석할 순 없다는 것입니다. 그 이유로는 도로명코드를 기준으로 개수를 확인했을 때 하나의 중앙로가 여러개의 시군구에 걸쳐 있으면 다른 도로명코드가 부여되므로 1개씩 카운트 되기 때문입니다. 즉, 현재의 데이터로는 하나의 중복되는 도로명이 원래 하나의 도로였는지, 분리되어 있는 다른 도로인지 구분할 수 없다는 것입니다. 위에서 언급했 듯, '고속도로'는 하나의 도로이지만 여러 시군구에 위치하므로 예외 케이스가 됩니다.
-
-또 하나의 케이스는 같은 시군구에 위치한 도로인데 도로명이 같고 도로명번호가 다른 경우입니다. 현재 데이터에서 아래 코드로 확인하면 10개의 케이스가 존재하는데, 이 중 '월평1길'을 확인해보면, '경상남도 양산시 월평1길 (도로명번호)4814704, (도로명코드)483304814704'와 '경상남도 양산시 월평1길 (도로명번호)4220195(도로명코드)483304220195' 이 두 도로명주소는 동일한 시군구코드를 가지며 동일한 도로명을 갖지만 도로명번호만 다른 것을 볼 수 있습니다. 이 경우 읍면동 단위의 데이터가 누락된 것은 아닌지, 둘 중 하나의 데이터는 삭제될 필요가 있는지 추가적인 확인이 필요합니다.
-
-```python
-pd.DataFrame(df.groupby(['시도명', '시군구명', '도로명'])['도로명번호'].count()).sort_values(by='도로명번호', ascending=False).head(20)
-```
-
-<figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-5-case5-example.png" title="case5 example">
+    <img src="../img/3-4-mapbox.png" title="sido geo data">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-- 6번: A≠B, A=B, A≠B
 
-6번 케이스는 도로명과 도로명코드는 다르지만 도로명번호만 같은 경우로, 각 지자체에서 도로명번호를 부여하는 개별적으로 과정에서 중복이 발생할 수 있어 가능한 케이스입니다. 즉, 서로 다른 도로명(텍스트)를 가지만 다른 시군구에 위치하지만, 동일한 도로명번호를 갖는다는 것입니다. 아래 코드를 통해 해당 케이스를 확인해보면, 총 921개의 도로명번호가 중복으로 사용되고 있습니다. 예를 들어, 도로명번호 '3265076'는 '충청북도 제천시 제2바이오밸리로', '충청남도 당진시 옥수로', '충청남도 서산시 정자동1로' 세 곳에서 중복으로 사용하고 있습니다.
+이번 장의 주요 목표는 두 가지 분석의 결과를 기반으로 지도 시각화를 수행하는 것입니다. 이를 위해 지도 시각화 도구로 mapbox를 활용하며, 먼저 필요한 토큰을 발급받아야 합니다. [mapbox.com](https://www.mapbox.com/)에 접속하여 회원가입을 완료한 후, Account 섹션으로 이동하면 아래와 같은 화면을 확인할 수 있습니다. Mapbox는 특정 사용량 범위 내에서는 무료로 제공되며, 한도를 초과할 경우 과금이 발생할 수 있습니다. 따라서 개개인은 사용량을 확인하면서 이용하시기 바랍니다. Python에서 mapbox를 활용할 때 필요한 토큰은 화면 하단의 'Default public token'에 나와 있습니다. 해당 토큰을 복사하여 아래의 지도 시각화 섹션에서 사용하면 됩니다. 
+
+::: info
+
+분석1의 결과를 분석2에서 사용하므로 순서대로 진행하세요. 
+
+:::
+
+## 분석1. 인구 대비 도로명주소 개수
+
+### 데이터 정제하기
+인구데이터는 행정안전부에서 제공하는 [행정동별 주민등록 인구 및 세대현황](https://jumin.mois.go.kr/)의 전체시군구현황 데이터를 사용합니다. 데이터는 csv 혹은 xlsx 형식입니다. 데이터를 불러온 뒤 데이터의 형태, 수정이 필요한 부분 확인 등 간단한 전처리를 진행합니다.
 
 ```python
-# 도로명이 2개 이상인 행만 남기기
-df_case6 = df[df.duplicated(subset=['도로명번호'], keep=False)].sort_values(by='도로명번호')
-# 도로명번호와 도로명이 동일한 행은 하나만 남긴 후(동일한 도로명, 도로명번호를 갖는 경우 제외하기), 도로명번호로 groupby
-tmp = pd.DataFrame(tmp.drop_duplicates(subset=['도로명번호', '도로명'], keep='first').groupby('도로명번호').count()).sort_values(by='도로명', ascending=False)
-tmp.loc[tmp['도로명코드']>1]
+# 데이터 불러오기
+df_pop = pd.read_excel('202401_202401_주민등록인구및세대현황_월간.xlsx', header=2)
+
+# 중복 데이터 확인하기
+df_pop[df_pop['행정기관'].duplicated(keep=False)]
 ```
 
-- 8번: A≠B, A≠B, A≠B
+2024년 1월 기준으로 다운받은 데이터에 '세종특별자치시'는 행정기관코드가 다른 동일한 행이 중복으로 기재되어 있습니다. [행정표준코드관리시스템](https://www.code.go.kr/stdcode/regCodeL.do)에서 확인해보면 세종특별자치시의 행정동코드는 '3611000000'이므로 올바르지 않은 행은 삭제합니다.
 
-8번 케이스는 대부분의 도로명이 해당하는 경우로, 세 값이 모두 다른 경우 다른 경우라고 볼 수 있습니다.
+```python
+df_pop = df_pop[df_pop['행정기관코드']!=3600000000]
+df_pop.reset_index(inplace=True, drop=True)
+```
+
+정리한 최종 인구데이터는 다음과 같습니다. '서울특별시'와 같은 시도 단위와 '서울특별시 종로구'와 같은 시군구 단위의 데이터가 한 데이터 프레임 안에 있으므로, 추후 도로명주소 데이터와 함께 사용할 때 이 부분을 유의해야 합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/3-4-population-ex.png" title="population data">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+### 인구 대비 도로명주소 개수 계산하기
+
+인구 대비 도로명주소 개수를 계산할 때에는 '시도별'과 '시군구별'을 따로 진행합니다. 계산을 위한 처리 과정은 두 경우 동일하므로 이 장에서는 시도별 인구 대비 도로명주소 개수를 계산하는 내용만 설명합니다. 전체 내용은 코드에서 확인할 수 있습니다. 
+
+```python
+# 시도별 도로명주소 개수 데이터
+sido = pd.DataFrame(df.groupby('시도명')["도로명주소관리번호"].count())
+sido.reset_index(inplace=True)
+
+# 시도별 인구수 데이터
+df_pop['행정기관'] = df_pop['행정기관'].apply(lambda x:x.strip())
+sido_pop = df_pop[df_pop['행정기관'].isin(list(sido['시도명']))].copy()
+```
+
+첫 번째 작업은 도로명주소와 인구수 각각의 데이터프레임을 정리하는 것입니다.. `sido`는 시도별로 도로명주소 개수를 포함하는 데이터프레임이고 `sido_pop`은 17개 시도의 인구수를 포함하는 데이터프레임입니다. 
+
+```python
+# 시도명, 행정기관 컬럼 -> 좌우 공백 없애기
+sido['시도명'] = sido['시도명'].apply(lambda x:x.strip())
+sido_pop['행정기관'] = sido_pop['행정기관'].apply(lambda x:x.strip())
+
+# 행정기관코드, code -> string으로 바꾸기
+sido_pop['행정기관코드'] = sido_pop['행정기관코드'].astype('str')
+
+# 도로명주소관리번호, 총인구수 -> int로 타입 바꾸기
+sido['도로명주소관리번호'] = sido['도로명주소관리번호'].astype(int)
+sido_pop['총인구수'] = sido_pop['총인구수'].str.replace(',', '').astype(int)
+```
+
+두 번째로는 두 데이터프레임을 합치기 전, 기준(PK)이 되는 컬럼은 동일한 값으로 인식될 수 있도록 좌우 공백을 없애고, 데이터 타입을 동일하게 수정합니다. 인구 대비 도로명주소 개수를 계산할 때 필요한 '도로명관리번호' (도로명주소 개수) 컬럼과 '총인구수' 컬럼은 int로 바꿔줍니다.
+
+```python
+# 하나의 데이터프레임으로 합치기
+sido_address_pop = pd.merge(sido, sido_pop, left_on='시도명', right_on='행정기관')
+sido_address_pop.drop('행정기관', axis=1,  inplace=True)
+sido_address_pop.rename(columns={'도로명주소관리번호':'도로명개수'}, inplace=True)
+
+# 인구 대비 도로명주소 개수 계산하기
+sido_address_pop["인구 대비 도로명주소 개수"] = sido_address_pop.apply(lambda row: row["도로명개수"] / row["총인구수"], axis=1)
+sido_address_pop
+```
+
+마지막으로 `sido`와 `sido_pop`을 17개 시도명을 기준으로 하나로 합친 `sido_address_pop`를 정의합니다. 이후, 인구 대비 도로명주소 개수를 계산한 컬럼을 추가합니다. 
+
+<embed src="/docs/3-5-sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
+
+시도별 인구 대비 도로명주소 개수의 값을 시각화하면 위와 같은 결과가 도출됩니다. 전라남도, 경상북도, 전북특별자치도 등 순으로 인구 대비 도로명주소의 개수가 많습니다. 
+
+
+## 분석2. 면적 대비 도로명주소 개수
+
+### 데이터 정제하기
+면적데이터는 주소기반산업지원서비스에서 제공하는 제공하는 주소 중 [구역의 도형](https://business.juso.go.kr/addrlink/elctrnMapProvd/geoDBDwldList.do?menu=%EA%B5%AC%EC%97%AD%EC%9D%98%20%EB%8F%84%ED%98%95) 2024년 1월 전체자료입니다. 제공하는 주소는 신청서를 작성한 뒤 데이터를 제공받을 수 있습니다. (자세한 신청 방법은 [2-5](../chapter-2/chapter-2-5.md)에서 확인하세요) 사이트에서 신청하여 받거나, 구글 드라이브에 저장된 'geojson' 폴더를 다운받아 사용하면됩니다.
+
+면적데이터는 시도 경계를 표현하는 파일과 시군구 경계를 표현하는 파일 두 개로 구분하여 제공합니다. 두 데이터는 동일한 방법으로 처리를 진행하므로 본 글에서는 시도 데이터를 처리하는 방법만 소개하겠습니다. (시군구 처리 방법은 코드를 참고하세요.)
+
+```python
+# 해당 경로에서 'CTPRVN.shp'로 끝나는 모든 파일 불러오기
+sido_file_list = glob.glob('geojson/*/*_CTPRVN.shp')
+
+sido_geojson = pd.DataFrame()
+
+# 모든 파일 geopandas로 불러오고 하나의 df로 합쳐주기
+for file in tqdm(sido_file_list):
+    df_tmp = gpd.read_file(file, encoding="cp949")
+    sido_geojson = pd.concat([sido_geojson, df_tmp])
+
+sido_geojson.columns = ["code", "eng_nm", "kor_nm", "geometry"]
+sido_geojson["code"] = sido_geojson["code"].apply(lambda x: str(x) + "00000000")
+sido_geojson.reset_index(inplace=True, drop=True)
+
+print(sido_geojson.shape)
+sido_geojson.head()
+```
+
+데이터는 시도별로 구분하여 shp(Shapefile)포맷으로 제공합니다. shp형식은 지리 정보 시스템 소프트웨어를 위한 지리 공간 벡터 데이터 형식을 의미합니다. python에서 편리한 데이터 조작을 위해
+shp 파일을 geopandas를 통해 읽어오고, 데이터프레임으로 정의합니다. 이후 컬럼명을 부여하고 코드는 행정동코드와 같은 형식이 되도록 수정해줍니다. 데이터프레임으로 정리한 시도 면적데이터 예시는 다음과 같습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/3-4-sido-geo.png" title="sido geo data">
+    <figcaption style="text-align: center;"></figcaption>
+</figure>
+
+POLYGON은 다수의 선분들이 연결되어 닫혀 있는 상태인 다각형을 의미하고 MULTIPOLYGON은 다수 개의 POLYGON의 집합을 의미합니다. 즉 행정구역의 경계를 나타내는 값이며, 이 정보로 행정구역별 면적을 계산할 수 있습니다.
+
+```python
+sido_geojson = sido_geojson.set_crs(epsg=5179, allow_override=True)
+sido_geojson['code'] = sido_geojson['code'].astype('str')
+sido_geojson["면적"] = sido_geojson["geometry"].area
+sido_geojson
+```
+
+면적 대비 도로명주소의 개수를 계산하기 위해서는 구역의 경계 데이터를 기반으로 각 행정구역 별 '면적'을 알아야 합니다. 이때 설정하는 CRS(Coordinate Reference System)는 좌표계로,
+곡면인 지구의 표면을 2차원의 평면으로 표현하는 방법을 의미합니다. CRS의 유형은 epsg:4326, epsg:5179, epsg:4004 등이 있는데, 유형이 다른 데이터의 경우, 좌표간의 거리나 위치 등이 다르게 표현되므로 반드시 통일해줘야 합니다. (이때 epsgs는 European Petroleum Survey Group의 약자로, 좌표계와 관련된 표준 데이터 베이스를 의미하며 CRS에 관한 자세한 설명은 이 [문서](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)를 참고하세요.)
+
+구역의 도형 데이터의 CRS는 epsg:5179로 설정되어 있으므로([참고](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=1&keyword=%EC%A2%8C%ED%91%9C%EA%B3%84&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=124058&bulletinRefSn=124058&page=)), 이에 맞춰 데이터프레임의 좌표계를 설정해줍니다. 이후 '면적' 컬럼을 추가하여 내장함수를 통해 면적을 계산해주고 인구 대비, 면적 대비 도로명주소 개수를 계산합니다.
+
+### 면적 대비 도로명주소 개수 계산하기
+
+면적 대비 도로명주소 개수를 계산할 때 역시 '시도별'과 '시군구별'을 따로 진행하며 이 장에서는 시군구별 면적 대비 도로명주소 개수를 계산하는 내용만 다루겠습니다. 
+
+```python
+sigungu_total = sigungu_address_pop.merge(sigungu_geojson, left_on='행정기관코드', right_on='code', how='outer')
+sigungu_total["면적 대비 도로명주소 개수"] = sigungu_total.apply(lambda row: row["도로명개수"] / row["면적"], axis=1)
+sigungu_total
+```
+
+```python
+# 누락된 세종시 데이터 추가하기
+sigungu_total.loc[251] = sido_total[sido_total['시도명'] == '세종특별자치시'].iloc[0]
+sigungu_total['전체 시군구명'][251] = '세종특별자치시'
+sigungu_total
+```
+
+<embed src="/docs/3-5-sigungu_area_per_road_address_count.html" width="100%" height="420px"></embed>
+
+
+## 최종 지도 시각화
+
+지금까지 처리한 데이터로 진행할 수 있는 지도 시각화는 크게 네 종류 입니다.
+
+1. 시도별 인구 대비 도로명주소 개수
+2. 시도별 면적 대비 도로명주소 개수
+3. 시군구별 인구 대비 도로명주소 개수
+4. 시군구별 면적 대비 도로명주소 개수
+
+다양한 결과를 볼 수 있도록 '시도별 인구 대비 도로명주소 개수'와 '시군구별 면적 대비 도로명주소 개수'를 각각 진행해보겠습니다. 1~4의 전체 결과는 코드를 참고하세요.
+
+```python
+token = "pk.eyJ1IjoianlsZWVlIiwiYSI6ImNsMGtnM3lxbDBtMW0zY3Vvc2hzN3dibG8ifQ.PQMSK1vvdKW2DnTNIFtv4w"
+```
+
+```python
+# mapbox에 맞춰 좌표계 변환
+gdf_sido = gdf_sido.to_crs(epsg=4326)
+```
+
+시각화를 진행하기 전에, mapbox는 CRS를 epsg:4326으로 사용하므로 이에 맞춰 좌표계를 변환해줍니다. ([참고](https://docs.mapbox.com/help/glossary/projection/)) CRS를 변화하지 않고 시각화를 진행하면 제대로 지도가 그려지지 않으니 주의하세요!
+
+### 시도별 인구 대비 도로명주소 개수
+
+```python
+token = "본인의 token"
+
+gdf_sido = pd.read_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-viz.csv', encoding='utf-8')
+gdf_sigungu = pd.read_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sigungu-viz.csv', encoding='utf-8')
+geo_data_sido = '/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-geoj.geojson'
+geo_data_sigungu = '/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sigungu-geoj.geojson'
+
+with open(geo_data_sido, 'rt', encoding='utf-8') as f_sido:
+    gj_sido = geojson.load(f_sido)
+
+with open(geo_data_sigungu, 'rt', encoding='utf-8') as f_sigungu:
+    gj_sigungu = geojson.load(f_sigungu)
+```
+
+처음에 받아 둔 mapbox의 token은 이 부분에서 사용합니다. 위에서 저장한 csv와 geojson 파일을 불러오는 작업을 진행합니다.
+
+```python
+viz = ChoroplethViz(data=gj_sido,
+                    color_property='인구 대비 도로명주소 개수',
+                    access_token=token,
+                    color_stops=create_color_stops([0, 0.05, 0.1, 0.15, 0.2, 0.4], colors='BuPu'),
+                    color_function_type='interpolate',
+                    line_stroke='--',
+                    line_color='rgb(128,0,38)',
+                    line_width=1,
+                    line_opacity=0.9,
+                    opacity=0.8,
+                    center = (128, 36),
+                    zoom=6,
+                    below_layer='waterway-label',
+                    legend_layout='horizontal',
+                    legend_key_shape='bar',
+                    legend_key_borders_on=False)
+viz.show()
+```
+
+저희는 지도 시각화 중 Choropleth 라는 면적에 지정한 값에 따라 다양한 색상과 스타일로 시각화하여 지도 위에 나타내며, 데이터의 패턴이나 특징을 빠르게 이해할 수 있도록 하는 시각화를 진행할 예정입니다. 위 코드에서 중요 파라미터를 하나씩 살펴보겠습니다.
+위 코드는 Python 언어를 사용하여 지리적 데이터를 시각화하는 데에 사용되는 ChoroplethViz라는 객체를 생성하고, 이를 통해 지도 위에 색상으로 표현된 지리적 정보를 나타내는 코드입니다. 코드는 Mapbox의 ChoroplethViz를 사용하며, 아래는 코드의 각 부분에 대한 설명입니다.
+
+- `data`: 시각화하고자 하는 지리적 데이터가 저장된 변수를 지정합니다.
+- `color_property`: 시각화에서 사용할 색상의 기준이 되는 데이터 속성을 설정합니다.
+- `access_token=token`: Mapbox에서 제공하는 API 토큰을 지정하여 지도를 불러올 때 인증에 사용합니다.
+- `color_stops`: 시각화에 사용할 색상의 범위를 정의합니다. 'BuPu'는 파란색에서 보라색으로 그라데이션된 색상을 나타냅니다.
+- `line_stroke='--', line_color='rgb(128,0,38)', line_width=1, line_opacity=0.9`: 지도의 경계를 나타내는 선의 스타일과 속성을 설정합니다.
+- `opacity`: 전체 시각화의 투명도를 설정합니다.
+- `center = (128, 36), zoom=5.5`: 지도의 초기 중심 위치와 확대 수준을 설정합니다. 대한민국의 중심 좌표를 지정해줬습니다.
+- `below_layer='waterway-label'`: 시각화가 지도의 어떤 레이어 아래에 표시될지를 설정합니다. 여기서는 'waterway-label' 레이어 아래에 표시됩니다.
+- `legend_layout='horizontal', legend_key_shape='bar', legend_key_borders_on=False`:
+- 범례의 레이아웃 및 모양을 설정합니다.
+
+<embed src="/docs/3-4-person-per-address.html" width="100%" height="450px"></embed>
+
+시도별 인구 대비 도로명주소의 개수를 살펴보면 서울, 경기, 부산, 대구, 세종, 광주 등 특별시, 광역시, 특별자치시와 같이 비교적 인구가 많은 지역은 연한색으로 나타나서 인구 대비 도로명주소의 개수가 적은 것을 알 수 있습니다. 앞서 3-2에서 시도별 도로명주소 개수를 확인했을 때, 세종특별자치시, 울산, 대전은 도로명주소의 개수가 가장 적은 하위 3개 시도인 것을 감안헀을 때, 이들은 인구수는 많지만 도로명주소의 개수는 적어 인구 대비 도로명주소의 개수가 적다는 것을 확인할 수 있습니다.
+
+```python
+# 맵을 -15도 만큼 좌우 회전하고, 45도 만큼 상하 회전합니다.
+viz.bearing = -15
+viz.pitch = 45
+
+# 각 데이터에 '인구 대비 도로명주소 개수'를 기준으로 height 값을 줍니다.
+viz.height_property = '인구 대비 도로명주소 개수'
+
+## 높이의 값
+numeric_stops = create_numeric_stops([0, 0.05, 0.1, 0.15, 0.2, 0.4], 0, 10000)
+
+viz.height_stops = numeric_stops
+viz.height_function_type = 'interpolate'
+
+html = open('person_per_address_3d.html', "w", encoding="UTF-8")
+html.write(viz.create_html())
+html.close()
+
+viz.show()
+```
+
+<embed src="/docs/3-4-person-per-address-3d.html" width="100%" height="450px"></embed>
+동일한 시각화에서 위와 같은 파라미터를 추가하면, 각 면적의 height를 지정하여 입체적인 지도 시각화를 진행할 수 있습니다.
+
+### 시군구별 면적 대비 도로명주소 개수
+
+이번에는 시군구별 면적 대비 도로명주소 개수를 시각화해보겠습니다. 코드는 위와 동일하며, 데이터와 컬러만 적절하게 수정해주면 됩니다.
+
+```python
+viz = ChoroplethViz(data=gj_sigungu,
+                    color_property='면적 당 도로명주소 개수',
+                    access_token=token,
+                    color_stops=create_color_stops([0, 0.0001, 0.00015, 0.0002, 0.00025, 0.003], colors='YlGnBu'),
+                    color_function_type='interpolate',
+                    line_stroke='--',
+                    line_color='rgb(128,0,38)',
+                    line_width=1,
+                    line_opacity=0.9,
+                    opacity=0.8,
+                    center = (128, 36),
+                    zoom=5.5,
+                    below_layer='waterway-label',
+                    legend_layout='horizontal',
+                    legend_key_shape='bar',
+                    legend_key_borders_on=False)
+
+html = open('sigungu_area_per_address.html', "w", encoding="UTF-8")
+html.write(viz.create_html())
+html.close()
+
+viz.show()
+```
+
+<embed src="/docs/3-4-sigungu-area-per-address.html" width="100%" height="450px"></embed>
+파란색으로 표시된 지역일수록 면적 대비 도로명주소의 개수가 많다는 의미이며 특히 서울, 부산, 대전, 광주 등 광역시 지역에서 면적 대비 도로명주소 개수의 비율이 높은 것으로 나타났습니다.
+
+## 참고문헌
+
+- mapboxgl를 사용해 행정구역별 인구 데이터 시각화하기 (feat. geopandas로 shp 읽기, crs 설정), harampark [[바로가기](https://blog.harampark.com/blog/python-map-visualization/)]
+- 지리 정보 데이터 처리, 데이터 사이언스 스쿨 [[바로가기](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)]
+- 공간 데이터 타입(Spatial Data Type), 꿈을 향하여 질주하기 [[바로가기](https://sparkdia.tistory.com/)]
+- [Geopandas] Geopandas 만나기 # 1, 제이s [[바로가기](https://rightstone032.tistory.com/8)]
+- CRS 개념 및 파이썬 crs 변환, Zziii [[바로가기](https://zziii.tistory.com/73)]
