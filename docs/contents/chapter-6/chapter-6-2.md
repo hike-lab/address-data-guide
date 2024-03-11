@@ -1,165 +1,200 @@
-# 6.2 프로젝트 환경 구축하기
+# 2. 프로젝트 환경 구축하기
 
-이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습합니다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명합니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
+**작성자 : 안지은**
 
-## 도커로 MySQL 설치하기
+> Chapter 4의 실습 코드는 파이썬노트북 환경에서 동작합니다. 따라서, 웹 환경에서도 실행이 용이한 Colab을 기준으로 코드를 설명하도록 하겠습니다.
 
-도커는 어플리케이션을 패키징하고 배포하는 툴로, 컨테이너라는 가상 공간을 사용해서 어플리케이션과 실행헤 필요한 모든 것을 담아놓습니다. 도커 형태로 어플리케이션을 패키징하게 되면, 개발 또는 운영 환경에 상관없이 안정적으로 어플리케이션을 운영할 수 있게 됩니다. 이번 장은 도커로 MySQL을 설치합니다. 학습자의 개발 환경이 서로 상이한 상황에 있기 때문에 도커를 사용하는 것이 수월하다고 판단했습니다.
+Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미합니다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 합니다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스합니다.
 
-도커를 설치하는 방법은 윈도우와 맥, 리눅스 OS에 따라 다릅니다. 설치방법은 다음의 공식문서를 참고하세요. 이 프로젝트는 `Docker version 20.10.12`로 진행합니다.
+## STEP 1. 네이버 클라우드 접속
 
-- 윈도우 설치방법: [Install Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/)
-- 맥 설치방법: [Install Docker Desktop on Mac](https://docs.docker.com/desktop/install/mac-install/)
-- 리눅스 설치방법: [Install Docker Desktop on Linux](https://docs.docker.com/desktop/install/linux-install/)
+API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 합니다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받습니다. 
 
-### MySQL 이미지 가져오기
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-n-cloud.png" title="naver cloud main page">
+</figure>
 
-도커가 정상적으로 설치되었다면, 터미널을 이용해 MySQL 설치를 시작해보겠습니다. 윈도우라면 명령 프롬프트나 PowerShell 등을 사용하면 되고, 맥이라면 터미널을 사용하면 됩니다. 터미널에서 다음의 코드를 실행해보세요. 이 코드는 Docker Hub에 업로드되어 있는 최신 버전의 MySQL 이미지(image)를 가져옵니다. 도커에서 이미지는 컨테이너를 생성하는 데 사용되는 템플릿입니다.
 
-```bash
-$ docker pull mysql
-Using default tag: latest
-latest: Pulling from library/mysql
-ea4e27ae0b4c: Pull complete
-837904302482: Pull complete
-3c574b61b241: Pull complete
-654fc4f3eb2d: Pull complete
-32da9c2187e3: Pull complete
-dc99c3c88bd6: Pull complete
-970181cc0aa6: Pull complete
-d77b716c39d5: Pull complete
-9e650d7f9f83: Pull complete
-acc21ff36b4b: Pull complete
-Digest: sha256:ff5ab9cdce0b4c59704b4e2a09deed5ab8467be795e0ea20228b8528f53fcf82
-Status: Downloaded newer image for mysql:latest
-docker.io/library/mysql:latest
+로그인 후, 화면 상단의 콘솔 버튼을 클릭해 주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-console.png" title="click console">
+</figure>
+
+
+버튼을 클릭하시면 다음과 같은 화면이 나타납니다. 좌측 내비게이션에서 `Services` 항목을 클릭해주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-console-main.png" title="click console">
+</figure>
+
+엄청나게 많은 카테고리가 나타나는데요, `AI·NAVER API` 항목만 클릭하시면 됩니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-services.png" title="click console">
+</figure>
+
+## STEP 2. APP 등록
+
+해당 항목의 페이지로 이동하면 API 사용량에 대한 대시보드가 나타납니다. 여기에서 `Application 등록` 버튼을 클릭해주세요
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-api-page.png" title="click console">
+</figure>
+
+등록 화면에서 Application 이름 작성하고 service를 선택하면 등록 버튼이 활성화됩니다. Application 이름은 설정해 주세요. API 키들을 구분할 용도로 앱 이름을 설정하는 것이니 자유롭게 작성하시면 됩니다. 이용할 Service로는 Maps의 Geocoding과 Revese Geocoding을 선택해주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-app-enroll.png" title="click console">
+</figure>
+
+등록이 완료되면 첫 화면으로 돌아옵니다. 대시보드에 방금 전 등록한 앱이 있는 것을 확인하실 수 있습니다.
+
+이제 API도 발급받았으니, 활용에 필요한 Key 정보를 확인해야 합니다. Key 정보를 보기 위해 앱 이름 하단에 있는 `인증 정보` 버튼을 클릭합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-key-button.png" title="click console">
+</figure>
+
+인증 정보 버튼을 누르면 앱의 key에 대한 정보를 담은 팝업창이 나타납니다. 팝업창에는 앱 이름과 함께 Client ID, Client Secret 값이 나타납니다. 여기서 `Client Secret`은 외부에 노출되면 안되는 값입니다. 혹여나 값이 노출되었다면 재발급 버튼을 눌러서 키를 재발급 받으셔야 합니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-key-popup.png" title="click console">
+</figure>
+
+key 값은 메모장에 복사해두고 사용하시면 됩니다. 권장하는 방법은 .env 파일에 저장하여 사용하는 것입니다. 깃허브를 통해 코드를 외부적으로 공유할 경우, API 키 값들을 모두 env 파일에 저장하고 코드 파일에서는 API 명칭으로만 불러와서 사용할 수 있기 때문에  key값이 노출되지 않고 가독성이 좋아진다는 장점이 있습니다. 
+
+앞으로의 실습들 모두 .env 파일로 key를 불러와 사용하도록 하는 방식이므로, 어떻게 .env 파일을 만들고 사용하는지, 그리고 `.gitignore` 파일을 작성하여 `.env` 파일은 push 되지 않도록 하는 방법을 간단하게 알려드리겠습니다.
+
+## STEP 3. .env, .gitignore 파일을 활용해 안전하게 key 이용하기
+
+> colab 환경을 기준으로 설명하겠습니다. 
+
+시작에 앞서, 코드와 데이터, 로컬 환경에서 .env, .gitignore를 한 곳에 담을 폴더를 하나 만들어주세요. 그 다음 `새로 만들기` - `서식 있는 텍스트`를 클릭해주세요.
+
+새 파일이 하나 생성었는데요, 확장자(.rtf)명까지 모두 지운 후, 파일 명을 `.env`로 변경합니다. 그 다음, .env 파일을 메모장으로 열어주세요. 메모장을 열었을 때 `{\rtf1}`가 이미 입력되어 있을텐데요, 모두 지우고 몇 아래 사진과 같이 작성해주시면 됩니다. 
+`CLIENT_SECRET`에는 아까 발급 받은 Secret key를, `CLIENT_ID`에는 Client ID를 복사해서 그대로 붙여 넣어 주세요. 작성이 완료되면 저장하고 창을 닫습니다.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-envfile.png" title="click console">
+</figure>
+
+.gitignore 파일도 동일한 방식으로 생성한 후, 메모장을 이용해 열어줍니다. .gitignore 파일에는 `*.env`를 기입하고 저장해주세요.
+
+이제 colab에 접속해 새 노트를 생성해 봅시다. 노트를 생성한 후, 좌측 내비게이션에서 폴더 아이콘을 클릭해주세요. 폴더 창에 방금 만든 .env 파일과 .gitignore 파일을 폴더 창에 드롭해주세요.
+
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-colab.png" title="click console">
+</figure>
+
+
+그럼 키 값을 불러와보도록 하겠습니다. `dotenv`라이브러리를 설치받아야 합니다.
+다운로드 코드는 아래와 같이 작성할 수 있습니다.
+
+```python
+!pip install python-dotenv
 ```
 
-정상적으로 이미지를 가져왔다면, 위의 주석처리된 코드와 같이 나타납니다. 다음의 코드는 다운로드 받은 도커 이미지의 목록을 보여줍니다. `mysql`이란 이름으로 가장 최신의 이미지를 가져왔습니다.
+.env 파일에서 저장했던 API Key와 ID를 불러오는 코드는 다음과 같습니다.
 
-```bash
-$ docker images
-REPOSITORY                      TAG               IMAGE ID       CREATED         SIZE
-mysql                           latest            e68e2614955c   4 weeks ago     638MB
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv(".env")
+
+API_ID = os.getenv("CLIENT_ID")
+API_SECRET = os.getenv("CLIENT_SECRET")
 ```
 
-### Docker MySQL 실행하기
+## STEP 4. API 사용해보기
 
-다음은 다운로드 받은 도커 이미지를 실행하는 방법입니다. `docker run`은 이미지를 실행하는 기본적인 명령어이고, 안정적으로 도커 컨테이너를 실행하기 위해 여러가지 조건을 부여합니다.
+그럼 이제 API를 직접 사용해볼까요? API를 이용하기 위해서는 requests 라이브러리가 필요한데요, colab 환경에서는 이미 설치되어 있으니 ``import requests``로 간단하게 라이브러리를 불러오기만 하면 됩니다.
 
-- `--name mysql`은 컨테이너 이름을 지정합니다. 이 컨테이너의 이름은 `mysql`이 됩니다.
-- `-p 3306:3306`은 컨테이너 내부 포트인 3306을 호스트 시스템 포트인 3306에 연결합니다. 즉, 제 컴퓨터에서 `localhost:3306`에 접속하면 컨테이너 내부의 MySQL 서버에 연결됩니다. 만약 로컬에서 이미 3306 포트가 사용된다면 `-p 3306:3307`과 같이 포트 번호를 변경할 수 있습니다.
-- `-e MYSQL_ROOT_PASSWORD=root`는 MySQL root 사용자의 비밀번호를 root로 지정합니다. 비밀번호는 반드시 다른 것으로 변경하여 사용하세요.
-- `-v mysql-volume:/var/lib/mysql`는 `mysql-volume`이라는 이름의 볼륨을 컨테이너 내부 `/var/lib/mysql` 디렉토리와 연결합니다. 개별적으로 볼륨을 생성하게 되면, 해당 컨테이너가 삭제되어도 볼륨은 삭제되지 않으니 데이터를 보존할 수 있습니다.
-- `-d`는 컨테이너를 백그라운드에서 실행합니다.
-- `mysql:latest`는 `docker run`할 이미지의 이름과 태그를 작성합니다.
-- `--loose-local-infile=1`은 MySQL에서 `local infile` 기능을 사용하도록 설정합니다. `local infile`은 MySQL에 파일을 삽입할 수 있는 명령어로, 6.5장에서 자세하게 설명합니다.
+API를 사용할 때에는, API를 제공하는 측에서 정해준 형식대로 요청 URL을 작성해야 하는데요, [네이버 geocode API 가이드](https://api.ncloud-docs.com/docs/ai-naver-mapsgeocoding-geocode)에 요청 URL과 파라미터, 헤더와 응답값에 대해 자세히 설명하고 있으니 참고하시길 바랍니다.
 
-```bash
-$ docker run --name mysql \\
-    -p 3306:3306 \\
-    -e MYSQL_ROOT_PASSWORD=root \\
-    -v mysql-volume:/var/lib/mysql \\
-    -d mysql:latest \\
-    --loose-local-infile=1
+아래의 코드를 따라하시면 간단하게 API를 테스트 해보실 수 있습니다.
+
+```python
+import requests as re
+import json
+
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 검색할 주소를 입력합니다. 
+params = {"query" : "서울특별시 동작구 흑석로 84", "output":"json"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode" 
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
+```
+실행해보면 다음과 같은 결과를 얻을 수 있습니다. 역지오코딩의 경우, 요청 url와 파라미터 형식이 바뀌는데요, 아래 코드와 같이 입력하시면 됩니다.
+
+```python
+# 요청 헤더에는 API 키와 아이디 값을 입력합니다.
+headers = {"X-NCP-APIGW-API-KEY-ID":API_ID, "X-NCP-APIGW-API-KEY":API_SECRET} 
+
+# 파라미터에는 변환할 좌표계를 입력합니다. "경도,위도" 순으로 입력해주세요.
+params = {"coords" : "126.9573779,37.5048875", "output":"json", "orders":"roadaddr,addr"}
+
+# 정보를 요청할 url입니다
+url ="https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc"
+
+data = re.get(url, headers=headers, params=params)
+
+# 리턴 값 확인하기
+data.text
 ```
 
-정상적으로 도커 컨테이너가 실행됐다면 다음의 코드로 현재 돌아가는 컨테이너를 확인할 수 있습니다. 내가 지정한 옵션으로 컨테이너가 잘 돌아가고 있는지 확인해보세요.
+데이터 타입이 string 인 것을 확인할 수 있는데요, 원하는 값을 쉽게 가져올 수 있도록 딕셔너리(json) 형태로 변환해줍시다. 여기에는 json 라이브러리가 사용됩니다.
 
-```bash
-$ docker ps
-CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                               NAMES
-5dedb08a6941   mysql:latest   "docker-entrypoint.s…"   22 seconds ago   Up 22 seconds   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql
+```python
+import json
+
+json_ob = json.loads(data.text)
 ```
 
-혹시 컨테이너가 잘 만들어지지 않았다면, 다음의 과정으로 컨테이너를 중지하고 삭제할 수 있습니다. 우선 mysql 컨테이너를 중단하고, 이후에 mysql 컨테이너를 삭제합니다.
+변환된 결과를 보면 결과값이 아래와 같은 형식으로 구성되어 있다는 것을 파악할 수 있습니다. 도로명주소 뿐만 아니라, 도로명주소에 대응되는 지번주소, 영문주소, 주소구성요소와 좌표계 정보도 제공합니다.
 
-```bash
-$ docker stop mysql
-$ docker rm mysql
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-api-return.png" title="click console">
+</figure>
+
+여기서 좌표계 정보만 추출해볼까요? 좌표계에 대한 정보는 `addresses`키를 통해 접근할 수 있습니다. `addresses`에 대응하는 값은 리스트인데요, 리스트에 요소가 하나뿐이므로 `json_ob["addresses"][0]`로 주소정보들을 담고 있는 딕셔너리에 접근해봅시다. 
+
+좌표계에 대한 정보는 "x",  "y" 키 값으로 얻을 수 있습니다. x는 경도, y는 위도에 대응됩니다. 따라서 각 값은 `json_ob["addresses"][0]["x"]`와 `json_ob["addresses"][0]["y"]`로 추출할 수 있습니다.
+
+다음은 리턴된 결과로부터 좌표계를 추출하는 과정을 한 번에 나타낸 코드입니다.
+
+```python
+import json
+
+json_ob = json.loads(data.text)
+
+lon = json_ob["addresses"][0]["x"] # 경도
+lat = json_ob["addresses"][0]["y"] # 위도
+
 ```
 
-### 컨테이너 내부의 MySQL 접속
+다음은 역지오코딩 후 도로명주소, 지번주소를 추출하는 과정입니다. 역지오코딩의 경우, 리턴된 주소값을 조합해야 합니다. 우선 리턴 값은 아래 사진과 같은 형식으로 구성되어 있습니다.
 
-컨테이너가 잘 돌아가고 있다면 컨테이너 내부에 있는 MySQL에 접속해봅시다. 터미널에서 다음과 같이 입력하고, `mysql -u root -p`를 작성합니다. `-u root`는 root 유저로 접속하는 것이므로 앞서 root 계정의 비밀번호로 설정한 값을 입력합니다. 정상적으로 수행했다면 `mysql>`이 나타나면서 컨테이너 내부에 있는 MySQL에 접속한 것입니다.
+<figure class="flex flex-col items-center justify-center">
+    <img src="../img/4-1-return-vals.png" title="click console">
+</figure>
 
-```bash
-$ docker exec -it mysql bash
-bash-4.4# mysql -u root -p
-Enter password:
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.3.0 MySQL Community Server - GPL
+지오코딩에서 좌표계 데이터를 추출했던 것과 같은 방식으로 도로명주소, 지번주소 구성요소 딕셔너리에 접근할 수 있습니다.
 
-Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+```python
+# 도로명주소 구성요소 딕셔너리
+roadaddr = json_ob["results"][0]
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
+# 지번주소 구성요소 딕셔너리
+addr = json_ob["results"][1]
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.\
-mysql>
 ```
 
-MySQL은 SQL이란 질의 언어를 사용합니다. `SHOW DATABASES;`는 현재 MySQL에 설치된 전체 데이터베이스를 보여줍니다. 아래 4가지가 기본적으로 설치되어 있는 데이터베이스입니다. SQL을 작성할 때 항상 마지막에 세미콜론(;)을 붙이는 것을 잊지마세요.
-
-```sql
-mysql> SHOW DATABASES;
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-+--------------------+
-4 rows in set (0.02 sec)
-```
-
-## 파이썬 노트북으로 MySQL 연결하기
-
-MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있습니다. 이를 위해서 `pymysql`이란 모듈이 필요합니다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택합니다. [5.1장에서 설명한 VSCode](/contents/chapter-5/chapter-5-1.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 됩니다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치합니다.
-
-```py
-!pip3 install pymysql
-```
-
-`pymysql`로 도커 컨테이너의 MySQL과 연결하는 방법은 다음과 같습니다. `init_connection()` 함수는 MySQL을 처음 연결할 때 사용하는 함수입니다. root 유저의 비밀번호를 변경했다면 `password="root"`에서 비밀번호를 수정해주세요. `sql` 변수는 앞서 컨테이너 내부에서 수행한 코드와 동일합니다. `cur.execute(sql)`에서 SQL 쿼리를 실행하고, 결과를 출력합니다.
-
-```py
-import pymysql
-
-def init_connection():
-    connection = pymysql.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password="root",
-        cursorclass=pymysql.cursors.DictCursor,
-        charset="utf8",
-    )
-    return connection
-
-sql = "SHOW DATABASES;"
-conn = init_connection()
-
-with conn:
-    with conn.cursor() as cur:
-        cur.execute(sql)
-        for data in cur:
-            print(data)
-# {'Database': 'information_schema'}
-# {'Database': 'mysql'}
-# {'Database': 'performance_schema'}
-# {'Database': 'sys'}
-```
-
-위의 코드에서 주석처리 된 것처럼 나온다면 정상적으로 잘 연결되었습니다. 파이썬에서 MySQL과 연결하게 되면, 항상 접속한 상태이므로 `conn.close()`을 통해 연결을 닫아줘야 합니다.
-
-```py
-conn.close()
-```
-
-## 데이터 다운로드
-
-이번 장에서 사용할 실습 데이터는 주소기반산업지원서비스의 도로명주소 한글을 사용합니다. 해당 데이터는 [2.3장](/contents/chapter-2/chapter-2-3.md)에서 자세하게 설명하고 있으니 참고하세요. 데이터는 2024년 1월 전체자료분을 사용하고, 도로명주소 테이블 `rnaddrkor`과 관련지번 테이블 `jibun_rnaddrkor`을 모두 사용합니다. <span style="color:red">실습에 사용한 데이터는 간단히 여기에서 다운로드 받을 수 있습니다.</span>
+역지오코딩을 통해 얻은 값을 조합하는 방법은 뒷장에서 자세히 다루도록 하겠습니다. 응답값의 키들이 각각 무엇을 의미하는지 궁금하신 분들은 [API 활용 문서](https://api.ncloud-docs.com/docs/ai-naver-mapsreversegeocoding-gc)를 참고해주세요. 앞서 작성한 코드는 [깃허브]()에 저장되어 있으며, [코랩]()에서 실행시켜보실 수 있습니다.

@@ -152,7 +152,7 @@ function sidebarMain() {
       ],
     },
     {
-      text: "4. 도로명 주소의 구성과 품질",
+      text: "4. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
       collapsed: true,
       items: [
         {
@@ -160,23 +160,23 @@ function sidebarMain() {
           link: "/contents/chapter-4/chapter-4-1.html",
         },
         {
-          text: "4.2. 프로젝트 환경 구축하기",
+          text: "4.2 프로젝트 환경 구축하기",
           link: "/contents/chapter-4/chapter-4-2.html",
         },
         {
-          text: "4.3 도로명주소 오류 유형 알아보기",
+          text: "4.3 데이터베이스 생성하기",
           link: "/contents/chapter-4/chapter-4-3.html",
         },
         {
-          text: "4.4 도로명주소 유효성 평가 및 정제",
+          text: "4.4 테이블 생성하기",
           link: "/contents/chapter-4/chapter-4-4.html",
         },
         {
-          text: "4.5 데이터 품질 요소 알아보기",
+          text: "4.5 데이터 삽입하기",
           link: "/contents/chapter-4/chapter-4-5.html",
         },
         {
-          text: "4.6 데이터 품질 평가해보기",
+          text: "4.6 SQL로 데이터 분석하기",
           link: "/contents/chapter-4/chapter-4-6.html",
         },
       ],
@@ -204,7 +204,7 @@ function sidebarMain() {
       ],
     },
     {
-      text: "6. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
+      text: "6. 도로명 주소의 구성과 품질",
       collapsed: true,
       items: [
         {
@@ -212,23 +212,23 @@ function sidebarMain() {
           link: "/contents/chapter-6/chapter-6-1.html",
         },
         {
-          text: "6.2 프로젝트 환경 구축하기",
+          text: "6.2. 프로젝트 환경 구축하기",
           link: "/contents/chapter-6/chapter-6-2.html",
         },
         {
-          text: "6.3 데이터베이스 생성하기",
+          text: "6.3 도로명주소 오류 유형 알아보기",
           link: "/contents/chapter-6/chapter-6-3.html",
         },
         {
-          text: "6.4 테이블 생성하기",
+          text: "6.4 도로명주소 유효성 평가 및 정제",
           link: "/contents/chapter-6/chapter-6-4.html",
         },
         {
-          text: "6.5 데이터 삽입하기",
+          text: "6.5 데이터 품질 요소 알아보기",
           link: "/contents/chapter-6/chapter-6-5.html",
         },
         {
-          text: "6.6 SQL로 데이터 분석하기",
+          text: "6.6 데이터 품질 평가해보기",
           link: "/contents/chapter-6/chapter-6-6.html",
         },
       ],
