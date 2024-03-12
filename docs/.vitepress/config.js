@@ -204,7 +204,7 @@ function sidebarMain() {
       ],
     },
     {
-      text: "6. 도로명 주소의 구성과 품질",
+      text: "6. 도로명주소의 품질을 평가하고 정제하기",
       collapsed: true,
       items: [
         {
