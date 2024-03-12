@@ -1,21 +1,9 @@
-# 6. 데이터 품질 평가하기
+# 6.6. 데이터 품질 평가하기
 
-
-> 평가 요소에 대한 구체적인 코드내용, 설명은 독스에서는 일부만 보여주고 나머지는 파이썬 노트북으로 확인
-
-
-<br>
-
-
-
-#### 작성자: 안지은
-
-- [샘플 데이터]()
-- **코드 원본** : 코드 원본과 함께 읽어보시는 것을 추천합니다. ▶️ [깃허브](), [colab]()
+앞선 챕터에서는 공공데이터의 품질요소로 어떠한 것들이 있는지 알아봤습니다. 이번에는 실제로 어떻게 품질 요소를 평가하는 방식이 구현되는지 파이썬 코드와 함께 살펴보겠습니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1jZFTE5WwunZlram420C5WJ30qbznaTDY/view?usp=sharing)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙]()에서 확인할 수 있습니다.
 
 ## 공공데이터 샘플 품질 평가
-
-앞선 챕터에서는 공공데이터의 품질요소로 어떠한 것들이 있는지 알아봤는데요. 컬럼별 데이터 유형에 구애받지 않고 평가가 가능한 완전성과 이해가능성을 제외한 나머지 평가 요소들의 적용 범위는 다음 표와 같습니다. 도로명 주소의 경우 4.4. 장에서 이미 유효성, 정확성 평가를 진행했으므로 제외되었습니다.
+럼별 데이터 유형에 구애받지 않고 평가가 가능한 완전성과 이해가능성을 제외한 나머지 평가 요소들의 적용 범위는 다음 표와 같습니다. 도로명 주소의 경우 4.4. 장에서 이미 유효성, 정확성 평가를 진행했으므로 제외되었습니다.
 
 
 | 컬럼명 | 유효성 | 정확성 | 일관성 | 
@@ -83,6 +71,50 @@ consis = pd.DataFrame(np.zeros((100, 12)),
 ```
 
 마지막으로 평가테이블의 결과를 시각화하는 `vis_portion` 함수를 생성하도록 합니다. 해당 함수는 이해가능성, 유효성, 정확성, 일관성 평가 파트에서 반복적으로 사용됩니다.
+
+<details>
+    <summary> vis_portion 함수 코드 </summary>
+
+```python
+def vis_portion(table, name):
+    val_counts = pd.DataFrame()
+    for col in table.columns:
+        valcol = table[col].value_counts()
+        
+        val_counts = pd.concat([val_counts, valcol], axis=1)
+        
+
+    val_counts = val_counts.fillna(0)
+    val_counts = np.transpose(val_counts)
+    if 0 not in val_counts.columns:
+        val_counts[0] = 0
+    if 1 not in val_counts.columns:
+        val_counts[1] = 0
+    val_counts["none"] = (len(table)-val_counts[1]-val_counts[0])
+    val_counts[name] = val_counts[1] / (val_counts[1]+val_counts[0]) * 100
+    val_counts = val_counts.sort_values(by=0, ascending=True)
+    
+    # 시각화
+    fig, axes = plt.subplots(1, 2,sharey=True)
+    fig.set_size_inches(10, 5)
+    axes[0].barh(val_counts.index.tolist(), val_counts[1], color='#afe0ed')
+    axes[0].barh(val_counts.index.tolist(), val_counts[0], left=val_counts[1], color='#edafd2')
+    axes[0].barh(val_counts.index.tolist(), val_counts["none"], left=val_counts[1]+val_counts[0], color='#ebeded')
+    axes[0].set_title("컬럼별 %s 데이터 비중"%name)
+
+
+    axes[1].barh(val_counts.index.tolist(), val_counts[name], color='#a78bfa')
+    axes[1].set_title("컬럼별 %s성( %s 데이터 / 비공백 데이터 )"%(name,name))
+    
+    # 서브플롯 간의 간격 조정
+    plt.subplots_adjust(wspace=0.07)
+    for i in range(len(val_counts)):
+        axes[1].text(val_counts[name][i]-6, i, f"{round(val_counts[name][i],2)}%", ha="center", va="center")
+    axes[0].set_frame_on(False)
+    axes[1].set_frame_on(False)
+    return val_counts
+```
+</details>
 
 ## 1. 완전성 평가
 
@@ -895,24 +927,33 @@ vis_portion(consist, "일관")
 
 |완전성|이해가능성|유효성|정확성|일관성|
 |-----|------|-----|-----|------|
-|84.54|92.82|63.69| 1|1 |
+|79.04|100|97.57| 96.00|59.38 |
 
-정확성은 이 세 수치의 평균으로 구할 수 있습니다. 정확성은 80.35%입니다. 이 수치들을 방사형 그래프(rader chart)로 나타내어 봅시다. 
+ 이 수치들을 방사형 그래프(rader chart)로 나타내어 봅시다. 
 
 ```python
 import plotly.express as px
+fact_total = fact_count['정확'].mean()
+cons_total = cons_count['일관'].mean()
+read_total = read_count['이해가능'].mean()
+val_total = val_count['유효'].mean()
+comp_total = complete
 
 accu_element = pd.DataFrame(columns=["element", "rate"])
-accu_element["element"] = ["유효성", "사실성", "일관성"]
-accu_element['rate'] = [84.54,92.82,63.69]
+accu_element["element"] = ["완전성","이해가능성", "유효성", "정확성", "일관성"]
+accu_element['rate'] = [comp_total, read_total, val_total, fact_total, cons_total]
 
 fig = px.line_polar(r=accu_element["rate"], theta=accu_element["element"],line_close=True)
 
 fig.update_traces(fill='toself')
 fig.show()
 ```
-<embed src="/docs/4-3-result7.html" width="100%" height="450px"></embed>
+<embed src="/docs/6-6-addr-after-refine.html" width="100%" height="450px"></embed>
 
 이처럼 레이더 차트를 활용해 해당 데이터셋의 정확성 요소들의 수치들을 한 눈에 비교하고, 보완이 필요한 부분을 구체적으로 파악할 수 있습니다.
 
-위의 5가지 수치들의 평균으로 전체적인 데이터의 품질이 어떤 수준인지 파악할 수 있습니다. 전체적인 수치 평균은 NN으로, 해당 데이터가 약간의 정제 과정만 거치면 대부분의 데이터를 활용 가능 하다는 점을 알 수 있습니다.
+위의 5가지 수치들의 평균으로 전체적인 데이터의 품질이 어떤 수준인지 파악할 수 있습니다. 전체적인 수치 평균은 86.40으로, 품질에 대해 큰 이슈 없이 데이터를 활용할 수 있을 것임을 파악할 수 있습니다.
+
+또한, 앞선 과정들에서는 컬럼별 평가도 함께 진행하였고, 주소 관련 컬럼들의 일관성 부분에서 다소 낮은 수치를 보이는 것을 확인하였습니다. 이를 통해 비교적 정확성이 높은 도로명주소 컬럼의 기준으로 지번주소, 좌표계의 오류를 수정하거나, 또는 지번주소 컬럼은 배제하고 분석을 진행하는 등의 조치를 취해야 한다는 점을 확인하였습니다.
+
+지금까지 작성하였던 품질 확인 코드들은 모두 함수화 되어있습니다. 이러한 함수를 새로운 데이터를 활용할 때마다 재사용한다면 빠르고 효과적으로 데이터 품질을 확인할 수 있을 것입니다.
