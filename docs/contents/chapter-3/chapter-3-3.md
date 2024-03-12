@@ -1,8 +1,6 @@
 # 3.3 도로명주소 데이터 EDA
 
-<br>
 
-#### 작성자: 이정윤
 
 첫 번째로 살펴볼 데이터는 공개하는 주소 중 '도로명주소 한글' 데이터입니다. 현재 공개되어 있는 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 실습은 코랩 환경에서 진행되며, 본 교안에서는 코드에 대한 설명을 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1pARe-TAxp0VFniVmovi1mtG0SKel8PDc/view?usp=sharing)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/184m11Kz-ShW_F8STIAf_b9FjBdZPL3Cg?usp=sharing)에서 확인할 수 있습니다.
 

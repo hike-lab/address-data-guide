@@ -1,13 +1,9 @@
 # 3.5 주소 데이터 활용하기
 
-<br>
-
-#### 작성자: 이정윤
-
 이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1xpg-qpanDXUxssnpIZw8dCN2t3Asfjvu/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1ESR6gu4l9QlUx8uW8ngBUWd5MO9BUV5u?usp=sharing)에서 확인할 수 있습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-4-mapbox.png" title="sido geo data">
+    <img src="../img/3-5-mapbox.png" title="sido geo data">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
@@ -47,7 +43,7 @@ df_pop.reset_index(inplace=True, drop=True)
 정리한 최종 인구데이터는 다음과 같습니다. '서울특별시'와 같은 시도 단위와 '서울특별시 종로구'와 같은 시군구 단위의 데이터가 한 데이터 프레임 안에 있으므로, 추후 도로명주소 데이터와 함께 사용할 때 이 부분을 유의해야 합니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-4-population-ex.png" title="population data">
+    <img src="../img/3-5-population-ex.png" title="population data">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
@@ -130,7 +126,7 @@ sido_geojson.head()
 shp 파일을 geopandas를 통해 읽어오고, 데이터프레임으로 정의합니다. 이후 컬럼명을 부여하고 코드는 행정동코드와 같은 형식이 되도록 수정해줍니다. 데이터프레임으로 정리한 시도 면적데이터 예시는 다음과 같습니다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/3-4-sido-geo.png" title="sido geo data">
+    <img src="../img/3-5-sido-geo.png" title="sido geo data">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
@@ -244,7 +240,7 @@ viz.show()
 - `legend_layout='horizontal', legend_key_shape='bar', legend_key_borders_on=False`:
 - 범례의 레이아웃 및 모양을 설정합니다.
 
-<embed src="/docs/3-4-person-per-address.html" width="100%" height="450px"></embed>
+<embed src="/docs/3-5-person-per-address.html" width="100%" height="450px"></embed>
 
 시도별 인구 대비 도로명주소의 개수를 살펴보면 서울, 경기, 부산, 대구, 세종, 광주 등 특별시, 광역시, 특별자치시와 같이 비교적 인구가 많은 지역은 연한색으로 나타나서 인구 대비 도로명주소의 개수가 적은 것을 알 수 있습니다. 앞서 3-2에서 시도별 도로명주소 개수를 확인했을 때, 세종특별자치시, 울산, 대전은 도로명주소의 개수가 가장 적은 하위 3개 시도인 것을 감안헀을 때, 이들은 인구수는 많지만 도로명주소의 개수는 적어 인구 대비 도로명주소의 개수가 적다는 것을 확인할 수 있습니다.
 
@@ -269,7 +265,7 @@ html.close()
 viz.show()
 ```
 
-<embed src="/docs/3-4-person-per-address-3d.html" width="100%" height="450px"></embed>
+<embed src="/docs/3-5-person-per-address-3d.html" width="100%" height="450px"></embed>
 동일한 시각화에서 위와 같은 파라미터를 추가하면, 각 면적의 height를 지정하여 입체적인 지도 시각화를 진행할 수 있습니다.
 
 ### 시군구별 면적 대비 도로명주소 개수
@@ -301,7 +297,7 @@ html.close()
 viz.show()
 ```
 
-<embed src="/docs/3-4-sigungu-area-per-address.html" width="100%" height="450px"></embed>
+<embed src="/docs/3-5-sigungu-area-per-address.html" width="100%" height="450px"></embed>
 파란색으로 표시된 지역일수록 면적 대비 도로명주소의 개수가 많다는 의미이며 특히 서울, 부산, 대전, 광주 등 광역시 지역에서 면적 대비 도로명주소 개수의 비율이 높은 것으로 나타났습니다.
 
 ## 참고문헌
