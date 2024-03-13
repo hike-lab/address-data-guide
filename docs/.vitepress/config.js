@@ -90,7 +90,8 @@ function sidebarMain() {
       items: [
         {
           text: "1.1 주소란 무엇인가?",
-          link: "/contents/chapter-1/chapter-1-1.html",
+          link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800"
+          // link: "/contents/chapter-1/chapter-1-1.html",
         },
       ],
     },
