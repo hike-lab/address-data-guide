@@ -21,7 +21,7 @@ token = "본인 token"
 
 ## 분석1. 인구 대비 도로명주소 개수
 
-### 데이터 정제하기
+### 인구데이터 정제하기
 
 인구데이터는 행정안전부에서 제공하는 [행정동별 주민등록 인구 및 세대현황](https://jumin.mois.go.kr/)의 전체시군구현황 데이터를 사용합니다. 데이터는 csv 혹은 xlsx 형식입니다. 데이터를 불러온 뒤 데이터의 형태, 수정이 필요한 부분 확인 등 간단한 전처리를 진행합니다.
 
@@ -64,16 +64,13 @@ sido_pop = df_pop[df_pop['행정기관'].isin(list(sido['시도명']))].copy()
 첫 번째 작업은 도로명주소와 인구수 각각의 데이터프레임을 정리하는 것입니다.. `sido`는 시도별로 도로명주소 개수를 포함하는 데이터프레임이고 `sido_pop`은 17개 시도의 인구수를 포함하는 데이터프레임입니다.
 
 ```python
-# 시도명, 행정기관 컬럼 -> 좌우 공백 없애기
-sido['시도명'] = sido['시도명'].apply(lambda x:x.strip())
-sido_pop['행정기관'] = sido_pop['행정기관'].apply(lambda x:x.strip())
+sido['시도명'] = sido['시도명'].apply(lambda x:x.strip()) # 좌우 공백 없애기
+sido['도로명주소관리번호'] = sido['도로명주소관리번호'].astype(int) # int로 데이터 타입 바꾸기
 
-# 행정기관코드, code -> string으로 바꾸기
-sido_pop['행정기관코드'] = sido_pop['행정기관코드'].astype('str')
+sido_pop['행정기관'] = sido_pop['행정기관'].apply(lambda x:x.strip()) # 좌우 공백 없애기
+sido_pop['행정기관코드'] = sido_pop['행정기관코드'].astype('str') # str로 데이터 타입 바꾸기
+sido_pop['총인구수'] = sido_pop['총인구수'].str.replace(',', '').astype(int) # int로 데이터 타입 바꾸기
 
-# 도로명주소관리번호, 총인구수 -> int로 타입 바꾸기
-sido['도로명주소관리번호'] = sido['도로명주소관리번호'].astype(int)
-sido_pop['총인구수'] = sido_pop['총인구수'].str.replace(',', '').astype(int)
 ```
 
 두 번째로는 두 데이터프레임을 합치기 전, 기준(PK)이 되는 컬럼은 동일한 값으로 인식될 수 있도록 좌우 공백을 없애고, 데이터 타입을 동일하게 수정합니다. 인구 대비 도로명주소 개수를 계산할 때 필요한 '도로명관리번호' (도로명주소 개수) 컬럼과 '총인구수' 컬럼은 int로 바꿔줍니다.
@@ -97,7 +94,7 @@ sido_address_pop
 
 ## 분석2. 면적 대비 도로명주소 개수
 
-### 데이터 정제하기
+### 면적 계산하기
 
 면적데이터는 주소기반산업지원서비스에서 제공하는 제공하는 주소 중 [구역의 도형](https://business.juso.go.kr/addrlink/elctrnMapProvd/geoDBDwldList.do?menu=%EA%B5%AC%EC%97%AD%EC%9D%98%20%EB%8F%84%ED%98%95) 2024년 1월 전체자료입니다. 제공하는 주소는 신청서를 작성한 뒤 데이터를 제공받을 수 있습니다. (자세한 신청 방법은 [2-5](../chapter-2/chapter-2-5.md)에서 확인하세요) 사이트에서 신청하여 받거나, 구글 드라이브에 저장된 'geojson' 폴더를 다운받아 사용하면됩니다.
 
@@ -133,10 +130,15 @@ shp 파일을 geopandas를 통해 읽어오고, 데이터프레임으로 정의�
 POLYGON은 다수의 선분들이 연결되어 닫혀 있는 상태인 다각형을 의미하고 MULTIPOLYGON은 다수 개의 POLYGON의 집합을 의미합니다. 즉 행정구역의 경계를 나타내는 값이며, 이 정보로 행정구역별 면적을 계산할 수 있습니다.
 
 ```python
-sido_geojson = sido_geojson.set_crs(epsg=5179, allow_override=True)
-sido_geojson['code'] = sido_geojson['code'].astype('str')
-sido_geojson["면적"] = sido_geojson["geometry"].area
-sido_geojson
+def cal_area(df1):
+  df1['code'] = df1['code'].astype('str') # str로 데이터 타입 바꾸기
+
+  # 면적 계산하기
+  df1 = df1.set_crs(epsg=5179, allow_override=True)
+  df1["면적"] = df1["geometry"].area
+  return df1
+
+sido_geojson = cal_area(sido_geojson)
 ```
 
 면적 대비 도로명주소의 개수를 계산하기 위해서는 구역의 경계 데이터를 기반으로 각 행정구역 별 '면적'을 알아야 합니다. 이때 설정하는 CRS(Coordinate Reference System)는 좌표계로,
@@ -149,9 +151,13 @@ sido_geojson
 면적 대비 도로명주소 개수를 계산할 때 역시 '시도별'과 '시군구별'을 따로 진행하며, 이 장에서는 시군구별 면적 대비 도로명주소 개수를 계산하는 내용만 다루겠습니다. 전체 내용은 코드를 참고하세요.
 
 ```python
-sigungu_total = sigungu_address_pop.merge(sigungu_geojson, left_on='행정기관코드', right_on='code', how='outer')
-sigungu_total["면적 대비 도로명주소 개수"] = sigungu_total.apply(lambda row: row["도로명개수"] / row["면적"], axis=1)
-sigungu_total
+def cal_area_per_road(df1, df2):
+  df_total = df1.merge(df2, left_on='행정기관코드', right_on='code', how='outer')
+  df_total["면적 대비 도로명주소 개수"] = df_total.apply(lambda row: row["도로명개수"] / row["면적"], axis=1)
+  return df_total
+
+# 시군구별
+sigungu_total = cal_area_per_road(sigungu_address_pop, sigungu_geojson)
 ```
 
 `sigungu_geojson`과 `sigungu_address_pop`을 합친 `sigungu_total`을 정의한 뒤, 면적 대비 도로명주소 개수를 계산한 컬럼을 추가합니다.
