@@ -303,7 +303,7 @@ function getJSONLD(pageData) {
   "name":"${pageData.frontmatter.title}",
   "url" : "http://hike.cau.ac.kr/docs/guide${pageData.frontmatter.url}",
   "description":"${pageData.frontmatter.description}",
-  "keywords":"${pageData.frontmatter.keywords}",
+  "keywords" : ${pageData.frontmatter.keywords},
   "dateCreated" : "2024-04-01",
   "version":"1.0",
   "inLanguage":"ko",
@@ -331,7 +331,7 @@ function getJSONLD(pageData) {
     "legalName" : "HIKE Lab.",
     "url" : "http://hike.cau.ac.kr",
     "parentOrganization" : {
-      @type : "Organization",
+      "@type" : "Organization",
       "legalName" : "Chung-Ang University",
       "url" : "http://www.cau.ac.kr",
       "location" : {
