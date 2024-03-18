@@ -1,7 +1,7 @@
 ---
 title: 3.2 프로젝트 환경 구축하기
-description:  구글 Colab은 웹 브라우저에서 파이썬을 사용할 수 있는 서비스입니다. 구글의 다른 서비스와 연동성이 높고 여러 사람과 협업이 용이하나, 주피터 노트북과 라이브러리, 프레임워크 등의 설치 방법과 사용에 있어서 약간의 차이가 있습니다.
-keywords: [Python, Colab, 환경설정, 코랩, 파이썬]
+description: 구글 Colab은 웹 브라우저에서 파이썬을 사용할 수 있는 서비스입니다.
+keywords: "[ Python, Colab, 환경설정, 코랩, 파이썬]"
 url: "/chapter-3/chapter-3-2.html"
 ---
 
