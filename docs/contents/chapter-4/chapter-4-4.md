@@ -1,4 +1,10 @@
-# 6.4 테이블 생성하기
+---
+title: 4.4 테이블 생성하기
+description: 테이블 스키마가 간단히 무엇인지 알아보니다. 도로명주소 한글 데이터에 맞는 테이블 스키마를 설계하여 테이블을 생성합니다. 
+keywords: [SQL,  MySQL, DB, 관계형DB, Python, 도커, Docker, 주소데이터, 주소, 데이터베이스, 테이블, 스키마, 주소기반산업지원서비스, 도로명주소, 관련지번]
+url: "/chapter-4/chapter-4-4.html"
+---
+# 4.4 테이블 생성하기
 
 이번 장은 도로명주소 한글 데이터에 맞는 테이블 스키마를 설게하고, 테이블을 생성합니다. 테이블 스키마가 간단히 무엇인지 알아보고, `rnaddrkor`과 `jibun_rnaddrkor` 테이블의 스키마를 작성하고 테이블을 생성합니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
 

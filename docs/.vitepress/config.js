@@ -1,21 +1,33 @@
 // https://vitepress.vuejs.org/config/#markdown-options
 
-import { onMounted } from "vue";
+
+import { onBeforeMount, onMounted } from "vue";
+
 
 export default {
+  async transformPageData(pageData){
+    
+    pageData.frontmatter.head ??= [];
+    
+    let newheader = getJSONLD(pageData);
+    pageData.frontmatter.head.push(["script", { type: "application/ld+json" }, newheader]);
+    
+    },
+
   lang: "ko-KR",
   title: "Address Data Guide",
   description: "Address Data Guide for HIKE Lab. at CAU",
-  base: "/docs/",
+  base: "/docs/guide/",
   lastUpdated: true,
   ignoreDeadLinks: true,
 
+
   head: [
     ["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }],
-
-    // SEO
-    // ['meta', { name: 'description', content: description}]
+    
   ],
+ 
+
 
   // markdown-it-footnote
   markdown: {
@@ -73,6 +85,7 @@ export default {
   },
 
 };
+
 
 
 function nav() {
@@ -276,3 +289,61 @@ function sidebarMain() {
     },
   ];
 }
+
+
+function getJSONLD(pageData) {
+  
+  return `{
+  "@context":"http://schema.org",
+  "@type":"TechArticle",
+  "mainEntityOfPage" : {
+    "@type" : "WebPage",
+    "@id" : "http://hike.cau.ac.kr/docs/guide${pageData.frontmatter.url}"
+  },
+  "name":"${pageData.frontmatter.title}",
+  "url" : "http://hike.cau.ac.kr/docs/guide${pageData.frontmatter.url}",
+  "description":"${pageData.frontmatter.description}",
+  "keywords":"${pageData.frontmatter.keywords}",
+  "dateCreated" : "2024-04-01",
+  "version":"1.0",
+  "inLanguage":"ko",
+  "technicalAudience" : "developer",
+  "proficiencyLevel" : "beginner",
+  "publisher" : "HIKE Lab.",
+  "genre" : "how-to",
+  "creator" : {
+    "@type" : "Organization",
+    "legalName" : "HIKE Lab.",
+    "url" : "http://hike.cau.ac.kr",
+    "parentOrganization" : {
+      @type : "Organization",
+      "legalName" : "Chung-Ang University",
+      "url" : "http://www.cau.ac.kr",
+      "location" : {
+        "@type" : "Place",
+        "address" : "84 Heukseok-ro, Dongjak-gu, Seoul, South Korea"
+        "hasMap" : "https://www.google.co.kr/maps/place/%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90+%EA%B5%90%EC%88%98%EC%97%B0%EA%B5%AC%EB%8F%99+%EB%B0%8F+%EC%B2%B4%EC%9C%A1%EA%B4%80(305%EA%B4%80)/data=!3m1!4b1!4m9!1m2!2m1!1z7KSR7JWZ64yA7ZWZ6rWQ!3m5!1s0x357ca1d896e73025:0xf6614ef31c11e9c1!8m2!3d37.5043687!4d126.9545641!16s%2Fg%2F11bxdd4hby?hl=ko&entry=ttu"
+      }
+    }
+  },
+  "author" : {
+    "@type" : "Organization",
+    "legalName" : "HIKE Lab.",
+    "url" : "http://hike.cau.ac.kr",
+    "parentOrganization" : {
+      @type : "Organization",
+      "legalName" : "Chung-Ang University",
+      "url" : "http://www.cau.ac.kr",
+      "location" : {
+        "@type" : "Place",
+        "address" : "84 Heukseok-ro, Dongjak-gu, Seoul, South Korea"
+        "hasMap" : "https://www.google.co.kr/maps/place/%EC%A4%91%EC%95%99%EB%8C%80%ED%95%99%EA%B5%90+%EA%B5%90%EC%88%98%EC%97%B0%EA%B5%AC%EB%8F%99+%EB%B0%8F+%EC%B2%B4%EC%9C%A1%EA%B4%80(305%EA%B4%80)/data=!3m1!4b1!4m9!1m2!2m1!1z7KSR7JWZ64yA7ZWZ6rWQ!3m5!1s0x357ca1d896e73025:0xf6614ef31c11e9c1!8m2!3d37.5043687!4d126.9545641!16s%2Fg%2F11bxdd4hby?hl=ko&entry=ttu"
+      }
+    }
+  },
+  "dependencies" : "Python",
+  "proficiencyLevel" : "beginner",
+  "technicalAudience" : "developer, DBA, Web Developer"
+}`;
+
+  } 
