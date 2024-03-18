@@ -1,7 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
-
+url : /index.html
 hero:
   name: "Address Data Guide"
   text: ": 주소데이터 활용의 AtoZ"

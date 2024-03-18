@@ -1,3 +1,9 @@
+---
+title: 3.5 주소 데이터 활용하기
+description: 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다.
+keywords: [Python, 파이썬, 도로명주소, EDA, 데이터 분석, 도로명, 도로유형, 도로명번호, 도로명코드, 행정기관코드, 지도시각화, mapbox, mapboxgl, plotly]
+url: "/chapter-3/chapter-3-5.html"
+---
 # 3.5 주소 데이터 활용하기
 
 이번에는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1xpg-qpanDXUxssnpIZw8dCN2t3Asfjvu/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1ESR6gu4l9QlUx8uW8ngBUWd5MO9BUV5u?usp=sharing)에서 확인할 수 있습니다.
