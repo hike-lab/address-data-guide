@@ -9,7 +9,7 @@ url: "/chapter-3/chapter-3-3.html"
 
 
 
-첫 번째 실습은 '도로명주소 한글' 데이터를 통해 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행하는 것 입니다. 실습은 코랩 환경에서 진행되며, 본 교안에서는 주요 코드에 대한 설명을 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1pARe-TAxp0VFniVmovi1mtG0SKel8PDc/view?usp=sharing)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/184m11Kz-ShW_F8STIAf_b9FjBdZPL3Cg?usp=sharing)에서 확인할 수 있습니다.
+첫 번째 실습은 '도로명주소 한글' 데이터를 통해 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행하는 것 입니다. 실습은 [코랩](https://drive.google.com/file/d/1tVHTnliiqVvE4uWsQmSy07dYqYhYScfY/view?usp=sharing) 환경에서 진행되며, 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/chapter-3/chapter3-3)에서 확인할 수 있습니다. 
 
 ## 데이터 불러오기
 

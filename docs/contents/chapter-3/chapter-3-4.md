@@ -9,7 +9,7 @@ url: "/chapter-3/chapter-3-4.html"
 
 
 
-두 번째로 다룰 내용은 '도로명' 데이터를 통해 현재 공개되어 있는 도로명의 개수를 도로유형별, 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/file/d/1Rt0UaQGB6psj7snY3I3MzJYGXDrnUGCg/view?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://colab.research.google.com/drive/1zryZex86ykiYYjz24MTyWVvRQTImvZgR?usp=sharing)에서 확인할 수 있습니다.
+두 번째로 다룰 내용은 '도로명' 데이터를 통해 현재 공개되어 있는 도로명의 개수를 도로유형별, 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다. 실습은 [코랩](https://drive.google.com/file/d/1M9pli0hbwgpAGWNjP316MWUoktvKaY-0/view?usp=sharing) 환경에서 진행되며, 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/chapter-3/chapter3-4)에서 확인할 수 있습니다. 
 
 ## 데이터 불러오기
 
