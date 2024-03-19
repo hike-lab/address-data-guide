@@ -2,7 +2,7 @@
 import { h } from "vue";
 import DefaultTheme from "vitepress/theme";
 import "./style.css";
-import timelineComp from "./components/timeLine.vue";
+
 
 /** @type {import('vitepress').Theme} */
 export default {
@@ -11,8 +11,5 @@ export default {
     return h(DefaultTheme.Layout, null, {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     });
-  },
-  enhanceApp({ app, router, siteData }) {
-    app.component("timelineComponent", timelineComp);
-  },
-};
+  
+}};
