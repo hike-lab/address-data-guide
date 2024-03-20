@@ -7,13 +7,13 @@ hero:
   text: ": 주소데이터 활용의 AtoZ"
   tagline: By HIKE Lab.
 
-  actions:
-    - theme: brand
-      text: 파이썬 코드 원본 Github
-      link: https://github.com/hike-lab/address-using-guide
-    - theme: alt
-      text: About HIKE Lab.
-      link: http://hike.cau.ac.kr/
+  # actions:
+  #   - theme: brand
+  #     text: 파이썬 코드 원본 Github
+  #     link: https://github.com/hike-lab/address-using-guide
+  #   - theme: alt
+  #     text: About HIKE Lab.
+  #     link: http://hike.cau.ac.kr/
 features:
   - title: Chapter 1. 주소란 무엇인가?
     details: 한국의 주소체계 이해하기
