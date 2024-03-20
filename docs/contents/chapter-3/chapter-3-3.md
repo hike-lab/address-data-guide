@@ -1,7 +1,7 @@
 ---
 title: 3.3 도로명주소 데이터 EDA
-description: 도로명주소 한글 데이터를 통해 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행합니다.
-keywords: [Python, Colab, 환경설정, 코랩, 파이썬, 도로명주소, EDA, 데이터 분석]
+description: 도로명주소 한글 데이터를 통해 도로명주소 데이터를 살펴보고 간단한 시각화를 진행합니다. 
+keywords: [Python, Colab, 환경설정, 코랩, 파이썬, 도로명주소, EDA]
 url: "/chapter-3/chapter-3-3.html"
 ---
 
