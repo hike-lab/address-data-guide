@@ -62,18 +62,20 @@ function sidebarMain() {
 ### 추가적으로 설치가 필요한 라이브러리
 
 - **timeline.js**
+
   - [공식문서](https://timeline.knightlab.com/?_gl=1*ztgdcs*_ga*NDE2NjI4MzE0LjE3MDg2NzMzMDM.*_ga_8F4WPDMPL5*MTcwODY3MzMwMy4xLjEuMTcwODY3NDE3MS4wLjAuMA..)
   - `Chapter  1 - 1. 주소란 무엇인가` 에서 사용
   - [연보 기입 스프레드 시트](https://docs.google.com/spreadsheets/d/1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw/edit?usp=sharing)
-  - 터미널에 `npm i @knight-lab/timelinejs` 입력하여 다운로드 
+  - 터미널에 `npm i @knight-lab/timelinejs` 입력하여 다운로드
 
   - 사용법
     1. 스프레드 시트에 추가 정보 작성 후 저장 (시트 내용, 파일명 등 변경 사항 있을 때마다 새 링크로 받아야 함.)
     2. 저장한 다음 상단 `파일 > 공유 > 웹에 게시` 클릭
     3. 웹 게시 후, 주소 창의 주소 복사 (웹 게시 팝업에 나오는 주소 X)
-    4.  `docs > .vitepress > theme > components` 폴더의 `timeLine.vue` 파일에서 스프레드 시트 링크 부분 수정
+    4. `docs > .vitepress > theme > components` 폴더의 `timeLine.vue` 파일에서 스프레드 시트 링크 부분 수정
     5. 커널 종료했다가 재실행
-    
+
 ### 댓글 기능 추가
 
-Public 상태라면, [giscus](https://plugin-comment2.vuejs.press/config/giscus.html) 추가 가능
+- Public 상태라면, [giscus](https://github.com/T-miracle/vitepress-plugin-comment-with-giscus?tab=readme-ov-file) 추가 가능
+- 2024년 3월 20일 추가완료 (필요없다면 추후 삭제)
