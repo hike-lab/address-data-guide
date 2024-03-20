@@ -1,12 +1,13 @@
 ---
 title: 4.5 데이터 삽입하기
 description: 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다.
-keywords: [SQL,  MySQL, DB, 관계형DB, Python, 도커, Docker, 주소데이터, 주소, 데이터베이스, 테이블, 스키마, 주소기반산업지원서비스, 도로명주소, 관련지번]
+keywords: [MySQL, Docker, Python, pymysql, 주소데이터분석]
 url: "/chapter-4/chapter-4-5.html"
 ---
+
 # 4.5 데이터 삽입하기
 
-이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해봅니다. <span style="color: red">이 장에서 사용되는 데이터는 [구글 드라이브](https://drive.google.com/drive/folders/1l5TRq-lcdlhWHmhAk6KFwPY7wP4BfAUL?usp=drive_link)에서 다운로드 받을 수 있고, 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/code/chapter-6)에서 확인할 수 있습니다.</span>
+이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습합니다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해봅니다. 이 장에서 사용하는 데이터는 깃헙의 chapter-4 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)에서 확인할 수 있습니다. 코드 원본은 깃헙의 [chapter-4 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-4/4_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있습니다.
 
 ## local infile 허용하기
 
