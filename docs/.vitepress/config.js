@@ -1,19 +1,19 @@
 // https://vitepress.vuejs.org/config/#markdown-options
 
-
 import { onBeforeMount, onMounted } from "vue";
 
-
 export default {
-  async transformPageData(pageData){
-    
+  async transformPageData(pageData) {
     pageData.frontmatter.head ??= [];
-    
+
     let newheader = getJSONLD(pageData);
-    pageData.frontmatter.head.push(["script", { type: "application/ld+json" }, `${newheader}`]);
+    pageData.frontmatter.head.push([
+      "script",
+      { type: "application/ld+json" },
+      `${newheader}`,
+    ]);
     getOGTag(pageData);
-    
-    },
+  },
 
   lang: "ko-KR",
   title: "Address Data Guide",
@@ -22,13 +22,7 @@ export default {
   lastUpdated: true,
   ignoreDeadLinks: true,
 
-
-  head: [
-    ["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }],
-    
-  ],
- 
-
+  head: [["link", { rel: "icon", href: "../static/icon/hikeLogo.svg" }]],
 
   // markdown-it-footnote
   markdown: {
@@ -84,10 +78,7 @@ export default {
     //   indexName: 'vitepress'
     // }
   },
-
 };
-
-
 
 function nav() {
   return [
@@ -104,14 +95,16 @@ function sidebarMain() {
       items: [
         {
           text: "1.1 주소란 무엇인가?",
-          link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800"
-          // link: "/contents/chapter-1/chapter-1-1.html",
+          link: "/contents/chapter-1/chapter-1-1.html",
         },
         {
           text: "1.2 도로명주소의 구성요소",
-          link: "/contents/chapter-1/chapter-1-2.html"
+          link: "/contents/chapter-1/chapter-1-2.html",
         },
-
+        {
+          text: "1.3 주소의 역사",
+          link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800",
+        },
       ],
     },
 
@@ -296,9 +289,7 @@ function sidebarMain() {
   ];
 }
 
-
 function getJSONLD(pageData) {
-  
   return `{
   "@context":"http://schema.org",
   "@type":"TechArticle",
@@ -351,43 +342,59 @@ function getJSONLD(pageData) {
   "proficiencyLevel" : "beginner",
   "technicalAudience" : "developer, DBA, Web Developer"
 }`;
+}
 
-  } 
+function getOGTag(pageData) {
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:title", content: pageData.frontmatter.title },
+  ]);
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:description", content: pageData.frontmatter.description },
+  ]);
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:url", content: pageData.frontmatter.url },
+  ]);
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:type", content: "website" },
+  ]);
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:site_name", content: "주소데이터활용가이드" },
+  ]);
+  pageData.frontmatter.head.push([
+    "meta",
+    { property: "og:locale", content: "ko_KR" },
+  ]);
+  const metaData = {
+    "@context": "http://schema.org",
+    "@type": "TechArticle",
+    name: pageData.frontmatter.title,
+    url: `http://hike.cau.ac.kr/docs/guide${pageData.frontmatter.url}`,
+    description: pageData.frontmatter.description,
+    keywords: pageData.frontmatter.keywords, // 배열을 쉼표로 구분된 문자열로 변환
+    dateCreated: "2024-04-01", // 날짜 형식에 유의
+    version: "1.0",
+    inLanguage: "ko",
+    technicalAudience: "developer, DBA, Web Developer",
+    proficiencyLevel: "beginner",
+    publisher: "HIKE Lab.",
+    genre: "how-to",
+    creator: "HIKE Lab.",
+    author: "HIKE Lab.",
+    dependencies: "Python", // 추가 정보에 따라 수정 가능
+  };
 
-  function getOGTag(pageData){
-    pageData.frontmatter.head.push(["meta", { property: "og:title", content : pageData.frontmatter.title}]);
-    pageData.frontmatter.head.push(["meta", { property: "og:description" , content: pageData.frontmatter.description}]);
-    pageData.frontmatter.head.push(["meta", { property: "og:url", content: pageData.frontmatter.url}]);
-    pageData.frontmatter.head.push(["meta", { property: "og:type", content: "website"}]);
-    pageData.frontmatter.head.push(["meta", { property: "og:site_name", content:"주소데이터활용가이드"}]);
-    pageData.frontmatter.head.push(["meta", { property: "og:locale", content:"ko_KR"}]);
-    const metaData = {
-      "@context": "http://schema.org",
-      "@type": "TechArticle",
-      "name": pageData.frontmatter.title,
-      "url" : `http://hike.cau.ac.kr/docs/guide${pageData.frontmatter.url}`,
-      "description": pageData.frontmatter.description,
-      "keywords": pageData.frontmatter.keywords, // 배열을 쉼표로 구분된 문자열로 변환
-      "dateCreated" : "2024-04-01", // 날짜 형식에 유의
-      "version":"1.0",
-      "inLanguage":"ko",
-      "technicalAudience" : "developer, DBA, Web Developer",
-      "proficiencyLevel" : "beginner",
-      "publisher" : "HIKE Lab.",
-      "genre" : "how-to",
-      "creator" :  "HIKE Lab.",
-      "author" : "HIKE Lab.",
-      "dependencies" : "Python" // 추가 정보에 따라 수정 가능
-    };
-
-    const metaTags = Object.entries(metaData).map(([key, value]) => {
-      // 특수 문자를 이스케이프 처리하여 메타 태그 생성
-      const content = typeof value === "string" ? value.replace(/"/g, '&quot;') : value;
-      pageData.frontmatter.head.push(['meta', {property :key, content:content}]);
-    });
-
-
-  }
-
-
-  
+  const metaTags = Object.entries(metaData).map(([key, value]) => {
+    // 특수 문자를 이스케이프 처리하여 메타 태그 생성
+    const content =
+      typeof value === "string" ? value.replace(/"/g, "&quot;") : value;
+    pageData.frontmatter.head.push([
+      "meta",
+      { property: key, content: content },
+    ]);
+  });
+}
