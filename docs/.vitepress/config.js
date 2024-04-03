@@ -251,32 +251,42 @@ function sidebarMain() {
       ],
     },
     {
-      text: "8. 주소 지식모델 (TBD)",
+      text: "8. 응용사례",
       collapsed: true,
       items: [
         {
-          text: "8.1 프로젝트 소개 ",
-          link: "/contents/chapter-8/chapter-8-1.html",
+          text: "8.1 부산광역시 지진 취약지역 분석",
+          link: "https://labs.datahub.kr/projects/earthquake/#slide=1",
         },
       ],
-    },
+    },      
     {
-      text: "9. 주소 지식그래프 구축 (TBD)",
+      text: "9. 주소 지식모델 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "9.1 프로젝트 소개",
+          text: "9.1 프로젝트 소개 ",
           link: "/contents/chapter-9/chapter-9-1.html",
         },
       ],
     },
     {
-      text: "10. 주소 지식그래프 활용 (TBD)",
+      text: "10. 주소 지식그래프 구축 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "10.1 프로젝트 소개",
+          text: "9.1 프로젝트 소개",
           link: "/contents/chapter-10/chapter-10-1.html",
+        },
+      ],
+    },
+    {
+      text: "11. 주소 지식그래프 활용 (TBD)",
+      collapsed: true,
+      items: [
+        {
+          text: "11.1 프로젝트 소개",
+          link: "/contents/chapter-11/chapter-11-1.html",
         },
       ],
     },
