@@ -949,7 +949,7 @@ fig = px.line_polar(r=accu_element["rate"], theta=accu_element["element"],line_c
 fig.update_traces(fill='toself')
 fig.show()
 ```
-<embed src="/docs/6-6-addr-after-refine.html" width="100%" height="450px"></embed>
+<embed src="/docs/guide/addr-after-refine.html" width="100%" height="450px"></embed>
 
 이처럼 레이더 차트를 활용해 해당 데이터셋의 정확성 요소들의 수치들을 한 눈에 비교하고, 보완이 필요한 부분을 구체적으로 파악할 수 있다.
 
