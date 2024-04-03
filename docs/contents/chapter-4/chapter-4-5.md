@@ -96,7 +96,7 @@ sido_address_pop
 
 마지막으로 `sido`와 `sido_pop`을 17개 시도명을 기준으로 하나로 합친 `sido_address_pop`를 정의한다. 이후, 인구 대비 도로명주소 개수를 계산한 컬럼을 추가한다.
 
-<embed src="/docs/guide/guide/sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
 
 시도별 인구 대비 도로명주소 개수의 값을 시각화하면 위와 같은 결과가 도출된다. 전라남도, 경상북도, 전북특별자치도 등 순으로 인구 대비 도로명주소의 개수가 많다.
 
