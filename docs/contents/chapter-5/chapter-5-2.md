@@ -125,7 +125,7 @@ mysql> SHOW DATABASES;
 
 ## 파이썬 노트북으로 MySQL 연결하기
 
-MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [5.1장에서 설명한 VSCode](/contents/chapter-5/chapter-5-1.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
+MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [6.2장에서 설명한 VSCode](/contents/chapter-6/chapter-6-2.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
 
 ```py
 !pip3 install pymysql
