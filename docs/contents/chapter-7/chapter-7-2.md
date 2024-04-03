@@ -1,10 +1,10 @@
 ---
-title: 6.2 프로젝트 환경 구축하기
+title: 7.2 프로젝트 환경 구축하기
 description: 네이버 Geocoding API를 활용하는 방법에 대해 알아봅니다.
 keywords: [도로명주소,좌표계, 데이터정제, 공공데이터, geocoding, 네이버API]
-url: "/chapter-6/chapter-6-2.html"
+url: "/chapter-7/chapter-7-2.html"
 ---
-# 6.2 프로젝트 환경 구축하기
+# 7.2 프로젝트 환경 구축하기
 
 Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미합니다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 합니다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스합니다. 
 
