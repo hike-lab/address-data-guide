@@ -1,13 +1,13 @@
 ---
-title: 4.2 프로젝트 환경 구축하기
+title: 5.2 프로젝트 환경 구축하기
 description: 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습한다.
 keywords: [MySQL, Docker, Python, pymysql, 주소데이터분석]
-url: "/chapter-4/chapter-4-2.html"
+url: "/chapter-5/chapter-5-2.html"
 ---
 
-# 4.2 프로젝트 환경 구축하기
+# 5.2 프로젝트 환경 구축하기
 
-이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습한다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명한다. 이 장에서 사용하는 데이터는 깃헙의 chapter-4 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)에서 확인할 수 있다. 코드 원본은 깃헙의 [chapter-4 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-4/4_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있다.
+이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습한다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명한다. 이 장에서 사용하는 데이터는 깃헙의 chapter-5 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)에서 확인할 수 있다. 코드 원본은 깃헙의 [chapter-5 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있다.
 
 ## 도커로 MySQL 설치하기
 
@@ -125,7 +125,7 @@ mysql> SHOW DATABASES;
 
 ## 파이썬 노트북으로 MySQL 연결하기
 
-MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [5.1장에서 설명한 VSCode](/contents/chapter-5/chapter-5-1.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
+MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [6.2장에서 설명한 VSCode](/contents/chapter-6/chapter-6-2.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
 
 ```py
 !pip3 install pymysql
@@ -169,4 +169,4 @@ conn.close()
 
 ## 데이터 다운로드
 
-이번 장에서 사용할 실습 데이터는 주소기반산업지원서비스의 도로명주소 한글을 사용한다. 해당 데이터는 [2.3장](/contents/chapter-2/chapter-2-3.md)에서 자세하게 설명하고 있으니 참고하면 된다. 데이터는 2024년 1월 전체자료분을 사용하고, 도로명주소 테이블 `rnaddrkor`과 관련지번 테이블 `jibun_rnaddrkor`을 모두 사용한다. 실습에 사용한 데이터는 [여기](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)에서 `rnaddrkor.zip` 파일을 다운로드 받을 수 있다.
+이번 장에서 사용할 실습 데이터는 주소기반산업지원서비스의 도로명주소 한글을 사용한다. 해당 데이터는 [3.3장](/contents/chapter-3/chapter-3-3.md)에서 자세하게 설명하고 있으니 참고하면 된다. 데이터는 2024년 1월 전체자료분을 사용하고, 도로명주소 테이블 `rnaddrkor`과 관련지번 테이블 `jibun_rnaddrkor`을 모두 사용한다. 실습에 사용한 데이터는 [여기](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)에서 `rnaddrkor.zip` 파일을 다운로드 받을 수 있다.
