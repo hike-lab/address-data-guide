@@ -98,74 +98,52 @@ function sidebarMain() {
           link: "/contents/chapter-1/chapter-1-1.html",
         },
         {
-          text: "1.2 도로명주소의 구성요소",
+          text: "1.2 한국의 주소",
           link: "/contents/chapter-1/chapter-1-2.html",
         },
         {
-          text: "1.3 주소의 역사",
-          link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800",
-        },
-      ],
-    },
-
-    {
-      text: "2. 주소 데이터 이해하기",
-      collapsed: true,
-      items: [
-        {
-          text: "2.1 개요",
-          link: "/contents/chapter-2/chapter-2-1.html",
-        },
-        {
-          text: "2.2 주소정보 누리집",
-          link: "/contents/chapter-2/chapter-2-2.html",
-        },
-        {
-          text: "2.3 공개하는 주소",
-          link: "/contents/chapter-2/chapter-2-3.html",
-        },
-        {
-          text: "2.4 제공하는 주소",
-          link: "/contents/chapter-2/chapter-2-4.html",
-        },
-        {
-          text: "2.5 제공하는 주소 신청방법과 QGIS 사용법",
-          link: "/contents/chapter-2/chapter-2-5.html",
-        },
-        {
-          text: "2.6 주소 관련 코드체계",
-          link: "/contents/chapter-2/chapter-2-6.html",
+          text: "1.3 도로명주소의 이해",
+          link: "/contents/chapter-1/chapter-1-3.html",
         },
       ],
     },
     {
-      text: "3. 주소 데이터 살펴보기",
+      text: "2. 주소의 역사",
+      link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800",
+      collapsed: true,
+    },
+    {
+      text: "3. 주소 데이터 이해하기",
       collapsed: true,
       items: [
         {
-          text: "3.1 프로젝트 소개",
+          text: "3.1 개요",
           link: "/contents/chapter-3/chapter-3-1.html",
         },
         {
-          text: "3.2 프로젝트 환경 구축하기",
+          text: "3.2 주소정보 누리집",
           link: "/contents/chapter-3/chapter-3-2.html",
         },
         {
-          text: "3.3 도로명주소 데이터 EDA",
+          text: "3.3 공개하는 주소",
           link: "/contents/chapter-3/chapter-3-3.html",
         },
         {
-          text: "3.4 도로명 데이터 EDA",
+          text: "3.4 제공하는 주소",
           link: "/contents/chapter-3/chapter-3-4.html",
         },
         {
-          text: "3.5 주소 데이터 활용하기",
+          text: "3.5 제공하는 주소 신청방법과 QGIS 사용법",
           link: "/contents/chapter-3/chapter-3-5.html",
+        },
+        {
+          text: "3.6 주소 관련 코드체계",
+          link: "/contents/chapter-3/chapter-3-6.html",
         },
       ],
     },
     {
-      text: "4. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
+      text: "4. 주소 데이터 살펴보기",
       collapsed: true,
       items: [
         {
@@ -177,25 +155,21 @@ function sidebarMain() {
           link: "/contents/chapter-4/chapter-4-2.html",
         },
         {
-          text: "4.3 데이터베이스 생성하기",
+          text: "4.3 도로명주소 데이터 EDA",
           link: "/contents/chapter-4/chapter-4-3.html",
         },
         {
-          text: "4.4 테이블 생성하기",
+          text: "4.4 도로명 데이터 EDA",
           link: "/contents/chapter-4/chapter-4-4.html",
         },
         {
-          text: "4.5 데이터 삽입하기",
+          text: "4.5 주소 데이터 활용하기",
           link: "/contents/chapter-4/chapter-4-5.html",
-        },
-        {
-          text: "4.6 SQL로 데이터 분석하기",
-          link: "/contents/chapter-4/chapter-4-6.html",
         },
       ],
     },
     {
-      text: "5. 외부데이터를 연계한 주소 검색 API 만들기",
+      text: "5. 파이썬과 MySQL로 구축하는 주소 데이터베이스",
       collapsed: true,
       items: [
         {
@@ -207,17 +181,25 @@ function sidebarMain() {
           link: "/contents/chapter-5/chapter-5-2.html",
         },
         {
-          text: "5.3 API로 데이터 가져오기",
+          text: "5.3 데이터베이스 생성하기",
           link: "/contents/chapter-5/chapter-5-3.html",
         },
         {
-          text: "5.4 외부데이터를 연계한 주소 검색 API 만들기",
+          text: "5.4 테이블 생성하기",
           link: "/contents/chapter-5/chapter-5-4.html",
+        },
+        {
+          text: "5.5 데이터 삽입하기",
+          link: "/contents/chapter-5/chapter-5-5.html",
+        },
+        {
+          text: "5.6 SQL로 데이터 분석하기",
+          link: "/contents/chapter-5/chapter-5-6.html",
         },
       ],
     },
     {
-      text: "6. 도로명주소의 품질을 평가하고 정제하기",
+      text: "6. 외부데이터를 연계한 주소 검색 API 만들기",
       collapsed: true,
       items: [
         {
@@ -225,64 +207,86 @@ function sidebarMain() {
           link: "/contents/chapter-6/chapter-6-1.html",
         },
         {
-          text: "6.2. 프로젝트 환경 구축하기",
+          text: "6.2 프로젝트 환경 구축하기",
           link: "/contents/chapter-6/chapter-6-2.html",
         },
         {
-          text: "6.3 도로명주소 오류 유형 알아보기",
+          text: "6.3 API로 데이터 가져오기",
           link: "/contents/chapter-6/chapter-6-3.html",
         },
         {
-          text: "6.4 도로명주소 유효성 평가 및 정제",
+          text: "6.4 외부데이터를 연계한 주소 검색 API 만들기",
           link: "/contents/chapter-6/chapter-6-4.html",
-        },
-        {
-          text: "6.5 데이터 품질 요소 알아보기",
-          link: "/contents/chapter-6/chapter-6-5.html",
-        },
-        {
-          text: "6.6 데이터 품질 평가해보기",
-          link: "/contents/chapter-6/chapter-6-6.html",
         },
       ],
     },
     {
-      text: "7. 응용사례",
+      text: "7. 도로명주소의 품질을 평가하고 정제하기",
       collapsed: true,
       items: [
         {
-          text: "7.1 부산광역시 지진 취약지역 분석",
+          text: "7.1 프로젝트 소개",
+          link: "/contents/chapter-7/chapter-7-1.html",
+        },
+        {
+          text: "7.2. 프로젝트 환경 구축하기",
+          link: "/contents/chapter-7/chapter-7-2.html",
+        },
+        {
+          text: "7.3 도로명주소 오류 유형 알아보기",
+          link: "/contents/chapter-7/chapter-7-3.html",
+        },
+        {
+          text: "7.4 도로명주소 유효성 평가 및 정제",
+          link: "/contents/chapter-7/chapter-7-4.html",
+        },
+        {
+          text: "7.5 데이터 품질 요소 알아보기",
+          link: "/contents/chapter-7/chapter-7-5.html",
+        },
+        {
+          text: "7.6 데이터 품질 평가해보기",
+          link: "/contents/chapter-7/chapter-7-6.html",
+        },
+      ],
+    },
+    {
+      text: "8. 응용사례",
+      collapsed: true,
+      items: [
+        {
+          text: "8.1 부산광역시 지진 취약지역 분석",
           link: "https://labs.datahub.kr/projects/earthquake/#slide=1",
         },
       ],
-    },
+    },      
     {
-      text: "8. 주소 지식모델 (TBD)",
+      text: "9. 주소 지식모델 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "8.1 프로젝트 소개 ",
-          link: "/contents/chapter-8/chapter-8-1.html",
-        },
-      ],
-    },
-    {
-      text: "9. 주소 지식그래프 구축 (TBD)",
-      collapsed: true,
-      items: [
-        {
-          text: "9.1 프로젝트 소개",
+          text: "9.1 프로젝트 소개 ",
           link: "/contents/chapter-9/chapter-9-1.html",
         },
       ],
     },
     {
-      text: "10. 주소 지식그래프 활용 (TBD)",
+      text: "10. 주소 지식그래프 구축 (TBD)",
       collapsed: true,
       items: [
         {
-          text: "10.1 프로젝트 소개",
+          text: "9.1 프로젝트 소개",
           link: "/contents/chapter-10/chapter-10-1.html",
+        },
+      ],
+    },
+    {
+      text: "11. 주소 지식그래프 활용 (TBD)",
+      collapsed: true,
+      items: [
+        {
+          text: "11.1 프로젝트 소개",
+          link: "/contents/chapter-11/chapter-11-1.html",
         },
       ],
     },
