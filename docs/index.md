@@ -1,10 +1,10 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
-url : /index.html
+url: /index.html
 hero:
   name: "Address Data Guide"
-  text: ": 주소데이터 활용의 AtoZ"
+  text: ": 주소 데이터 활용 설명서"
   tagline: By HIKE Lab.
 
   # actions:
@@ -20,7 +20,7 @@ features:
     link: /contents/chapter-1/chapter-1-1
   - title: Chapter 2. 주소의 역사
     details: 보도자료, 언론, 홍보자료를 통해 주소의 변천사를 살펴보기
-    link: "https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800",
+    link: https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1uRR7MA8VW8TE8mveK2tjwcW3BCyp_NIB18MG9RxOYNw&font=Default&lang=ko&initial_zoom=2&height=800
   - title: Chapter 3. 주소 데이터 이해하기
     details: 주소정보 누리집의 주소 데이터(공개하는 주소, 제공하는 주소)와 주소 관련 코드체계 이해하기
     link: /contents/chapter-3/chapter-3-1
@@ -38,7 +38,7 @@ features:
     link: /contents/chapter-7/chapter-7-1
   - title: Chapter 8. 응용사례
     details: 주소 데이터를 활용한 다양한 응용사례를 살펴보기
-    link: "https://labs.datahub.kr/projects/earthquake/#slide=1",
+    link: https://labs.datahub.kr/projects/earthquake/#slide=1
   - title: Chapter 9. 주소 지식모델 (TBD)
     details: 한국의 주소 체계를 표현한 주소 지식모델 이해하기
     link: /contents/chapter-9/chapter-9-1
