@@ -96,7 +96,7 @@ sido_address_pop
 
 마지막으로 `sido`와 `sido_pop`을 17개 시도명을 기준으로 하나로 합친 `sido_address_pop`를 정의한다. 이후, 인구 대비 도로명주소 개수를 계산한 컬럼을 추가한다.
 
-<embed src="/docs/sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/guide/sido_pop_per_road_address_count.html" width="100%" height="420px"></embed>
 
 시도별 인구 대비 도로명주소 개수의 값을 시각화하면 위와 같은 결과가 도출된다. 전라남도, 경상북도, 전북특별자치도 등 순으로 인구 대비 도로명주소의 개수가 많다.
 
@@ -179,7 +179,7 @@ sigungu_total
 
 세종특별자치시의 경우 시군구 데이터가 없으므로, 지도 시각화를 진행했을 때 빈 값으로 표시되지 않도록 시도 데이터를 기반으로 시군구 데이터를 추가해준다.
 
-<embed src="/docs/sigungu_area_per_road_address_count.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/sigungu_area_per_road_address_count.html" width="100%" height="420px"></embed>
 
 시군구별 면적 대비 도로명주소 개수가 많은 상위20개 지역을 나타낸 그래프이다. 부산광역시 중구, 대구광역시 중구, 부산광역시 동구 등 순으로 면적 대비 도로명주소 개수가 많다.
 
@@ -254,7 +254,7 @@ viz.show()
 - `legend_layout='horizontal', legend_key_shape='bar', legend_key_borders_on=False`:
 - 범례의 레이아웃 및 모양을 설정한다.
 
-<embed src="/docs/person-per-address.html" width="100%" height="450px"></embed>
+<embed src="/docs/guide/person-per-address.html" width="100%" height="450px"></embed>
 
 시도별 인구 대비 도로명주소의 개수를 살펴보면 서울, 경기, 부산, 대구, 세종, 광주 등 특별시, 광역시, 특별자치시와 같이 비교적 인구가 많은 지역은 연한색으로 나타나서 인구 대비 도로명주소의 개수가 적은 것을 알 수 있다. 앞서 4-2에서 시도별 도로명주소 개수를 확인했을 때, 세종특별자치시, 울산, 대전은 도로명주소의 개수가 가장 적은 하위 3개 시도인 것을 감안헀을 때, 이들은 인구수는 많지만 도로명주소의 개수는 적어 인구 대비 도로명주소의 개수가 적다는 것을 확인할 수 있다.
 
@@ -279,7 +279,7 @@ html.close()
 viz.show()
 ```
 
-<embed src="/docs/person-per-address-3d.html" width="100%" height="450px"></embed>
+<embed src="/docs/guide/person-per-address-3d.html" width="100%" height="450px"></embed>
 동일한 시각화에서 위와 같은 파라미터를 추가하면, 각 면적의 height를 지정하여 입체적인 지도 시각화를 진행할 수 있다.
 
 ### 시군구별 면적 대비 도로명주소 개수
@@ -311,7 +311,7 @@ html.close()
 viz.show()
 ```
 
-<embed src="/docs/sigungu-area-per-address.html" width="100%" height="450px"></embed>
+<embed src="/docs/guide/sigungu-area-per-address.html" width="100%" height="450px"></embed>
 파란색으로 표시된 지역일수록 면적 대비 도로명주소의 개수가 많다는 의미이며 특히 서울, 부산, 대전, 광주 등 광역시 지역에서 면적 대비 도로명주소 개수의 비율이 높은 것으로 나타났다.
 
 ## 참고문헌
