@@ -1,10 +1,10 @@
 ---
-title: 5.2 프로젝트 환경 구축하기
+title: 6.2 프로젝트 환경 구축하기
 description: 5Flask API 서버를 구축에 앞서, Visual Studio Code의 사용법과 Flask 개발환경을 구축하는 방법을 차례대로 안내합니다.
 keywords: [API, Flask, VSC, 비쥬얼스튜디오코드, Visual Studio Code, Python]
-url: "/chapter-5/chapter-5-2.html"
+url: "/chapter-6/chapter-6-2.html"
 ---
-# 5.2 프로젝트 환경 구축하기
+# 6.2 프로젝트 환경 구축하기
 
 이번 장에서는 프로젝트를 진행하기 위한 개발 환경 구축 방법을 안내합니다. 우리는 Visual Studio Code를 활용하여 Flask API 서버를 만드는 프로젝트를 진행할 것이기 때문에 Visual Studio Code의 사용법과 Flask 개발환경을 구축하는 방법을 차례대로 안내하도록 하겠습니다.
 

@@ -1,10 +1,10 @@
 ---
-title: 5.3 API로 데이터 가져오기
+title: 6.3 API로 데이터 가져오기
 description: 주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출하는 방법을 알아봅니다.
 keywords: [API, Flask, 주소기반산업지원서비스, 검색API, 파이썬]
-url: "/chapter-5/chapter-5-3.html"
+url: "/chapter-6/chapter-6-3.html"
 ---
-# 5.３ API로 데이터 가져오기
+# 6.３ API로 데이터 가져오기
 
 이번 장에서는 주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출해 봅니다.
 
