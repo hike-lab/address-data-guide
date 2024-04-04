@@ -27,7 +27,7 @@ API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 한다. 
 </figure>
 
 
-버튼을 클릭하시면 다음과 같은 화면이 나타난다. 좌측 내비게이션에서 `Services` 항목을 클릭한다.
+버튼을 클릭하면 다음과 같은 화면이 나타난다. 좌측 내비게이션에서 `Services` 항목을 클릭한다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-console-main.png" title="click console">
@@ -52,7 +52,7 @@ API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 한다. 
     <img src="../img/4-1-app-enroll.png" title="click console">
 </figure>
 
-등록이 완료된 후 첫 화면으로 돌아오면 대시보드에 방금 전 등록한 앱이 있는 것을 확인하실 수 있다.
+등록이 완료된 후 첫 화면으로 돌아오면 대시보드에 방금 전 등록한 앱이 있는 것을 확인할 수 있다.
 
 이제 API도 발급받았으니, 활용에 필요한 Key 정보를 확인한다. Key 정보를 보기 위해 앱 이름 하단에 있는 `인증 정보` 버튼을 클릭한다.
 

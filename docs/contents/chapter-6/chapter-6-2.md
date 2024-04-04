@@ -167,7 +167,7 @@ Flask로 서버를 개발하는 과정에서 보통 서버 구현에 필요한 �
 먼저 프로젝트를 진행할 폴더를 만들어서 Visual Studio Code에서 폴더를 열어준다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-3-vscnewfolder.png" >
+    <img src="../img/vscnewfolder.png" >
 </figure>
 
 <br>
@@ -175,7 +175,7 @@ Flask로 서버를 개발하는 과정에서 보통 서버 구현에 필요한 �
 `Ctrl + ~`를 눌러서 Visual Studio Code의 터미널을 열어준다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-3-terminal.png" >
+    <img src="../img/terminal.png" >
 </figure>
 
 <br>
@@ -191,7 +191,7 @@ python -m venv env
 <br>
 잠시 후 우리의 프로젝트 폴더에 다음과 같이 env라는 폴더가 생긴 것을 확인할 수 있다.
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-3-venv.png" >
+    <img src="../img/venv.png" >
 </figure>
 
 가상환경은 서버 환경 개발 작업을 최초로 진행할 때 한 번만 생성하면 된다. 이후에 이어서 작업할 때는 이미 만들어 놓은 가상환경을 사용할 수 있다.
@@ -211,7 +211,7 @@ env/Scripts/activate
 터미널의 프로젝트 경로 앞에 가상환경`(env)`을 생긴 것을 확인할 수 있다.
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-3-venvactivate.png" >
+    <img src="../img/venvactivate.png" >
 </figure>
 
 가상환경에서 나오려면 터미널에 `deactivate`를 입력한다.

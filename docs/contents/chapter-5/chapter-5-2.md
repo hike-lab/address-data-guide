@@ -60,7 +60,7 @@ mysql                           latest            e68e2614955c   4 weeks ago    
 - `-v mysql-volume:/var/lib/mysql`는 `mysql-volume`이라는 이름의 볼륨을 컨테이너 내부 `/var/lib/mysql` 디렉토리와 연결한다. 개별적으로 볼륨을 생성하게 되면, 해당 컨테이너가 삭제되어도 볼륨은 삭제되지 않으니 데이터를 보존할 수 있다.
 - `-d`는 컨테이너를 백그라운드에서 실행한다.
 - `mysql:latest`는 `docker run`할 이미지의 이름과 태그를 작성한다.
-- `--loose-local-infile=1`은 MySQL에서 `local infile` 기능을 사용하도록 설정한다. `local infile`은 MySQL에 파일을 삽입할 수 있는 명령어로, 6.5장에서 자세하게 설명할 것이다.
+- `--loose-local-infile=1`은 MySQL에서 `local infile` 기능을 사용하도록 설정한다. `local infile`은 MySQL에 파일을 삽입할 수 있는 명령어로, 서버 단에서 `local infile` 기능을 설정해주는 방법이다.
 
 ```bash
 $ docker run --name mysql \\
@@ -108,7 +108,7 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.\
 mysql>
 ```
 
-MySQL은 SQL이란 질의 언어를 사용한다. `SHOW DATABASES;`는 현재 MySQL에 설치된 전체 데이터베이스를 보여준다. 아래 4가지가 기본적으로 설치되어 있는 데이터베이스다. SQL을 작성할 때 항상 마지막에 세미콜론(;)을 붙이는 것을 잊으면 안 된다.
+MySQL은 SQL이란 질의 언어를 사용한다. `SHOW DATABASES;`는 현재 MySQL에 설치된 전체 데이터베이스를 보여준다. 아래 4가지가 기본적으로 설치되어 있는 데이터베이스다. SQL을 작성할 때 항상 마지막에 세미콜론(;)을 붙여야 한다.
 
 ```sql
 mysql> SHOW DATABASES;
@@ -125,7 +125,7 @@ mysql> SHOW DATABASES;
 
 ## 파이썬 노트북으로 MySQL 연결하기
 
-MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [6.2장에서 설명한 VSCode](/contents/chapter-6/chapter-6-2.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
+MySQL이 잘 돌아가고 있다면 파이썬으로 MySQL에 접속할 수 있다. 이를 위해서 `pymysql`이란 모듈이 필요하다. 해당 모듈을 설치하기 전에 본인이 편한 파이썬 노트북 환경을 선택한다. [5.2장에서 설명한 VSCode](/contents/chapter-5/chapter-5-2.md)를 사용해도 되고, 쥬피터 노트북을 사용해도 된다. 파이썬 노트북 환경에서 다음과 같이 `pymysql`을 설치한다.
 
 ```py
 !pip3 install pymysql
