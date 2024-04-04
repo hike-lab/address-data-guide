@@ -282,7 +282,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "9.1 개요",
+          text: "10.1 개요",
           link: "/contents/chapter-10/chapter-10-1.html",
         },
       ],
