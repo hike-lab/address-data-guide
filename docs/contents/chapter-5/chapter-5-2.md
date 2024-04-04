@@ -7,7 +7,12 @@ url: "/chapter-5/chapter-5-2.html"
 
 # 5.2 프로젝트 환경 구축하기
 
-이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습한다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명한다. 이 장에서 사용하는 데이터는 깃헙의 chapter-5 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)에서 확인할 수 있다. 코드 원본은 깃헙의 [chapter-5 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있다.
+이번 장은 도커(Docker)를 사용해 MySQL을 설치하고, 파이썬 노트북으로 MySQL과 연결하는 방법에 대해 학습한다. 더불어 이번 장에서 실습할 데이터를 다운받을 경로를 설명하고, 데이터에 대해 간단히 설명한다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)
 
 ## 도커로 MySQL 설치하기
 
