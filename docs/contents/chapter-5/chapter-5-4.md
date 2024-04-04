@@ -2,7 +2,7 @@
 title: 5.4 테이블 생성하기
 description: 테이블 스키마가 간단히 무엇인지 알아본다. 도로명주소 한글 데이터에 맞는 테이블 스키마를 설계하여 테이블을 생성한다.
 keywords: [MySQL, Docker, Python, pymysql, 주소데이터분석]
-url: "/chapter-4/chapter-4-4.html"
+url: "/chapter-5/chapter-5-4.html"
 ---
 
 # 5.4 테이블 생성하기
