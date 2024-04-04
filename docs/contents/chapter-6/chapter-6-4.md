@@ -138,7 +138,7 @@ result_first = api_result.json()['results']['juso'][0]
 출력 결과
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-4-api-result-admCd.png" >
+    <img src="../img/api-result-admCd.png" >
 </figure>
 
 행정동코드는 총 10자리로 구성된다. 앞 5자리 `36110`은 그 행정동이 속한 시군구를 식별하고, 뒤 5자리 `10700`은 시군구 내에서 행정동을 식별하는 기능을 한다. 그리고 시군구를 식별하는 앞 5자리에 뒤 5자리를 00000을 붙이면 해당 시군구의 시군구코드가 된다. `3611000000`
