@@ -21,8 +21,8 @@ url: "/chapter-6/chapter-6-4.html"
 
 이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
 
-- 데이터: [GitHub]()
-- 코드: [GitHub]()
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6)
 
 ## Flask로 API 서버 개발하기
 
