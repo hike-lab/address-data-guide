@@ -12,8 +12,10 @@ url: "/chapter-7/chapter-7-2.html"
 
 대부분의 Geocoding API는 주소 문자열을 입력받아 해당 지점의 좌표와 더불어 행정구역, 지번, 도로명 주소 등의 정보를 제공한다. 또한 Reverse Geocoding 기능도 함께 지원하여 편리하게 활용할 수 있다.
 
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
 
-이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_프로젝트_환경설정.ipynb)에서 확인할 수 있다.
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-7/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95.ipynb)
 
 ## 네이버 클라우드 API 발급/활용 방법
 ### 네이버 클라우드 접속
