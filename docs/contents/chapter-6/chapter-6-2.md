@@ -9,11 +9,6 @@ url: "/chapter-6/chapter-6-2.html"
 
 이번 장에서는 프로젝트를 진행하기 위한 개발 환경 구축 방법을 소개한다. 우리는 Visual Studio Code를 활용하여 Flask API 서버를 만드는 프로젝트를 진행하므로 Visual Studio Code의 사용법과 Flask 개발환경을 구축하는 방법을 차례대로 설명한다.
 
-이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
-
-- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6/data)
-- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6)
-
 ## Visual Studio Code(VS Code) 사용법
 
 `Visual Studio Code`는 마이크로소프트사에서 개발한 무료 코드 편집 프로그램이다. `Visual Studio Code`는 가볍고, 대부분의 사양과 모든 운영체제에서 사용이 가능하다. 다양한 프로그래밍 언어를 지원하며 생산성을 향상시키는 편리한 확장 기능도 많아서 대중적으로 사용되고 있다.
