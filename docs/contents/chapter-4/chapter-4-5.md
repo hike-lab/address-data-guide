@@ -8,7 +8,7 @@ url: "/chapter-3/chapter-4-5.html"
 
 # 4.5 주소 데이터 활용하기
 
-4.5에서는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행한다. 
+4.5에서는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행한다.
 
 - 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)
 - 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-4/4-5_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0.ipynb)
@@ -107,9 +107,9 @@ sido_address_pop
 
 ### 면적 계산하기
 
-면적데이터는 주소기반산업지원서비스에서 제공하는 제공하는 주소 중 [구역의 도형](https://business.juso.go.kr/addrlink/elctrnMapProvd/geoDBDwldList.do?menu=%EA%B5%AC%EC%97%AD%EC%9D%98%20%EB%8F%84%ED%98%95) 2024년 1월 전체자료이다. 제공하는 주소는 신청서를 작성한 뒤 데이터를 제공받을 수 있다. (자세한 신청 방법은 [3-5](../chapter-3/chapter-3-5.md)에서 확인할 수 있다.) 사이트에서 신청하여 받거나, 깃헙에 저장된 'geojson' 폴더를 다운받아 사용하면된다.
+면적데이터는 주소기반산업지원서비스에서 제공하는 제공하는 주소 중 [구역의 도형](https://business.juso.go.kr/addrlink/elctrnMapProvd/geoDBDwldList.do?menu=%EA%B5%AC%EC%97%AD%EC%9D%98%20%EB%8F%84%ED%98%95) 2024년 1월 전체자료이다. 제공하는 주소는 신청서를 작성한 뒤 데이터를 제공받을 수 있다. (자세한 신청 방법은 [3-5](../chapter-3/chapter-3-5.md)에서 확인할 수 있다.) 사이트에서 신청하여 받거나, 깃헙에 저장된 'geojson' 폴더를 다운받아 사용한다.
 
-면적데이터는 시도 경계를 표현하는 파일과 시군구 경계를 표현하는 파일 두 개로 구분하여 제공한다. 두 데이터는 동일한 방법으로 처리를 진행하므로 본 글에서는 시도 데이터를 처리하는 방법만 소개하겠다. (시군구 처리 방법은 코드를 참고하면 된다.)
+면적데이터는 시도 경계를 표현하는 파일과 시군구 경계를 표현하는 파일 두 개로 구분하여 제공한다. 두 데이터는 동일한 방법으로 처리를 진행하므로 본 글에서는 시도 데이터를 처리하는 방법만 소개하겠다. (시군구 처리 방법은 코드를 참고한다.)
 
 ```python
 # 해당 경로에서 'CTPRVN.shp'로 끝나는 모든 파일 불러오기
@@ -153,13 +153,13 @@ sido_geojson = cal_area(sido_geojson)
 ```
 
 면적 대비 도로명주소의 개수를 계산하기 위해서는 구역의 경계 데이터를 기반으로 각 행정구역 별 '면적'을 알아야 한다. 이때 설정하는 CRS(Coordinate Reference System)는 좌표계로,
-곡면인 지구의 표면을 2차원의 평면으로 표현하는 방법을 의미한다. CRS의 유형은 epsg:4326, epsg:5179, epsg:4004 등이 있는데, 유형이 다른 데이터의 경우, 좌표간의 거리나 위치 등이 다르게 표현되므로 반드시 통일해야 한다. (이때 epsgs는 European Petroleum Survey Group의 약자로, 좌표계와 관련된 표준 데이터 베이스를 의미하며 CRS에 관한 자세한 설명은 이 [문서](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)를 참고하면 된다.)
+곡면인 지구의 표면을 2차원의 평면으로 표현하는 방법을 의미한다. CRS의 유형은 epsg:4326, epsg:5179, epsg:4004 등이 있는데, 유형이 다른 데이터의 경우, 좌표간의 거리나 위치 등이 다르게 표현되므로 반드시 통일해야 한다. (이때 epsgs는 European Petroleum Survey Group의 약자로, 좌표계와 관련된 표준 데이터 베이스를 의미하며 CRS에 관한 자세한 설명은 이 [문서](https://datascienceschool.net/03%20machine%20learning/03.04.01%20%EC%A7%80%EB%A6%AC%20%EC%A0%95%EB%B3%B4%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC.html)를 참고한다.)
 
 구역의 도형 데이터의 CRS는 epsg:5179로 설정되어 있으므로([참고](https://business.juso.go.kr/addrlink/qna/qnaDetail.do?currentPage=1&keyword=%EC%A2%8C%ED%91%9C%EA%B3%84&searchType=subjectCn&noticeType=QNA&noticeTypeTmp=QNA&noticeMgtSn=124058&bulletinRefSn=124058&page=)), 이에 맞춰 데이터프레임의 좌표계를 설정해준다. 이후 '면적' 컬럼을 추가하여 내장함수를 통해 면적을 계산해주고 인구 대비, 면적 대비 도로명주소 개수를 계산한다.
 
 ### 면적 대비 도로명주소 개수 계산하기
 
-면적 대비 도로명주소 개수를 계산할 때 역시 '시도별'과 '시군구별'을 따로 진행하며, 이 장에서는 시군구별 면적 대비 도로명주소 개수를 계산하는 내용만 다루도록 한다. 전체 내용은 코드를 참고하면 된다.
+면적 대비 도로명주소 개수를 계산할 때 역시 '시도별'과 '시군구별'을 따로 진행하며, 이 장에서는 시군구별 면적 대비 도로명주소 개수를 계산하는 내용만 다루도록 한다. 전체 내용은 코드를 참고한다.
 
 ```python
 def cal_area_per_road(df1, df2):
@@ -287,7 +287,7 @@ viz.show()
 
 ### 시군구별 면적 대비 도로명주소 개수
 
-이번에는 시군구별 면적 대비 도로명주소 개수를 시각화해보겠다. 좌표계 변환, csv, geojson 파일로 저장한 뒤, 불러오는 과정까지는 위와 동일한 방법으로 진행한다. 시각화를 진행할 땐, `data` 부분에 지정되는 값, `color_property`에 지정되는 컬럼명, 그리고 `color_stops`에 지정되는 색상 범위를 데이터에 맞게 변경해주면 된다.
+이번에는 시군구별 면적 대비 도로명주소 개수를 시각화해보겠다. 좌표계 변환, csv, geojson 파일로 저장한 뒤, 불러오는 과정까지는 위와 동일한 방법으로 진행한다. 시각화를 진행할 땐, `data` 부분에 지정되는 값, `color_property`에 지정되는 컬럼명, 그리고 `color_stops`에 지정되는 색상 범위를 데이터에 맞게 변경한다.
 
 ```python
 viz = ChoroplethViz(data=gj_sigungu,
