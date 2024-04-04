@@ -121,7 +121,7 @@ def make_error_rate_plot(addr_error):
     return fig
 ```
 
-<embed src="/docs/4-4-addr-error.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-error.html" width="100%" height="420px"></embed>
 
 대략 5%의 주소에 구문 오류가 있음을 확인할 수 있다.
 
@@ -136,7 +136,7 @@ def make_error_rate_plot(addr_error):
 
 정제가 완료된 후, 앞선 구문 유효성 체크 함수를 다시 실행시켜보면 아래와 같은 그래프를 얻을 수 있다.
 
-<embed src="/docs/4-4-addr-after-refine.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-after-refine.html" width="100%" height="420px"></embed>
 
 ## API를 통한 유효성 평가 & 정제
 
@@ -190,7 +190,7 @@ for i in tqdm(range(len(df))):
 ```
 
 결과를 `make_error_rate_plot`함수로 시각화하면 다음과 같다.
-<embed src="/docs/4-4-addr-exist.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-exist.html" width="100%" height="420px"></embed>
 
 
 ### 2. 존재하지 않는 주소는 좌표계 데이터로 정제하기
