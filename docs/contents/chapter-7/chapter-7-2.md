@@ -8,7 +8,11 @@ url: "/chapter-7/chapter-7-2.html"
 
 Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미한다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 한다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스한다. 
 
-이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_프로젝트_환경설정.ipynb)에서 확인할 수 있다.
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-7/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95.ipynb)
+
 
 ## 네이버 클라우드 API 발급/활용 방법
 ### STEP 1. 네이버 클라우드 접속
