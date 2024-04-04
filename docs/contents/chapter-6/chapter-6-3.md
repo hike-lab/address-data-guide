@@ -7,10 +7,12 @@ url: "/chapter-6/chapter-6-3.html"
 
 # 6.３ API로 데이터 가져오기
 
-이번 장에서는 주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출한다.
+주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출한다.
 
-- 데이터: [GitHub]()
-- 코드: [GitHub]()
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6)
 
 ## API 신청하기
 
