@@ -4,7 +4,7 @@ description: 7장에서는 데이터의 키 값으로 기능할 수 있는 도�
 keywords: [도로명주소, 데이터품질, 데이터정제, 공공데이터, geocoding, 네이버API]
 url: "/chapter-7/chapter-7-1.html"
 ---
-# 7.1 소개
+# 7.1 개요
 
 ## 데이터 품질의 중요성
 

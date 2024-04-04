@@ -6,7 +6,12 @@ url: "/chapter-7/chapter-7-6.html"
 ---
 # 7.6. 데이터 품질 평가하기
 
-앞선 챕터에서는 공공데이터의 품질요소로 어떠한 것들이 있는지 알아봤다. 이번에는 실제로 어떻게 품질 요소를 평가하는 방식이 구현되는지 파이썬 코드와 함께 살펴본다. 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-6_데이터셋_품질평가.ipynb)에서 확인할 수 있다.
+앞선 챕터에서는 공공데이터의 품질요소로 어떠한 것들이 있는지 알아봤다. 이번에는 실제로 어떻게 품질 요소를 평가하는 방식이 구현되는지 파이썬 코드와 함께 살펴본다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-7/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95.ipynb)
 
 ## 공공데이터 샘플 품질 평가
 럼별 데이터 유형에 구애받지 않고 평가가 가능한 완전성과 이해가능성을 제외한 나머지 평가 요소들의 적용 범위는 다음 표와 같다. 도로명 주소의 경우 7.4. 장에서 이미 유효성, 정확성 평가를 진행했으므로 제외하였다.
@@ -75,9 +80,7 @@ consis = pd.DataFrame(np.zeros((100, 12)),
 
 마지막으로 평가테이블의 결과를 시각화하는 `vis_portion` 함수를 생성한다. 해당 함수는 이해가능성, 유효성, 정확성, 일관성 평가 파트에서 반복적으로 사용된다.
 
-<details>
-    <summary> vis_portion 함수 코드 </summary>
-
+:::details 사용 함수 코드
 ```python
 def vis_portion(table, name):
     val_counts = pd.DataFrame()
@@ -117,7 +120,7 @@ def vis_portion(table, name):
     axes[1].set_frame_on(False)
     return val_counts
 ```
-</details>
+:::
 
 ## 완전성 평가
 
@@ -287,10 +290,7 @@ vis_portion(readable, "이해가능")
 
 위와 같은 방식으로 나머지 컬럼들에 대해서도 정규표현식을 작성하여 구문 오류를 점검할 수 있다. 오류 여부는 앞서 생성한 `valid`테이블에 기입한다.
 
-
-<details> 
-<summary>나머지 컬럼에 대한 평가 방법</summary>
-
+:::details 나머지 컬럼에 대한 평가 방법
 - **시각 컬럼**
     > 해당 컬럼 : 평일운영시작시각, 평일운영종료시각, 주말운영시작시각, 주말운영종료시각
 
@@ -513,7 +513,7 @@ vis_portion(readable, "이해가능")
     </figure>
 
 
-</details>
+:::
 
 **결과 종합**
 
@@ -584,8 +584,7 @@ vis_portion(valid, "유효")
 
 아래에서 설명할 코드들에서는 4.4.장에서 API호출 및 주소 구성 요소를 사용했었던 함수들이 포함된다. 사용되는 함수들의 코드는 다음과 같다.
 
-<details>
-    <summary> 사용 함수 코드</summary>
+::: details 사용 함수 코드
 
 - `search_addr` : 주소 검색 함수
 
@@ -659,13 +658,12 @@ vis_portion(valid, "유효")
     return addr
     ```
 
-</details>
+:::
 
 
 다음은 STEP2.에 해당하는 코드이다. STEP1. 을 거치며 업데이트된 `factual`, `consist` 테이블을 활용해야 하므로, 앞선 코드를 반드시 먼저 실행해야 한다. 
 
-<details>
-    <summary>코드 전문</summary>
+::: details 코드 전문
 
 ```python
 # 도로명주소, 지번주소 모두 존재하는 경우
@@ -710,15 +708,12 @@ for i in tqdm(addr_idx):
                     factual['소재지지번주소'][i] = None
                     consist["소재지도로명주소-소재지지번주소"][i] = None
 ```
-</details>
+:::
 
 
 이제 좌표계의 실존 여부와, 좌표계와 주소의 일치여부를 확인해보겠다. 좌표계의 실존여부와 함께 도로명, 지번주소와의 일치 여부를 동시에 체크하므로 코드가 다소 복잡하다. 
 
-<details>
-    <summary> 코드 전문 </summary>
-
-
+:::details 코드 전문
 ```python
     for i in tqdm(val_coords):
             # 좌표계 검색
@@ -787,7 +782,7 @@ for i in tqdm(addr_idx):
                         else:
                             consist["소재지지번주소-좌표계"][i] = None
 ```
-</details>
+:::
 
 외부 API에 값을 하나씩 전송하므로 시간이 오래 소요될 것이다. 이 과정이 완료되었다면 테이블이 모두 채워진 사실성부터 점검해보도록 하겠다. 앞서 만들었던 시각화 함수 `vis_portion`을 사용해 결과를 시각화한다.
 

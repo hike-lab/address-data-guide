@@ -6,7 +6,12 @@ url: "/chapter-7/chapter-7-4.html"
 ---
 # 7.4 도로명주소 유효성 평가 & 정제
 
-이번 장에서는 공공데이터에 존재하는 도로명주소 데이터의 유효성을 평가하고, 오류 데이터를 정제하는 방법들을 설명한다. 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-4_도로명주소_유효성평가_정제.ipynb)에서 확인할 수 있다. `7-4-인구데이터정제` 폴더에는 인구데이터세트를 정제할 때 사용한 원본 데이터와 코드가 담겨있으며 `refined`폴더에는 코드 실행에 대한 결과물이 있다.
+이번 장에서는 공공데이터에 존재하는 도로명주소 데이터의 유효성을 평가하고, 오류 데이터를 정제하는 방법들을 설명한다. 이 장에서 사용된 샘플 공공데이터의 원본은 [전국공공시설개방정보표준데이터](https://www.data.go.kr/data/15013117/standard.do)이며, 행정동별 인구현황 데이터는 [행정동별 주민등록 인구 및 세대현황](https://jumin.mois.go.kr/)을 사용했다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-7/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95.ipynb)
 
 
 ## 평가 테이블 만들기
@@ -121,7 +126,7 @@ def make_error_rate_plot(addr_error):
     return fig
 ```
 
-<embed src="/docs/4-4-addr-error.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-error.html" width="100%" height="420px"></embed>
 
 대략 5%의 주소에 구문 오류가 있다. 
 
@@ -136,7 +141,7 @@ def make_error_rate_plot(addr_error):
 
 정제가 완료된 후, 앞선 구문 유효성 체크 함수를 다시 실행시켜보면 아래와 같은 그래프를 얻을 수 있다.
 
-<embed src="/docs/4-4-addr-after-refine.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-after-refine.html" width="100%" height="420px"></embed>
 
 ## API를 통한 유효성 평가 & 정제
 
@@ -190,7 +195,7 @@ for i in tqdm(range(len(df))):
 ```
 
 결과를 `make_error_rate_plot`함수로 시각화하면 다음과 같다.
-<embed src="/docs/4-4-addr-exist.html" width="100%" height="420px"></embed>
+<embed src="/docs/guide/4-4-addr-exist.html" width="100%" height="420px"></embed>
 
 
 ### 존재하지 않는 주소는 좌표계 데이터로 정제하기
@@ -286,7 +291,7 @@ for i in tqdm(idx):
 
 먼저 도로명주소 컬럼의 데이터를 활용해 인구 데이터와 합치기 위한 키 컬럼을 만든다. 
 
-인구데이터 파일과 법정동별로 병합이 필요한 지역에 대한 json table은 [깃헙]()에 있다. 이후 과정의 진행을 위해 해당 파일을 다운받아야 한다.
+인구데이터 파일과 법정동별로 병합이 필요한 지역에 대한 파일은 [7-4_dong_merge_table.json](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/data/7-4_dong_merge_table.json)이다. 이후 과정의 진행을 위해 해당 파일을 다운받아야 한다.
 
 앞선 과정에서 API로 주소데이터를 점검함과 동시에 법정동에 대한 정보도 함께 저장했는데, 이번에는 인구데이터의 법정동과 도로명주소의 법정동을 key 값으로 두 데이터를 통합한다.
 
