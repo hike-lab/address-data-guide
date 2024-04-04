@@ -10,7 +10,7 @@ url: "/chapter-1/chapter-1-3.html"
 ## 주소 정책
 행정안전부는 제1차 주소정보 활용 기본계획에서 ‘주소로 안전한 나라, 주소로 편리한 나라, 주소가 자원인 나라’라는 비전을 발표하고, 주소정보 기반의 D.N.A 생태계를 구축하여 주소정보산업의 창출을 추진하고 있다. 주소정보 인프라의 확충과 산업 창출을 위해 주요 추진과제는 1) 사람과 로봇 모두에게 인식되는 촘촘한 국가주소정보 확충, 2) 사람과 지역 모두에서 고른 국가주소정보 분포, 3)  미래 새로운 산업군으로 주소정보 산업 창출 지원, 4) 최상위 데이터로서 디지털 대전환 촉진으로 구분되어 있다. 
 
-<figure class="flex flex-col items-center justify-center">
+<figure class="flex flex-col items-center justify-center" align="center">
     <img src="../img/1-1-address-vision.jpeg" title="1차기본계획의 비전">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
@@ -32,7 +32,7 @@ url: "/chapter-1/chapter-1-3.html"
 
 주소정보 참조대상은 주소정보를 부여하는데 기준이 되는 객체, 주소정보 부여대상은 주소정보가 부여되는 대상 객체를 의미한다. 대체주소는 도로명주소가 부여된 건물등의 별도의 출입구 또는 사물주소가 부여된 시설물의 별도의 기준점에 부여된 주소정보를 뜻한다. 별칭은 참조체계에 따라 작성된 주소정보의 구성요소가 아니라 상호, 건물명, 시설물명 등 해당 객체를 부를 때 사용되는 여러 명칭을 말한다. 시간정보는 주소정보 부여대상과 주소정보가 가지는 생애주기 정보와 해당 객체의 사용 시간을 나타낸다.
 
-<figure class="flex flex-col items-center justify-center">
+<figure class="flex flex-col items-center justify-center" align="center">
     <img src="../img/1-2-address-conceptual-model.png" title="주소정보 개념모델">
     <figcaption style="text-align: center;"></figcaption>
 </figure>
