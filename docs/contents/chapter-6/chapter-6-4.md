@@ -84,9 +84,9 @@ Flask는 Python 데코레이터인 `@app.route()`를 추가하는 방식으로 �
 ### 1. 내고장알리미 데이터란?
 
 [내고장알리미 https://www.laiis.go.kr/myMain.do](https://www.laiis.go.kr/myMain.do) (지방행정종합정보시스템)는 지방자치단체의 행정구역 현황, 단체장, 새소식, 문화관광, 상품권 등의 정보를 종합적으로 제공하는 웹 사이트다.
-API를 통해 연계하려는 내고장알리미 데이터는 해당 웹사이트에서 제공하는 시군구에 대한 정보를 크롤링해서 csv로 만든 데이터다.
+아래 데이터는 주소정보 누리집 API와 연계하기 위해 내고장알리미의 정보를 크롤링하여 CSV로 저장한 데이터다.
 
-- 다운로드: [내고장알리미 데이터 파일](./mygojang-crawling-data-2024-02-26.csv)
+- 다운로드: [내고장알리미 데이터](https://drive.google.com/file/d/14YLZP4A8xwPqQJ1gnznCd35-1by-NMop/view?usp=sharing)
 
 ### 2. 검색 API와 내고장알리미 데이터 연계하기
 

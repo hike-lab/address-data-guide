@@ -69,7 +69,7 @@ Open Folder를 클릭하여 이후 작업을 진행할 폴더를 선택한다.
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-위와 같이 선택한 폴더(VS CODE TEST)이 열린 것을 확인할 수 있다. 이제 이곳에서 자유롭게 파일을 생성하여 작업을 진행할 수 있다. Python 실습을 먼저 진행할 것이기 때문에 .ipynb(Python Notebook) 파일을 생성해야 한다. 폴더명(VS CODE TEST)에 커서를 가져가 선택한다.
+위와 같이 선택한 폴더(VS CODE TEST)이 열린 것을 확인할 수 있다. Python 실습을 먼저 진행할 것이기 때문에 .ipynb(Python Notebook) 파일을 생성해야 한다. 폴더명(VS CODE TEST)에 커서를 가져가 선택한다.
 
 <br>
 
@@ -78,7 +78,7 @@ Open Folder를 클릭하여 이후 작업을 진행할 폴더를 선택한다.
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-커서를 올리면 새 파일을 생성하는 버튼이 표시된다. New File 버튼을 클릭해서 새 파일을 생성한다. 생성버튼을 누르면 새 파일명을 바로 지정할 수 있는데, "api test.ipynb"와 같이 확장자를 ipynb로 지정하여 파일명을 작성하면 ipynb 파일을 생성할 수 있다.
+커서를 올리면 새 파일을 생성하는 버튼이 표시된다. New File 버튼을 클릭해서 새 파일을 생성한다. 생성버튼을 누르면 새 파일명을 바로 지정할 수 있는데, "api test.ipynb"와 같이 확장자를 ipynb로 지정한다.
 
 <br>
 
@@ -87,9 +87,7 @@ Open Folder를 클릭하여 이후 작업을 진행할 폴더를 선택한다.
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-.ipynb 파일이 생성된 것을 확인할 수 있다.
-
-예시로 hello world를 print 한다. 코드를 작성하고 실행`Ctrl+Enter`한다.
+예시로 hello world를 출력한다. 코드를 작성하고 실행`Ctrl+Enter`한다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/vscinterpreter1.png" title="vsc interpreter1">
@@ -105,7 +103,7 @@ Python 환경을 선택하는 창이 위에 표시된다. Python 환경을 클�
     <figcaption style="text-align: center;"></figcaption>
 </figure>
 
-우리가 설치했던 anaconda3가 표시된다. anaconda3를 선택한다.
+앞서 설치했던 anaconda3가 표시된다. anaconda3를 선택한다.
 
 <br>
 
@@ -156,11 +154,13 @@ Python 프로그램 작성을 지원해주는 확장 기능이다. Python 문법
 
 ## Flask 개발 환경 세팅하기
 
-Flask는 파이썬 웹 프레임워크다. 웹 프레임워크라고 하는 것은 웹사이트, 웹 애플리케이션을 더 쉽게 개발할 수 있도록 미리 만들어 놓은 일종의 틀(Frame)로 설명할 수 있다. Flask는 그 중에서도 가볍고 코드가 단순하기 때문에 간단한 웹사이트 등을 개발하는 데 특화된 프레임워크이다. Flask에 대한 더 자세한 정보는 [Flask 공식 문서](https://flask.palletsprojects.com/en/3.0.x/)에서 확인할 수 있다.
+Flask는 파이썬 웹 프레임워크다. 웹 프레임워크라고 하는 것은 웹사이트, 웹 애플리케이션을 더 쉽게 개발할 수 있도록 미리 만들어 놓은 일종의 틀(Frame)로 설명할 수 있다. 
+
+Flask는 그 중에서도 가볍고 코드가 단순하기 때문에 간단한 웹사이트 등을 개발하는 데 특화된 프레임워크이다. Flask에 대한 더 자세한 정보는 [Flask 공식 문서](https://flask.palletsprojects.com/en/3.0.x/)에서 확인할 수 있다.
 
 ### 1. 가상환경 사용하기
 
-Flask로 서버를 개발하는 과정에서 보통 서버 구현에 필요한 다양한 패키지들을 추가로 설치하게 된다. 다양한 라이브러리나 패키지 등을 설치하다보면 원래 사용하던 노트북 환경의 상태가 변화하여 다른 작업을 할 때 문제가 발생할 수 있기 때문에 가상환경을 생성하여 그곳에서 작업을 진행하는 것이 일반적이다.
+Flask로 서버를 개발하는 과정에서 보통 서버 구현에 필요한 다양한 패키지들을 추가로 설치하게 된다. 다양한 라이브러리나 패키지 등을 설치하다보면 원래 사용하던 노트북 환경의 상태가 변화하여 다른 작업을 할 때 문제가 발생할 수 있기 때문에 가상환경을 생성하여 작업하는 것이 일반적이다.
 
 #### 가상환경 생성하기
 
@@ -194,7 +194,7 @@ python -m venv env
     <img src="../img/venv.png" >
 </figure>
 
-가상환경은 서버 환경 개발 작업을 최초로 진행할 때 한 번만 생성하면 된다. 이후에 이어서 작업할 때는 이미 만들어 놓은 가상환경을 사용할 수 있다.
+가상환경은 서버 환경 개발 작업을 최초로 진행할 때 한 번만 생성하면 된다. 이후에 작업할 때는 기존에 생성한 가상환경을 사용할 수 있다.
 
 <br>
 
@@ -226,7 +226,7 @@ pip3 install flask
 
 ## JSON Viwer 크롬 확장 프로그램 사용하기
 
-주소 검색 API의 출력 결과를 브라우저에서 확인할 때 JSON 데이터 형태로 확인한다. 이때, JSON 데이터를 크롬 브라우저에서 더 가독성 좋게 출력해주는 확장 프로그램을 미리 설치한다. 브라우저 확장프로그램 사용을 위해 크롬 브라우저를 사용한다.
+주소 검색 API의 출력 결과를 브라우저에서 확인할 때 JSON 데이터 형태로 확인한다. 이때, JSON 데이터를 크롬 브라우저에서 가독성 좋게 출력해주는 확장 프로그램을 설치한다. 브라우저 확장프로그램 사용을 위해 크롬 브라우저를 사용한다.
 
 ### 1. 크롬 웹스토어 접속
 
@@ -240,14 +240,14 @@ pip3 install flask
 
 ### 2. JSON Viewer 설치
 
-크롬 웹스토어 우측 상단의 검색창에 JSON Viewer를 검색한다. 저희는 아래의 JSON Viewer를 설치하여 사용하도록 한다. Chrome에 추가 버튼을 클릭하여 설치한다.
+크롬 웹스토어 우측 상단의 검색창에 JSON Viewer를 검색한다. 아래의 JSON Viewer를 설치하여 사용하도록 한다. Chrome에 추가 버튼을 클릭하여 설치한다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/jsonviewer.png" >
 </figure>
 <br>
 
-이제 JSON Viewer를 사용할 준비가 되었다. JSON Viewer는 자동 적용되기 때문에 적용을 위해 따로 준비해줄 사항은 없다. JSON Viewer에 의해서 프린트된 JSON 데이터의 모습은 다음과 같다. JSON 데이터의 key값과 value값이 색깔로 구분되어 가독성이 좋아진다.
+JSON Viewer는 자동 적용되기 때문에 적용을 위해 따로 준비해줄 사항은 없다. JSON Viewer에 의해서 프린트된 JSON 데이터의 모습은 다음과 같다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/jsondata.png" >
