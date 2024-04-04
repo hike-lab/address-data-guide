@@ -8,7 +8,10 @@ url: "/chapter-3/chapter-4-5.html"
 
 # 4.5 주소 데이터 활용하기
 
-4.5에서는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행한다. 실습은 [코랩](https://drive.google.com/file/d/1ncbmLptCw9sshut4cwM75vtUANPZ_Mug/view?usp=sharing) 환경에서 진행되며, 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)에서 확인할 수 있다.
+4.5에서는 인구데이터와 면적데이터를 추가로 활용하여 도로명주소 데이터를 살펴보고 지도시각화를 진행한다. 
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-4/4-5_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0_%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0.ipynb)
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/mapbox.png" title="sido geo data">
