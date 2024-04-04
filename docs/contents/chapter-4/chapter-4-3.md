@@ -7,7 +7,12 @@ url: "/chapter-3/chapter-4-3.html"
 
 # 4.3 도로명주소 데이터 EDA
 
-첫 번째 실습은 '도로명주소 한글' 데이터를 통해 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행하는 것이다. 실습은 [코랩](https://drive.google.com/file/d/1tVHTnliiqVvE4uWsQmSy07dYqYhYScfY/view?usp=sharing) 환경에서 진행되며, 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)에서 확인할 수 있다.
+첫 번째 실습은 '도로명주소 한글' 데이터를 통해 도로명주소의 개수를 행정구역별로 나누어 살펴보고, 간단한 시각화를 진행하는 것이다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-4/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-4/4-3_%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0_EDA.ipynb)
 
 ## 데이터 불러오기
 
