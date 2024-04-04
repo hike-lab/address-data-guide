@@ -7,13 +7,18 @@ url: "/chapter-6/chapter-6-3.html"
 
 # 6.３ API로 데이터 가져오기
 
-이번 장에서는 주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출한다.
+주소기반산업지원서비스의 검색 API를 이용하여 주소 검색 API를 신청하고 데이터를 호출한다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6)
 
 ## API 신청하기
 
 ### 주소기반산업지원서비스의 검색 API란
 
-주소기반산업지원서비스에서 제공하는 도로명주소 검색 API는 검색어를 파라미터로 입력하면 관련 주소와 그 주소의 우편번호, 시군구코드 등 관련 정보를 xml 또는 json으로 제공하는 API 서비스다
+주소기반산업지원서비스에서 제공하는 도로명주소 검색 API는 검색어를 파라미터로 입력하면 관련 주소와 그 주소의 우편번호, 시군구코드 등 관련 정보를 xml 또는 json으로 제공하는 API 서비스다.
 
 도로명주소 검색 API는 URL형태로 제공되고, 요청 URL과 파라미터(요청변수)를 호출하여 사용한다.
 
@@ -56,7 +61,7 @@ API 승인KEYKEY발급 절차는 다음과 같다.
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/search-api-apply.png" >
 </figure>
-우리가 필요한 API 종류는 도로명주소 API고, API유형은 검색 API입니다. 자세한 내용은 사용자 환경에 맞게 작성한다.
+우리가 필요한 API 종류는 도로명주소 API고, API유형은 검색 API다. 자세한 내용은 사용자 환경에 맞게 작성한다.
 
 서비스 용도가 운영인 경우 본인인증이 필요하고, 개발인 경우 최소 7일 ~ 최대 90일까지 본인인증 없이 테스트용으로 제공된다.
 

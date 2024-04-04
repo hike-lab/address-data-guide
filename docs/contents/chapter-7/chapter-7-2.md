@@ -4,16 +4,21 @@ description: 네이버 Geocoding API를 활용하는 방법에 대해 설명한�
 keywords: [도로명주소,좌표계, 데이터정제, 공공데이터, geocoding, 네이버API]
 url: "/chapter-7/chapter-7-2.html"
 ---
-# 7.2 프로젝트 환경 구축하기
+# 7.2 환경 구축하기
 
-Geocode, 또는 Geocoding이란 주소나 특정 지점에 대한 고유 명칭으로 해당 지점의 좌표값을 얻는 것을 의미한다. 반대로, 좌표값을 통해 주소를 얻는 과정은 reverse-geocoding이라고 한다. 보통 하나의 Geocode API가 geocoding과 reverse-geocoding을 동시에 서비스한다. 
+지오코딩(Geocoding)은 주소나 지명 등의 문자열 데이터를 지리 좌표(경도, 위도) 값으로 변환하는 것을 말한다. 반대로 Reverse Geocoding은 지리 좌표 값에 해당하는 주소나 지명을 얻는 과정이다.
+
+주요 지도 서비스 업체들(네이버, 구글, 카카오 등)은 이러한 Geocoding과 Reverse Geocoding 기능을 API 형태로 제공한다. 이를 활용하면 데이터에 있는 주소 정보를 좌표로 변환하거나, 반대로 좌표 데이터에서 주소를 얻을 수 있다.
+
+대부분의 Geocoding API는 주소 문자열을 입력받아 해당 지점의 좌표와 더불어 행정구역, 지번, 도로명 주소 등의 정보를 제공한다. 또한 Reverse Geocoding 기능도 함께 지원하여 편리하게 활용할 수 있다.
+
 
 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_프로젝트_환경설정.ipynb)에서 확인할 수 있다.
 
 ## 네이버 클라우드 API 발급/활용 방법
 ### STEP 1. 네이버 클라우드 접속
 
-API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 한다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받는다. 
+API를 활용하기 위해 API Key를 먼저 발급받아야 한다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받는다. 
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-n-cloud.png" title="naver cloud main page">
@@ -60,25 +65,25 @@ API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 한다. 
     <img src="../img/4-1-key-button.png" title="click console">
 </figure>
 
-인증 정보 버튼을 누르면 앱의 key에 대한 정보를 담은 팝업창이 나타난다. 팝업창에는 앱 이름과 함께 Client ID, Client Secret 값이 나오는데, 여기서 `Client Secret`은 외부에 노출되면 안되는 값이다. 만일 값이 노출되었다면 재발급 버튼을 눌러서 키를 재발급 받아야 한다.
+인증 정보 버튼을 누르면 앱의 key에 대한 정보를 담은 팝업창이 나타난다. 팝업창은 앱 이름과 함께 Client ID, Client Secret 값이 나오는데, 여기서 `Client Secret`은 외부에 노출되면 안되는 값이다. 만일 값이 노출되었다면 재발급 버튼을 눌러서 키를 재발급 받아야 한다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-key-popup.png" title="click console">
 </figure>
 
-key 값은 메모장에 복사해두고 사용하면 된다. 권장하는 방법은 .env 파일에 저장하여 사용하는 것이다. 특히, 깃허브를 통해 코드를 외부적으로 공유할 경우, API 키 값들을 모두 env 파일에 저장하고 코드 파일에서는 API 명칭으로만 불러와서 사용할 수 있기 때문에 key값이 노출되지 않는다는 장점이 있다. 또한 키 값을 작성하고 지우는 과정이 생략되어 매우 용이하다. 
+key 값은 메모장에 복사해두고 사용하면 된다. 권장하는 방법은 .env 파일에 저장하여 사용하는 것이다. 특히, 깃허브를 통해 코드를 외부에 공유할 경우, API 키 값들을 모두 env 파일에 저장하고 코드 파일은 API 명칭으로만 불러와서 사용할 수 있기 때문에 key값이 노출되지 않는다는 장점이 있다. 또한 키 값을 작성하고 지우는 과정이 생략되어 매우 용이하다. 
 
-앞으로의 실습들 모두 .env 파일로 key를 불러와 사용하도록 하는 방식이므로, 어떻게 .env 파일을 만들고 사용하는지, 그리고 `.gitignore` 파일을 작성하여 `.env` 파일은 push 되지 않도록 하는 방법을 간단하게 소개하겠다.
+향후 실습에서 .env 파일로 key를 불러와 사용하도록 하는 방식이므로, 어떻게 .env 파일을 만들고 사용하는지, 그리고 `.gitignore` 파일을 작성하여 `.env` 파일은 push 되지 않도록 하는 방법을 간단하게 소개한다.
 
 ### STEP 3. .env, .gitignore 파일을 활용해 안전하게 key 이용하기
 
 > colab 환경을 기준으로 설명한다. 
 
-시작에 앞서, 코드와 데이터, 로컬 환경에서 .env, .gitignore를 한 곳에 담을 폴더를 하나 만든다. 그 다음 `새로 만들기` - `서식 있는 텍스트`를 클릭한다.
+시작에 앞서, 코드와 데이터, 로컬 환경에서 .env, .gitignore를 한 곳에 담을 폴더를 생성하고, `새로 만들기` - `서식 있는 텍스트`를 클릭한다.
 
-생성된 새 파일의 확장자(.rtf)명까지 모두 지운 후, 파일 명을 `.env`로 변경한다. 그 다음, .env 파일을 메모장으로 연다. 메모장을 열었을 때 `{\rtf1}`가 이미 입력되어 있는데, 모두 지우고 몇 아래 사진과 같이 작성한다.
+생성된 새 파일의 확장자(.rtf)를 `.env`로 변경하고, .env 파일을 메모장으로 연다. 메모장을 열었을 때 `{\rtf1}`가 이미 입력되어 있는데, 모두 삭제하고 아래 이미지와 같이 수정한다. 
 
-`CLIENT_SECRET`에는 앞서 발급 받은 Secret key를, `CLIENT_ID`에는 Client ID를 복사해서 그대로 붙여 넣는다. 작성이 완료되면 저장하고 창을 닫는다.
+`CLIENT_SECRET`는 앞서 발급 받은 Secret key, `CLIENT_ID`는 Client ID를 복사해서 그대로 붙여 넣는다. 작성이 완료되면 저장하고 창을 닫는다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-envfile.png" title="click console">
@@ -118,7 +123,7 @@ API를 이용하기 위해서는 requests 라이브러리가 필요하다. colab
 
 API를 사용할 때에는, API를 제공하는 측에서 정해준 형식대로 요청 URL을 작성해야 한다. 네이버의 경우, [네이버 geocode API 가이드](https://api.ncloud-docs.com/docs/ai-naver-mapsgeocoding-geocode)에 요청 URL과 파라미터, 헤더와 응답값에 대해 자세히 설명하고 있다.
 
-아래의 코드는 간단하게 API를 테스트 할 수 있는 코드이다.
+아래의 코드는 간단하게 API를 테스트 할 수 있다.
 
 ```python
 import requests as re
@@ -208,7 +213,7 @@ addr = json_ob["results"][1]
 
 ## 필요 라이브러리 다운받기
 
-colab 환경의 경우 런타임마다 라이브러리를 다운받아야 한다. 따라서, 코드 문서에서는 모두 코드 실행에 앞서 필요 라이브러리를 다운받을 수 있는 코드를 작성하였다. 하지만 매 실행마다 라이브러리를 다운받는 것은 비효율적이므로, 로컬 사용자의 경우 가급적 라이브러리를 전역적으로 설치하는 것을 권장한다. 만약 visual studio code 환경에서 실행중이라면, 터미널 상에 아래의 코드들을 입력하여 한번에 라이브러리를 다운받을 수 있다.
+colab 환경의 경우 런타임마다 라이브러리를 다운받아야 한다. 따라서, 코드 문서에서는 모두 코드 실행에 앞서 필요 라이브러리를 다운받을 수 있는 코드를 작성한다. 하지만 매 실행마다 라이브러리를 다운받는 것은 비효율적이므로, 로컬 사용자의 경우 가급적 라이브러리를 전역적으로 설치하는 것을 권장한다. 만약 visual studio code 환경에서 실행중이라면, 터미널 상에 아래의 코드들을 입력하여 한번에 라이브러리를 다운받을 수 있다.
 
 ```python
 pip install plotly, dotenv, matplotlib, json

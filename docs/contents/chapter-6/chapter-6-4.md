@@ -19,6 +19,11 @@ url: "/chapter-6/chapter-6-4.html"
 
 이번 장에서는 파이썬 웹 프레임워크인 Flask를 활용하여 API를 만드는 방법을 소개한다. 주소기반산업지원서비스의 주소 검색 API에 내고장알리미 데이터를 연계하여, 주소를 검색하면 해당 주소에 대한 행정구역 데이터를 제공하는 주소 검색 API를 만드는 실습을 진행한다.
 
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-6)
+
 ## Flask로 API 서버 개발하기
 
 ### 1. Flask 애플리케이션 생성하기
@@ -57,7 +62,7 @@ if __name__ == "__main__":
 
 `main.py`는 터미널에 아래 명령어를 입력하여 실행한다.
 
-```py
+```bash
 python main.py
 ```
 
@@ -84,9 +89,9 @@ Flask는 Python 데코레이터인 `@app.route()`를 추가하는 방식으로 �
 ### 1. 내고장알리미 데이터란?
 
 [내고장알리미 https://www.laiis.go.kr/myMain.do](https://www.laiis.go.kr/myMain.do) (지방행정종합정보시스템)는 지방자치단체의 행정구역 현황, 단체장, 새소식, 문화관광, 상품권 등의 정보를 종합적으로 제공하는 웹 사이트다.
-API를 통해 연계하려는 내고장알리미 데이터는 해당 웹사이트에서 제공하는 시군구에 대한 정보를 크롤링해서 csv로 만든 데이터다.
+아래 데이터는 주소정보 누리집 API와 연계하기 위해 내고장알리미의 정보를 크롤링하여 CSV로 저장한 데이터다.
 
-- 다운로드: [내고장알리미 데이터 파일](./mygojang-crawling-data-2024-02-26.csv)
+- 다운로드: [내고장알리미 데이터](https://drive.google.com/file/d/14YLZP4A8xwPqQJ1gnznCd35-1by-NMop/view?usp=sharing)
 
 ### 2. 검색 API와 내고장알리미 데이터 연계하기
 
@@ -104,13 +109,13 @@ API 호출을 위한 라이브러리인 `requests`와 csv 데이터를 다루기
 
 가상환경이라는 독립된 환경에서 작업하고 있기 때문에 기존에 다른 작업에서 이미 사용하던 라이브러리라도 새로 설치하는 과정이 필요하다. 가상환경에 진입한 상태가 맞는지 다시 한 번 확인하고서 install을 진행한다.
 
-```py
+```bash
 pip3 install requests pandas
 ```
 
 <br>
 
-이제 `test.ipynb`에서 API 데이터와 내고장알리미 데이터를 시군구코드 기준으로 연계하는 코드를 작성한다.
+이제 `6-4_test.ipynb`에서 API 데이터와 내고장알리미 데이터를 시군구코드 기준으로 연계하는 코드를 작성한다.
 
 6-3장에서 작성한 코드를 실행하면 여러개의 검색결과가 나오는 것을 확인할 수 있다. 그 중 첫번째 검색결과를 사용하여 주소를 연계한다. 데이터를 시군구코드 기준으로 연계하기 위해 API데이터와 파일데이터에서 시군구코드 컬럼을 찾아야한다. <br>
 
@@ -138,10 +143,10 @@ result_first = api_result.json()['results']['juso'][0]
 출력 결과
 
 <figure class="flex flex-col items-center justify-center">
-    <img src="../img/5-4-api-result-admCd.png" >
+    <img src="../img/api-result-admCd.png" >
 </figure>
 
-행정동코드는 총 10자리로 구성된다. 앞 5자리 `36110`은 그 행정동이 속한 시군구를 식별하고, 뒤 5자리 `10700`은 시군구 내에서 행정동을 식별하는 기능을 한다. 그리고 시군구를 식별하는 앞 5자리에 뒤 5자리를 00000을 붙이면 해당 시군구의 시군구코드가 된다. `3611000000`
+행정동코드는 총 10자리로 구성된다. 앞 5자리 `36110`은 그 행정동이 속한 시군구를 식별하고, 뒤 5자리 `10700`은 시군구 내에서 행정동을 식별하는 기능을 한다. 그리고 시군구를 식별하는 앞 5자리에 뒤 5자리를 00000을 붙이면 해당 시군구의 시군구코드가 된다.
 
 따라서 시군구까지만 나타내는 앞의 5자리를 추출하고, 00000을 추가해 시군구코드 10자리를 만들어주고 `search_code`변수에 담아준다.
 
@@ -176,15 +181,28 @@ result = mygojang.loc[mygojang['DIST_CODE']==search_code].T.iloc[:,0]
 
 ### 3. 주소 검색 API 만들기
 
-위 코드를 사용해 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 새로운 API를 구축한다. `main.py`에 이어서 코드를 작성한다.
+위 코드를 사용해 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 새로운 API를 구축한다. `6-4_main.py`에 코드를 작성한다.
 
 ```py
+# main.py : 서버를 가동시키는 실행파일
+from flask import Flask
+import requests
+import pandas as pd
+
+#객체 인스턴스 생성
+app = Flask(__name__)
+
+#기본 접속 url
+@app.route('/')
+def index():
+    return "Flask server is running!"
+
 @app.route('/address/<keyword>/')
 def address(keyword):
     # 주소기반산업지원서비스 주소 검색 API 호출
     url = "https://business.juso.go.kr/addrlink/addrLinkApi.do"
     params = {
-        "confmKey":"발급받은 API 승인 KEY",
+        "confmKey":"발급받은 API 승인KEY",
         "currentPage":"1",
         "countPerPage":"10",
         "keyword": keyword,
@@ -199,14 +217,22 @@ def address(keyword):
     # 내고장알리미 데이터에서 시군구코드 일치하는 데이터 반환
     mygojang = pd.read_csv('mygojang-crawling-data-2024-02-26.csv') # 내고장알리미 데이터
     result = mygojang.loc[mygojang['DIST_CODE']==search_code].T.iloc[:,0]
-    # /address/<keyword>에 최종적으로 출력할 내용
     return result.to_json(force_ascii=False)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001, debug=True)
 ```
 
 이 때, `@app.route('/address/<keyword>/')`의 `<keyword>`는 주소 검색어가 들어갈 변수다.
 <br>예를 들어, `127.0.0.1:5001/address/정부세종청사/`를 URL로 입력하면 주소 검색어는 '정부세종청사'가 된다.
 
-해당 API의 URL에 접속하면 서버 화면에 주소 검색 결과 데이터가 출력된다.
+해당 파이썬 파일을 실행시킨다.
+
+```bash
+python 6-4_main.py
+```
+
+API의 URL에 접속하면 서버 화면에 주소 검색 결과 데이터가 출력된다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/apiresult.png" >
