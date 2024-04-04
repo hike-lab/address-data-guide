@@ -27,7 +27,7 @@ API를 활용하기 위해서, 보통 API Key를 먼저 발급받아야 한다. 
 </figure>
 
 
-버튼을 클릭하시면 다음과 같은 화면이 나타난다. 좌측 내비게이션에서 `Services` 항목을 클릭한다.
+버튼을 클릭하면 다음과 같은 화면이 나타난다. 좌측 내비게이션에서 `Services` 항목을 클릭한다.
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/4-1-console-main.png" title="click console">
