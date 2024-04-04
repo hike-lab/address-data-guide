@@ -21,18 +21,18 @@ url: "/chapter-1/chapter-1-2.html"
 
 일반적으로 도로명주소는 주거하는 건물, 창고나 사업장으로 건물에 부여하고,건물이 없는 땅의 위치는 지번을 사용한다. 부동산 매매를 예로 들면, 부동산 소재지는 지번주소를 쓰고 계약을 체결하는 매수·매도자나 임대·임차인, 부동산 중개인의 주소는 도로명주소를 사용하고 있다. 
 
-<figure class="flex flex-col items-center justify-center" align="center">
+<figure class="flex flex-col items-center justify-center">
     <img src="../img/1-3-1-address-type.jpeg" title="부동산임대차계약서">
-    <figcaption style="text-align: center;">부동산임대차계약서 상에 도로명주소와 지번주소 사용예시(출처:[머니투데이](https://orgthumb.mt.co.kr/06/2014/01/2014011715184397424_1.jpg)</figcaption>
+    <figcaption style="text-align: center;">부동산임대차계약서 상에 도로명주소와 지번주소 사용예시(출처:<a href="https://orgthumb.mt.co.kr/06/2014/01/2014011715184397424_1.jpg">머니투데이</a>)</figcaption>
 </figure>
 
 <br>
 
 도로명주소는 시·군·구, 읍·면까지 지번주소와 동일하지만, 지번주소의 '동·리 + 번지'는 '도로명 + 건물번호'로 대신한다.
 
-<figure class="flex flex-col items-center justify-center" align="center">
+<figure class="flex flex-col items-center justify-center">
     <img src="../img/1-3-2-address-notation.jpeg" title="도로명주소의 표기">
-    <figcaption style="text-align: center;">도로명주소의 표기 예시(출처:[대한민국 정책브리핑](https://www.korea.kr/newsWeb/resources/attaches/2014.01/03/344.jpg)</figcaption>
+    <figcaption style="text-align: center;">도로명주소의 표기 예시(출처:<a href="https://www.korea.kr/newsWeb/resources/attaches/2014.01/03/344.jpg">대한민국 정책브리핑</a>)</figcaption>
 </figure>
 
 ## 도로명주소의 이해
@@ -53,9 +53,9 @@ url: "/chapter-1/chapter-1-2.html"
 
 기초간격은 도로구간에 행정안전부장관이 정하는 바에 따라 나눈 간격, 기초번호는 기초간격마다 부여한 번호를 말한다. 기초번호는 도로구간을 일정한 간격으로 나누고, 시작지점으로부터 왼쪽은 홀수번호, 오른쪽은 짝수번호를 부여한다.  
 
-<figure class="flex flex-col items-center justify-center" align="center">
+<figure class="flex flex-col items-center justify-center">
     <img src="../img/1-3-3-building-number.png" title="건물번호의 부여규칙">
-    <figcaption style="text-align: center;">건물번호의 부여 규칙(출처:[주소정보누리집](https://www.juso.go.kr/openIndexPage.do)</figcaption>
+    <figcaption style="text-align: center;">건물번호의 부여 규칙(출처:<a href="https://www.juso.go.kr/openIndexPage.do">주소정보누리집</a>)</figcaption>
 </figure>
 
 ### 건물번호
@@ -84,20 +84,20 @@ url: "/chapter-1/chapter-1-2.html"
 
 ### 건물번호판
 
-건물번호판은 도로명과 건물번호를 표기한다. 표준형 이외에도 자율형설치가 가능합니다.
+건물번호판은 도로명과 건물번호를 표기한다. 표준형 이외에도 자율형설치가 가능하다.
 
-<figure class="flex flex-col items-center justify-center" align="center">
+<figure class="flex flex-col items-center justify-center">
     <img src="../img/1-3-4-address-sign.jpg" title="건물번호판의 예시">
-    <figcaption style="text-align: center;">건물번호판의 예시와 유형(출처:[안양시청](https://www.anyang.go.kr/site/main/images/contents/cts474_img3.jpg)</figcaption>
+    <figcaption style="text-align: center;">건물번호판의 예시와 유형(출처:<a href="https://www.anyang.go.kr/site/main/images/contents/cts474_img3.jpg">안양시청</a>)</figcaption>
 </figure>
 
 ### 도로명판
 
 도로명판은 도로명, 기초번호, 방향표시를 표기한다. 도로명판은 글자수, 종류에 따라 크기가 달라지며 설치위치에 따라 한쪽방향용, 앞쪽방향용, 양방향용으로 구분한다.
 
-<figure class="flex flex-col items-center justify-center" align="center">
+<figure class="flex flex-col items-center justify-center" >
     <img src="../img/1-3-5-road-sign.png" title="도로명판의 예시">
-    <figcaption style="text-align: center;">도로명판의 예시와 유형(출처:[군포시청](https://www.gunpo.go.kr/www/contents.do?key=4449)</figcaption>
+    <figcaption style="text-align: center;">도로명판의 예시와 유형(출처:<a href="https://www.gunpo.go.kr/www/contents.do?key=4449">군포시청</a>)</figcaption>
 </figure>
 
 ## 영상으로 보는 도로명주소

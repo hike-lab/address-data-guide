@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 @import url(https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
 :root {
   --vp-c-bg: #f9fafb;
   --vp-c-bg-alt: #f3f3f3;
@@ -14,7 +16,7 @@
   --vp-c-text-1: rgba(60, 60, 67);
   --vp-c-text-2: rgba(60, 60, 67, 0.78);
   --vp-c-text-3: rgba(60, 60, 67, 0.56);
-  --vp-font-family-base: "Inter", "Spoqa Han Sans Neo", "Apple Color Emoji",
+  --vp-font-family-base: "Noto Sans KR", "Inter", "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
 }
 

@@ -181,7 +181,7 @@ result = mygojang.loc[mygojang['DIST_CODE']==search_code].T.iloc[:,0]
 
 ### 3. 주소 검색 API 만들기
 
-위 코드를 사용해 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 새로운 API를 구축한다. `6-4_main.py`에 코드를 작성한다.
+위 코드를 사용해 Flask 서버에 내고장 알리미 데이터 검색 결과를 출력하는 라우터를 추가하여 새로운 API를 구축한다. `main.py`에 코드를 작성한다.
 
 ```py
 # main.py : 서버를 가동시키는 실행파일
@@ -229,7 +229,7 @@ if __name__ == "__main__":
 해당 파이썬 파일을 실행시킨다.
 
 ```bash
-python 6-4_main.py
+python main.py
 ```
 
 API의 URL에 접속하면 서버 화면에 주소 검색 결과 데이터가 출력된다.

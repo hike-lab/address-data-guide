@@ -16,7 +16,7 @@ url: "/chapter-7/chapter-7-2.html"
 이 장에서 사용되는 데이터와 코드 원본은 [깃헙](https://github.com/hike-lab/address-data-guide/blob/main/chapter-7/7-2_프로젝트_환경설정.ipynb)에서 확인할 수 있다.
 
 ## 네이버 클라우드 API 발급/활용 방법
-### STEP 1. 네이버 클라우드 접속
+### 네이버 클라우드 접속
 
 API를 활용하기 위해 API Key를 먼저 발급받아야 한다. 네이버 지오코딩 API Key는 [네이버 클라우드 플랫폼](https://www.ncloud.com/)에서 발급받는다. 
 
@@ -44,7 +44,7 @@ API를 활용하기 위해 API Key를 먼저 발급받아야 한다. 네이버 �
     <img src="../img/4-1-services.png" title="click console">
 </figure>
 
-### STEP 2. APP 등록
+### APP 등록
 
 해당 항목의 페이지로 이동하면 API 사용량에 대한 대시보드가 나타난다. 여기에서 `Application 등록` 버튼을 클릭한다.
 <figure class="flex flex-col items-center justify-center">
@@ -75,7 +75,7 @@ key 값은 메모장에 복사해두고 사용하면 된다. 권장하는 방법
 
 향후 실습에서 .env 파일로 key를 불러와 사용하도록 하는 방식이므로, 어떻게 .env 파일을 만들고 사용하는지, 그리고 `.gitignore` 파일을 작성하여 `.env` 파일은 push 되지 않도록 하는 방법을 간단하게 소개한다.
 
-### STEP 3. .env, .gitignore 파일을 활용해 안전하게 key 이용하기
+### .env, .gitignore 파일을 활용해 안전하게 key 이용하기
 
 > colab 환경을 기준으로 설명한다. 
 
@@ -117,7 +117,7 @@ API_ID = os.getenv("CLIENT_ID")
 API_SECRET = os.getenv("CLIENT_SECRET")
 ```
 
-### STEP 4. API 사용해보기
+### API 사용해보기
 
 API를 이용하기 위해서는 requests 라이브러리가 필요하다. colab 환경에서는 이미 설치되어 있으니 ``import requests``로 간단하게 라이브러리를 불러오기만 하면 된다.
 
