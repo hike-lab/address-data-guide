@@ -147,7 +147,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "4.1 프로젝트 소개",
+          text: "4.1 개요",
           link: "/contents/chapter-4/chapter-4-1.html",
         },
         {
@@ -173,7 +173,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "5.1 프로젝트 소개",
+          text: "5.1 개요",
           link: "/contents/chapter-5/chapter-5-1.html",
         },
         {
@@ -203,7 +203,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "6.1 프로젝트 소개",
+          text: "6.1 개요",
           link: "/contents/chapter-6/chapter-6-1.html",
         },
         {
@@ -225,7 +225,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "7.1 프로젝트 소개",
+          text: "7.1 개요",
           link: "/contents/chapter-7/chapter-7-1.html",
         },
         {
@@ -265,7 +265,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "9.1 프로젝트 소개 ",
+          text: "9.1 개요",
           link: "/contents/chapter-9/chapter-9-1.html",
         },
       ],
@@ -275,7 +275,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "9.1 프로젝트 소개",
+          text: "9.1 개요",
           link: "/contents/chapter-10/chapter-10-1.html",
         },
       ],
@@ -285,7 +285,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "11.1 프로젝트 소개",
+          text: "11.1 개요",
           link: "/contents/chapter-11/chapter-11-1.html",
         },
       ],
