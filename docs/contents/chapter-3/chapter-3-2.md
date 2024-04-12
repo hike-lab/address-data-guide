@@ -25,7 +25,7 @@ url: "/chapter-3/chapter-3-2.html"
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/juso-go-kr.png" title="juso-go-kr">
-    <figcaption style="text-align: center;"></figcaption>
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 
 <br>
@@ -38,16 +38,18 @@ url: "/chapter-3/chapter-3-2.html"
 
 <br>
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">주소 검색 화면</figcaption>
+    <figcaption style="text-align: center;">< 주소 검색 화면 ></figcaption>
     <img src="../img/address-search.png" title="주소 검색">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
 검색 결과는 **지도보기로** 확인할 수 있다.
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">지도보기 화면</figcaption>
+    <figcaption style="text-align: center;">< 지도보기 화면 ></figcaption>
     <img src="../img/address-search-map.png" title="지도보기">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -66,8 +68,8 @@ url: "/chapter-3/chapter-3-2.html"
 
 <br>
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/address-convert-3000.png" title="3000건 이하 주소전환서비스">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -78,8 +80,8 @@ url: "/chapter-3/chapter-3-2.html"
 **주소통계정보**는 도로명, 도로명주소, 상세주소, 기초구역, 주소정보 이용추이의 통계를 제공한다. 각 통계는 지역별 현황을 시각화하여 제공한다.
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/statics-1.png" title="주소통계정보">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -87,8 +89,8 @@ url: "/chapter-3/chapter-3-2.html"
 <br>
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/statics-2.png" title="우리 집 주소는?">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -98,6 +100,7 @@ url: "/chapter-3/chapter-3-2.html"
 <figure class="flex flex-col items-center justify-center">
     <figcaption style="text-align: center;"></figcaption>
     <img src="../img/statics-3.png" title="도로명주소 인포그래픽">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -110,13 +113,15 @@ url: "/chapter-3/chapter-3-2.html"
 <figure class="flex flex-col items-center justify-center">
     <figcaption style="text-align: center;"></figcaption>
     <img src="../img/address-map-download.png" title="도로명주소 안내도 다운로드">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 <br>
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">서울특별시 강동구 둔춘2동 도로명주소 안내도 예시</figcaption>
+    <figcaption style="text-align: center;">< 서울특별시 강동구 둔춘2동 도로명주소 안내도 예시 > </figcaption>
     <img src="../img/address-map-download-example.png" title="도로명주소 안내도 다운로드">
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -125,7 +130,8 @@ url: "/chapter-3/chapter-3-2.html"
 <br>
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/address-guidebook.gif" title="도로명주소 소개 Guide book">
-    <figcaption style="text-align: center;">도로명주소 소개 Guide book 예시</figcaption>
+    <figcaption style="text-align: center;"> < 도로명주소 소개 Guide book 예시 > </figcaption>
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -137,7 +143,7 @@ url: "/chapter-3/chapter-3-2.html"
 
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/qna.png" title="고객지원">
-    <figcaption style="text-align: center;"></figcaption>
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -149,7 +155,7 @@ url: "/chapter-3/chapter-3-2.html"
 <br>
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/address-business.png" title="주소기반 산업지원 서비스">
-    <figcaption style="text-align: center;"></figcaption>
+    <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
 
@@ -170,3 +176,7 @@ url: "/chapter-3/chapter-3-2.html"
 - [도로명주소법 시행규칙](https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99)
 - [주소정보 제공에 관한 규정](https://www.law.go.kr/LSW/admRulLsInfoP.do?admRulSeq=2100000222420#AJAX)
 - [주소정보 전산체계 운영규정](https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000174765)
+
+## 참고사이트
+
+- [주소정보 누리집](https://www.juso.go.kr/)
