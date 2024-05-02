@@ -214,8 +214,8 @@ gdf_sido.info()
 시각화를 진행하기 전에, mapbox는 CRS를 epsg:4326으로 사용하므로 이에 맞춰 좌표계를 변환해준다. ([참고](https://docs.mapbox.com/help/glossary/projection/)) CRS를 변환하지 않고 시각화를 진행하면 제대로 지도가 그려지지 않으니 반드시 맞춰줘야 한다. 이후, 데이터프레임을 csv와 geojson 파일로 저장한다.
 
 ```python
-gdf_sido = pd.read_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-viz.csv', encoding='utf-8')
-geo_data_sido = '/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/sido-geoj.geojson'
+gdf_sido = pd.read_csv('sido-viz.csv', encoding='utf-8')
+geo_data_sido = 'sido-geoj.geojson'
 
 with open(geo_data_sido, 'rt', encoding='utf-8') as f_sido:
     gj_sido = geojson.load(f_sido)

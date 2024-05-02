@@ -16,7 +16,7 @@ url: "/chapter-3/chapter-4-3.html"
 
 ## 데이터 불러오기
 
-실습 데이터는 [주소기반산업지원서비스](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%20%ED%95%9C%EA%B8%80)에서 제공하는 공개하는 주소 중 '도로명주소 한글' 데이터의 2024년 1월 기준 전체자료이다. 데이터는 시도별로 구분된 txt 파일로 되어 있으며, 각 데이터는 "|" 구분자를 사용한다. 데이터를 처리하기 용이하도록 하나의 파일로 합치고 csv 파일로 저장하는 함수는 다음과 같다.
+실습 데이터는 [주소기반산업지원서비스](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C%20%ED%95%9C%EA%B8%80)에서 제공하는 공개하는 주소 중 '도로명주소 한글' 데이터의 2024년 1월 기준 전체자료이다. 데이터는 시도별로 구분된 txt 파일로 되어 있으며, 각 데이터는 "|" 구분자를 사용한다. 사이트에서 데이터를 다운 받았을 시 지번 데이터도 포함되어 있으므로 'jibun'으로 시작하는 txt 파일들은 삭제하고 진행한다. (깃헙 데이터는 별도의 삭제 없이 그대로 진행) 데이터를 처리하기 용이하도록 하나의 파일로 합치고 csv 파일로 저장하는 함수는 다음과 같다. (zip 파일 압축 해제 후 진행)
 
 ```python
 def merged_df(columns, name):
@@ -29,7 +29,7 @@ def merged_df(columns, name):
         total_df = pd.concat((total_df, df))
 
     # 전체 데이터 저장
-    total_df.to_csv(f"total-{name}.csv", index=False, encoding="utf-8")
+    total_df.to_csv(f"total_{name}.csv", index=False, encoding="utf-8")
 
     return total_df
 ```
@@ -41,7 +41,7 @@ columns = ["도로명주소관리번호","법정동코드","시도명","시군�
            "도로명코드","도로명","지하여부","건물본번","건물부번","행정동코드","행정동명","기초구역번호(우편번호)", \
            "이전도로명주소","효력발생일","공동주택구분","이동사유코드","건축물대장건물명","시군구용건물명","비고"]
 
-df = merged_df(columns, "road-name-address_2401")
+df = merged_df(columns, "road_name_address_2401")
 ```
 
 ::: details 저장한 결과 보기
