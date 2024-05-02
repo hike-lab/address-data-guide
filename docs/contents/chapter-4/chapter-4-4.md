@@ -30,7 +30,7 @@ df = pd.read_csv(path, sep='\|', names = col, engine='python', encoding='cp949',
 str, keep_default_na=False, header = None)
 
 ## csv로 저장하기
-df.to_csv('/content/drive/MyDrive/HIKE(연구실, 대학원)/2024/주소/address-data-guide/total-road-name_2401.csv', index=False, encoding="utf-8")
+df.to_csv('total_road_name_2401.csv', index=False, encoding="utf-8")
 ```
 
 ```python
