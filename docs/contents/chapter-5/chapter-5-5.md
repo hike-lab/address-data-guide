@@ -7,7 +7,12 @@ url: "/chapter-5/chapter-5-5.html"
 
 # 5.5 데이터 삽입하기
 
-이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습한다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해본다. 이 장에서 사용하는 데이터는 깃헙의 chapter-5 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)에서 확인할 수 있다. 코드 원본은 깃헙의 [chapter-5 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있다.
+이번 장은 도로명주소 한글 데이터를 테이블에 삽입하는 방법을 학습한다. `local infile`을 활용해 파일 전체를 테이블로 업로드하고, 데이터가 담긴 테이블에서 일부 데이터를 추출하는 질의문까지 작성해본다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)
 
 ## local infile 허용하기
 

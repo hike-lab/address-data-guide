@@ -109,7 +109,7 @@ function sidebarMain() {
           link: "/contents/chapter-1/chapter-1-2.html",
         },
         {
-          text: "1.3 도로명주소의 이해",
+          text: "1.3 주소정보의 이해",
           link: "/contents/chapter-1/chapter-1-3.html",
         },
       ],
@@ -282,7 +282,7 @@ function sidebarMain() {
       collapsed: true,
       items: [
         {
-          text: "9.1 개요",
+          text: "10.1 개요",
           link: "/contents/chapter-10/chapter-10-1.html",
         },
       ],

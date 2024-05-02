@@ -7,7 +7,12 @@ url: "/chapter-5/chapter-5-3.html"
 
 # 5.3 데이터베이스 생성하기
 
-이번 장은 MySQL에서 주소 데이터를 저장할 데이터베이스를 생성한다. 데이터에 맞게 파이썬으로 데이터베이스를 생성하는 방법에 대해 학습한다. 이 장에서 사용하는 데이터는 깃헙의 chapter-5 내부에 있는 [data 폴더](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)에서 확인할 수 있다. 코드 원본은 깃헙의 [chapter-5 폴더](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)에서 확인할 수 있다.
+이번 장은 MySQL에서 주소 데이터를 저장할 데이터베이스를 생성한다. 데이터에 맞게 파이썬으로 데이터베이스를 생성하는 방법에 대해 학습한다.
+
+이 장에서 사용하는 데이터와 코드 원본은 아래 링크에서 확인할 수 있다.
+
+- 데이터: [GitHub](https://github.com/hike-lab/address-data-guide/tree/main/chapter-5/data)
+- 코드: [GitHub](https://github.com/hike-lab/address-data-guide/blob/main/chapter-5/5_%ED%8C%8C%EC%9D%B4%EC%8D%AC%EA%B3%BC_MySQL%EB%A1%9C_%EA%B5%AC%EC%B6%95%ED%95%98%EB%8A%94_%EC%A3%BC%EC%86%8C_%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4.ipynb)
 
 ## 데이터 구조 살펴보기
 
