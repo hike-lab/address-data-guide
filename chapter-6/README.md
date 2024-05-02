@@ -13,7 +13,7 @@
 
 ### Flask 프로젝트 폴더로 이동
 ```
-cd address-data-guide/chapter-6
+cd /chapter-6
 ```
 
 ### 가상환경 생성
@@ -25,7 +25,7 @@ python -m venv env
 ```
 source env/bin/activate  # mac
 env/Scripts/activate.bat  # window cmd
-env/Scripts/Activate.Ps1 #window powershell
+env/Scripts/Activate.Ps1 # window powershell
 ```
 ### 필요한 라이브러리 설치
 ```
@@ -39,6 +39,6 @@ python main.py
 서버 실행 시 터미널에 표시되는 서버 접속 주소에 접근합니다. 브라우저 창이 열리며 "Flask is running!"이라는 문구가 표시될 것입니다.
 
 ### API 호출
-열린 브라우저의 주소창에 **기본접속주소/address/"본인이 검색하고 싶은 주소"** 와 같이 url를 입력하여 API를 호출하고 화면에 출력된 결과를 확인합니다.<br>
-url 예시 : **기본접속주소/address/정부세종청사**
+열린 브라우저의 주소창에 **domain/address/"본인이 검색하고 싶은 주소"** 와 같이 url를 입력하여 API를 호출하고 화면에 출력된 결과를 확인합니다.<br>
+url 예시 : **http://127.0.0.1:5001/address/정부세종청사**
 
