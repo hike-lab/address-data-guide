@@ -77,6 +77,30 @@ for i in df.columns:
 
 도로명주소는 기본적으로 `시/도 + 시/군/구 + 읍/면 + 도로명 + 건물번호 + 상세주소(동/층/호) + (참고항목)`의 조합으로 생성된다. 현재 공개하고 있는 도로명주소의 개수를 시도, 시군구, 시도별 시군구, 읍면동별 순으로 구분하여 하나씩 확인해보고 간단한 시각화를 진행해보겠다. 시각화는 파이썬 동적 시각화 툴인 [Plotly](https://plotly.com/python/)를 사용한다.
 
+동일한 형태의 시각화를 반복하므로 재사용할 수 있는 함수를 활용한다. 아래 `graph_viz` 함수는 파이썬의 Plotly 라이브러리를 활용하여 간단한 바 차트를 생성한 뒤 html 파일로 저장한다.
+
+```python
+# 시각화 공통 함수
+
+def graph_viz(df, title):
+    fig = px.bar(df,
+            x = df.index, # x축
+            y = df.columns, # y축
+            color = df.index,
+            title=f"{title}",
+            color_discrete_sequence=px.colors.qualitative.Set2,
+            height=400
+    )
+
+    fig.update_layout(yaxis={'visible': True, 'showticklabels': False},
+                      plot_bgcolor="#F9FAFB",  showlegend=False, paper_bgcolor='#F9FAFB', margin=dict(l=0, r=0, t=40),
+                      title={'text': "%s" % title,'y':0.95,'x':0,'xanchor': 'left','yanchor': 'top'},)
+    fig.update_xaxes(title=None)
+    fig.update_yaxes(title=None, gridcolor='lightgray', mirror=True)
+    fig.write_html("./data/%s.html" % title) ## html로 저장
+    fig.show()
+```
+
 ### 시도별
 
 ```python
