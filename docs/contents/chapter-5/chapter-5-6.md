@@ -142,17 +142,15 @@ query_get(sql)
 결과에 따르면, 경기도가 한국에서 가장 많은 도로명주소를 갖고 있다. 이에 반해, 세종특별자치시가 가장 작은 도로명주소를 갖고 있다. 이 결과를 더 효과적으로 보여주기 위해 데이터를 판다스의 데이터프레임 안에 담아 시각화를 해보자. 다음의 코드는 위의 코드와 동일한 결과를 가져오지만, `df`에 데이터프레임으로 저장된다.
 
 ```py
-import pandas as pd
+from sqlalchemy import create_engine
 
-sql = '''
-SELECT `시도명`, COUNT(DISTINCT `도로명주소관리번호`) AS count \\
-    FROM full_rna_addr \\
-    GROUP BY `시도명` \\
-    ORDER BY count DESC;
-'''
+engine = create_engine("mysql+pymysql://root:root@localhost:3307/address?charset=utf8", echo=True)
 
-conn = init_db_connection()
+conn = engine.connect()
 df = pd.read_sql(sql, con=conn)
+conn.close()
+
+df
 ```
 
 이 `df`에 담긴 데이터를 파이썬 시각화 모듈인 `plotly`를 사용해 바그래프로 표현해보자. 바그래프의 x축에 `df['시도명']`으로, y축에 `df['count']`으로 표현한다.
@@ -251,6 +249,9 @@ query_get(sql)
 그렇다면 이제 도로명주소를 기준으로 관련지번의 개수를 세보자. 우선 `도로명주소관리번호`를 기준으로 PNU의 개수를 세어본다. `도로명주소1` 또는 `도로명주소2`를 기준으로 PNU 개수를 세면 쿼리의 실행시간이 매우 오래 걸린다. 먼저 `도로명주소관리번호`를 기준으로 `GROUP BY`를 한 다음 PNU의 개수를 세고, 출력된 상위 10개의 `도로명주소관리번호`에 대해서 `도로명주소1`과 `도로명주소2`를 출력해보자. 위의 SQL 코드를 변행해서 `도로명주소관리번호`에 붙은 PNU의 개수가 많은 순대로 출력한 결과다.
 
 ```py
+from sqlalchemy import create_engine
+import pandas as pd
+
 sql = '''
 SELECT A.`도로명주소관리번호`, COUNT(DISTINCT B.PNU) AS PNU_COUNT
 FROM full_rna_addr A
@@ -260,8 +261,11 @@ ORDER BY PNU_COUNT DESC
 LIMIT 10;
 '''
 
-conn = init_db_connection()
+engine = create_engine("mysql+pymysql://root:root@localhost:3307/address?charset=utf8", echo=True)
+
+conn = engine.connect()
 df1 = pd.read_sql(sql, con=conn)
+conn.close()
 ```
 
 `df1`에 담긴 도로명주소관리번호를 `rna_addr_list`에 담아 리스트 형태로 만들어보자. `도로명주소관리번호`의 값이 해당 리스트 안에 있는 행만 출력해서 가져온 결과가 바로 `df2`다.
@@ -273,8 +277,11 @@ sql = f'''
 SELECT * FROM full_rna_addr WHERE `도로명주소관리번호` IN {str(rna_addr_list).replace('[','(').replace(']',')')}
 '''
 
-conn = init_db_connection()
+engine = create_engine("mysql+pymysql://root:root@localhost:3307/address?charset=utf8", echo=True)
+
+conn = engine.connect()
 df2 = pd.read_sql(sql, con=conn)
+conn.close()
 ```
 
 이제 `df1`과 `df2`를 병합해서 관련지번의 개수와 도로명주소를 함께 보자. 판다스의 `merge`를 사용해 두개의 데이터프레임을 병합한다.
