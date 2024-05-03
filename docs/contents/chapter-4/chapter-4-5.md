@@ -38,7 +38,7 @@ token = "본인 token"
 
 ```python
 # 데이터 불러오기
-df_pop = pd.read_excel('202401_202401_주민등록인구및세대현황_월간.xlsx', header=2)
+df_pop = pd.read_excel('202401_202401_population_month.xlsx', header=2)
 
 # 중복 데이터 확인하기
 df_pop[df_pop['행정기관'].duplicated(keep=False)]
