@@ -60,6 +60,4 @@
 - 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202100006&gubun=totalSearch&menuNo=I0000002)
 - 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200039&menuNo=I0000002)
 - 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
-
-
 - 행정안전부. 지방소멸 대응을 위한 주소체계 고도화 성과 분석 연구. 2022. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202300003&gubun=totalSearch&menuNo=I0000002)
