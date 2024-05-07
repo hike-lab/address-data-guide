@@ -45,14 +45,21 @@
 
 ## 연구보고서
 
-- 행정안전부. 2011년 ISO TC211 주소표준화 대응방안 연구. 2011. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201100031&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2012년 위치찾기 수단의 국제표준화 대응방안 연구. 2012. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201200045&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2013년도 위치찾기 수단의 국제표준화 대응방안 연구. 2013. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201300010&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2014년 위치찾기 수단의 국제표준화 대응방안 연구. 2014. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201400030&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2015년 위치찾기 수단의 국제표준화 대응방안 연구. 2015. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1740000-201500038&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2017년 주소의 국제표준화 대응방안 연구. 2017. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-201800003&menuNo=I0000002)
-- 행정안전부. 2018년 주소의 국제표준화 대응방안 연구. 2018. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000101&menuNo=I0000002)
-- 행정안전부. 2019년 주소의 국제표준화 대응방안 연구. 2019. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000102&menuNo=I0000002)
-- 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202100006&gubun=totalSearch&menuNo=I0000002)
-- 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200039&menuNo=I0000002)
-- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
+- 한국국토정보공사. 주소의 지도표기 국제표준화 정책 지원연구. 2016. [바로가기](https://lxsiri.re.kr/frt/biz/pblcte/selectPblcteView.do?ctgry=REPRT&se=&pblcteId=6418)
+- 한국국토정보공사. 주소체계고도화 및 4차산업창출 시범사업. 2019. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=4450000-201900001&gubun=totalSearch&menuNo=I0000002)
+- 한국국토정보공사. 주소체계 고도화에 따른 주소정보 개념정립 연구. 2020. [바로가기](https://lxsiri.re.kr/frt/biz/pblcte/selectPblcteView.do?ctgry=RD&se=&pblcteId=6539)
+- 행정안전부. 위치찾기 고도화를 위한 상세주소 정형화방안. 2010. [바로가기](https://scienceon.kisti.re.kr/srch/selectPORSrchReport.do?cn=TRKO201800026944)
+- 행정안전부. 2011년 ISO TC211 주소표준화 대응방안 연구. 2011. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201100031&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2012년 위치찾기 수단의 국제표준화 대응방안 연구. 2012. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201200045&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2013년도 위치찾기 수단의 국제표준화 대응방안 연구. 2013. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201300010&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2014년 위치찾기 수단의 국제표준화 대응방안 연구. 2014. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201400030&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2015년 위치찾기 수단의 국제표준화 대응방안 연구. 2015. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1740000-201500038&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2017년 주소의 국제표준화 대응방안 연구. 2017. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-201800003&menuNo=I0000002)
+- 행정안전부. 2018년 주소의 국제표준화 대응방안 연구. 2018. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000101&menuNo=I0000002)
+- 행정안전부. 2019년 주소의 국제표준화 대응방안 연구. 2019. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000102&menuNo=I0000002)
+- 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202100006&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200039&menuNo=I0000002)
+- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
+
+
+- 행정안전부. 지방소멸 대응을 위한 주소체계 고도화 성과 분석 연구. 2022. [바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202300003&gubun=totalSearch&menuNo=I0000002)
