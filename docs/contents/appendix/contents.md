@@ -55,4 +55,5 @@
 - 행정안전부. 2019년 주소의 국제표준화 대응방안 연구. 2019. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000102&menuNo=I0000002)
 - 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202100006&gubun=totalSearch&menuNo=I0000002)
 - 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200039&menuNo=I0000002)
-- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
+- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022 [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
+
