@@ -79,3 +79,4 @@ function sidebarMain() {
 
 - Public 상태라면, [giscus](https://github.com/T-miracle/vitepress-plugin-comment-with-giscus?tab=readme-ov-file) 추가 가능
 - 2024년 3월 20일 추가완료 (필요없다면 추후 삭제)
+- 추가
