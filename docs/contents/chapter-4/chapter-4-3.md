@@ -20,7 +20,7 @@ url: "/chapter-3/chapter-4-3.html"
 
 ```python
 def merged_df(columns, name):
-    files = glob.glob("202401_도로명주소 한글_전체분/*.txt")
+    files = glob.glob("202401_road_name_address_korean_total/*.txt")
 
     total_df = pd.DataFrame()
 

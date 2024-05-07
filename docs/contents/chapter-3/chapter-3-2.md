@@ -38,7 +38,6 @@ url: "/chapter-3/chapter-3-2.html"
 
 <br>
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">< 주소 검색 화면 ></figcaption>
     <img src="../img/address-search.png" title="주소 검색">
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
@@ -47,7 +46,6 @@ url: "/chapter-3/chapter-3-2.html"
 검색 결과는 **지도보기로** 확인할 수 있다.
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">< 지도보기 화면 ></figcaption>
     <img src="../img/address-search-map.png" title="지도보기">
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
@@ -59,7 +57,6 @@ url: "/chapter-3/chapter-3-2.html"
 
 <br>
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/address-convert.png" title="30건 이하 주소전환서비스">
 </figure>
 <br>
@@ -98,7 +95,6 @@ url: "/chapter-3/chapter-3-2.html"
 <br>
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/statics-3.png" title="도로명주소 인포그래픽">
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
@@ -107,19 +103,18 @@ url: "/chapter-3/chapter-3-2.html"
 **4. 도로명주소 안내도와 홍보 자료 제공**
 
 주소정보 누리집은 국민의 주소정보 이해와 활용을 돕기위해 도로명주소 안내도와 홍보 자료를 제공한다.
-도로명주소 안내도(안내지도)는 **주소활용서비스 > 도로명주소 안내도 다운로드**에서 확인할 수 있다. 시/도, 시/군/구 단위로 안내지도를 PDF 형태로 제공한다.
+도로명주소 안내도(안내지도)는 **주소활용서비스 > 도로명주소 안내도 다운로드**에서 확인할 수 있다. 시/도, 시/군/구 단위로 안내지도를 PDF 형태로 제공한다. 
 <br>
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;"></figcaption>
     <img src="../img/address-map-download.png" title="도로명주소 안내도 다운로드">
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
-<br>
+
+서울특별시 강동구 둔촌2동의 도로명주소 안내도는 다음과 같다.
 
 <figure class="flex flex-col items-center justify-center">
-    <figcaption style="text-align: center;">< 서울특별시 강동구 둔춘2동 도로명주소 안내도 예시 > </figcaption>
     <img src="../img/address-map-download-example.png" title="도로명주소 안내도 다운로드">
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
@@ -130,7 +125,6 @@ url: "/chapter-3/chapter-3-2.html"
 <br>
 <figure class="flex flex-col items-center justify-center">
     <img src="../img/address-guidebook.gif" title="도로명주소 소개 Guide book">
-    <figcaption style="text-align: center;"> < 도로명주소 소개 Guide book 예시 > </figcaption>
     <figcaption style="text-align: left; font-size: 10pt;">출처: 주소정보 누리집</figcaption>
 </figure>
 <br>
