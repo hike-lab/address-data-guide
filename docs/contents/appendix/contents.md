@@ -43,16 +43,16 @@
 - Sun, K., Zhu, Y., Pan, P., Hou, Z., Wang, D., Li, W., & Song, J. (2019). Geospatial data ontology: The semantic foundation of geospatial data integration and sharing. Big Earth Data, 3(3), 269–296. https://doi.org/10.1080/20964471.2019.1661662
 - Zhang, H., Casey, A., Guellil, I., Suárez-Paniagua, V., MacRae, C., Marwick, C., Wu, H., Guthrie, B., & Alex, B. (2023). FLAP: A framework for linking free-text addresses to the Ordnance Survey Unique Property Reference Number database. Frontiers in Digital Health, 5, 1186208. https://doi.org/10.3389/fdgth.2023.1186208
 
-## 기타
+## 연구보고서
 
-- 행정안전부. 2011년 ISO TC211 주소표준화 대응방안 연구. 2011.
-- 행정안전부. 2012년 위치찾기 수단의 국제표준화 대응방안 연구. 2012.
-- 행정안전부. 2013년도 위치찾기 수단의 국제표준화 대응방안 연구. 2013.
-- 행정안전부. 2014년 위치찾기 수단의 국제표준화 대응방안 연구. 2014.
-- 행정안전부. 2015년 위치찾기 수단의 국제표준화 대응방안 연구. 2015.
-- 행정안전부. 2017년 주소의 국제표준화 대응방안 연구. 2017.
-- 행정안전부. 2018년 주소의 국제표준화 대응방안 연구. 2018.
-- 행정안전부. 2019년 주소의 국제표준화 대응방안 연구. 2019.
-- 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020.
-- 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021.
-- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022.
+- 행정안전부. 2011년 ISO TC211 주소표준화 대응방안 연구. 2011. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201100031&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2012년 위치찾기 수단의 국제표준화 대응방안 연구. 2012. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1311000-201200045&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2013년도 위치찾기 수단의 국제표준화 대응방안 연구. 2013. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201300010&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2014년 위치찾기 수단의 국제표준화 대응방안 연구. 2014. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1312000-201400030&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2015년 위치찾기 수단의 국제표준화 대응방안 연구. 2015. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1740000-201500038&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2017년 주소의 국제표준화 대응방안 연구. 2017. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-201800003&menuNo=I0000002)
+- 행정안전부. 2018년 주소의 국제표준화 대응방안 연구. 2018. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000101&menuNo=I0000002)
+- 행정안전부. 2019년 주소의 국제표준화 대응방안 연구. 2019. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202000102&menuNo=I0000002)
+- 행정안전부. 2020년 주소의 국제표준화 대응방안 연구. 2020. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202100006&gubun=totalSearch&menuNo=I0000002)
+- 행정안전부. 2021년 주소의 국제표준화 대응방안 연구. 2021. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200039&menuNo=I0000002)
+- 행정안전부. 2022년 주소의 국제표준화 대응방안 연구. 2022. [정책연구관리시스템 바로가기](https://www.prism.go.kr/homepage/entire/researchDetail.do?researchId=1741000-202200117&menuNo=I0000002)
