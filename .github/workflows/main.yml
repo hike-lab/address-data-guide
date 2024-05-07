@@ -1,4 +1,4 @@
-name: Deploy docs
+name: Build docs
 
 on:
   push:
@@ -29,5 +29,3 @@ jobs:
             echo "Build failed! -ㅡ-"
             exit 1
           fi
-      - name: Reload Nginx
-        run: brew services reload nginx
