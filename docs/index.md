@@ -46,7 +46,7 @@ features:
     details: 주소 데이터로 주소 지식그래프 구축하기
     link: /contents/chapter-10/chapter-10-1
   - title: Chapter 11. 주소 지식그래프 활용 (TBD)
-    details: 외부 데이터를 연게한 주소 지식그래프 활용하기
+    details: 외부 데이터를 연계한 주소 지식그래프 활용하기
     link: /contents/chapter-11/chapter-11-1
   - title: Appendix
     details: 주소와 관련된 법령과 논문 등의 자료 확인하기
